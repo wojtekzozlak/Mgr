@@ -1,0 +1,4 @@
+bench_write
+cat
+*.tbl
+outs/*
