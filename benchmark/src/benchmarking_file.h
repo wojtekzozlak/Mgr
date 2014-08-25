@@ -27,23 +27,23 @@ class BenchmarkingFile : public File {
   }
 
   int64 Read(void* buffer, uint64 length) {
-    timer.resume();
+    timer->resume();
     int64 result = file_->Read(buffer, length);
-    timer.stop();
+    timer->stop();
     return result;
   }
 
   char* ReadLine(char* buffer, uint64 max_length) {
-    timer.resume();
+    timer->resume();
     char* result = file_->ReadLine(buffer, max_length);
-    timer.stop();
+    timer->stop();
     return result;
   }
 
   int64 Write(const void* buffer, uint64 length) {
-    timer.resume();
+    timer->resume();
     int64 result = file_->Write(buffer, length);
-    timer.stop();
+    timer->stop();
     return result;
   }
 
@@ -56,9 +56,9 @@ class BenchmarkingFile : public File {
   }
 
   bool Seek(int64 position) {
-    timer.resume();
+    timer->resume();
     bool result = file_->Seek(position);
-    timer.stop();
+    timer->stop();
     return result;
   }
 
@@ -76,7 +76,7 @@ class BenchmarkingFile : public File {
     return File::Exists(fname);
   }
 
-  static boost::timer::cpu_timer timer;
+  static boost::timer::cpu_timer* timer;
 
  private:
   BenchmarkingFile(const std::string& file_name,
@@ -88,6 +88,6 @@ class BenchmarkingFile : public File {
   File* file_;
 };
 
-boost::timer::cpu_timer BenchmarkingFile::timer = boost::timer::cpu_timer();
+boost::timer::cpu_timer* BenchmarkingFile::timer = nullptr;
 
 #endif  // _BENCHMARKING_FILE_H_

@@ -9,6 +9,9 @@ set dgrid3d
 set pm3d
 set palette rgb 21,3,0
 set term svg enhanced size 1024, 600
-set output 'write_throughput.svg'
-set title "Przepustowość zapisu (MB/s)" font"Verdana Bold, 16"
-splot "write_throughput.dat" notitle with lines
+
+set output 'write_throughput_ssd.svg'
+splot "write_throughput_ssd.dat" notitle with lines
+
+set output 'write_throughput_hdd.svg'
+splot "write_throughput_hdd.dat" notitle with lines

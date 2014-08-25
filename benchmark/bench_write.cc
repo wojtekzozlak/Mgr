@@ -26,6 +26,11 @@
 
 const double BYTES_IN_MEG = 1024.0 * 1024.0;
 
+void flush_cache() {
+  std::cerr << "Flushing system cache" << std::endl;
+  system("echo 3 > /proc/sys/vm/drop_caches");
+}
+
 int create_value(const supersonic::Attribute& attr,
     supersonic::TableRowWriter& writer, std::string& value) {
   std::stringstream reader(value);
@@ -105,17 +110,23 @@ int main(int argc, const char* argv[]) {
   }
   std::cerr << "Loaded. Flushing into storage." << std::endl;
 
-  //static const int batches_arr[] = {100, 200, 500, 1000, 2000, 5000};
-  static const int batches_arr[] = {4000, 5000};
+  //static const int batches_arr[] = {100, 200, 500, 1000, 2000, 3000, 4000, 5000};
+  static const int batches_arr[] = {5000, 4000, 3000, 2000, 1000, 500, 200, 100};
+  //static const int batches_arr[] = {4000, 5000};
   std::vector<int> batches(batches_arr, batches_arr + sizeof(batches_arr) / sizeof(batches_arr[0]));
   //static const int families_arr[] = {1, 2, 4, 8, 16};
   static const int families_arr[] = {1, 2, 4, 8, 16};
   std::vector<int> families(families_arr, families_arr + sizeof(families_arr) / sizeof(families_arr[0]));
 
   int repeat = 3;
+  for (int i = 0; i < repeat; i++) {
   for (int batch_size : batches) {
   for (int family_size : families) {
-  for (int i = 0; i < repeat; i++) {
+
+  bool repeat;
+  do {
+    repeat = false;
+    flush_cache();
     std::stringstream ss("");
     ss << out_dir << "/" << batch_size << "_" << family_size;
     std::string out = ss.str();
@@ -148,30 +159,34 @@ int main(int argc, const char* argv[]) {
 
     supersonic::View view(table.view());
 
-    BenchmarkingFile::timer = boost::timer::cpu_timer();
-    BenchmarkingFile::timer.stop();
+    BenchmarkingFile::timer = new boost::timer::cpu_timer();
+    BenchmarkingFile::timer->stop();
     boost::timer::cpu_timer timer;
-    timer.stop();
     while (view.row_count() > 0) {
-      timer.resume();
       supersonic::View chunk(view);
       if (chunk.row_count() > batch_size) {
         chunk.set_row_count(batch_size);
       }
       CHECK_FAILURE(storage_sink->Write(chunk));
-      timer.stop();
       view.Advance(batch_size < view.row_count() ? batch_size : view.row_count());
     }
     CHECK_FAILURE(storage_sink->Finalize());
 
-    double elapsed_app = timer.elapsed().wall - BenchmarkingFile::timer.elapsed().wall;
-
-    timer.resume();
+    BenchmarkingFile::timer->resume();
     sync();
+    BenchmarkingFile::timer->stop();
     timer.stop();
 
+    double elapsed_app = timer.elapsed().wall - BenchmarkingFile::timer->elapsed().wall;
     double elapsed = timer.elapsed().wall;
     double ratio = elapsed_app / elapsed;
+
+    if (ratio < 0.5) {
+      std::cerr << "Ratio looks strange, repeating test!" << std::endl;
+      repeat = true;
+      continue;
+    }
+
     std::cout.unsetf(std::ios::floatfield);
     std::cout << std::fixed << std::showpoint;
     std::cout.precision(5);
@@ -183,6 +198,9 @@ int main(int argc, const char* argv[]) {
     std::cerr << "App/wait ratio: " << (elapsed_app / elapsed) << std::endl;
     std::cerr << "Written data: " << (data_size / BYTES_IN_MEG) << "MB" << std::endl;
     std::cerr << "Troughput: " << ((double) data_size / elapsed) * (1000000000.0 / 1024 / 1024) << "MB/s" << std::endl;
+
+     delete BenchmarkingFile::timer;
+  } while(repeat);
 
   }
   }

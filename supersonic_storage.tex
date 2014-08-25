@@ -1043,9 +1043,9 @@ turbo)}
 8\ GB)}
   \item{\textbf{Dyski}:
     \begin{itemize}
-      \item{\textbf{SSD} - Samsung 840 Pro 256\ GB (przechowuj±cy równie¿ system
+      \item{\textbf{SSD} - Samsung 840 Pro 256\ GB SATA3 (przechowuj±cy równie¿ system
 operacyjny)}
-      \item{\textbf{HDD} - {\color{red} TODO}}
+      \item{\textbf{HDD} - WD Elements Portable 500GB 5400RPM USB 3.0}
     \end{itemize}
   }
   \item{\textbf{System operacyjny}: Ubuntu 12.04.4 LTS}
@@ -1071,16 +1071,18 @@ uzyskano relacjê zawieraj±c± 23'996'604 rekordów, zajmuj±cych w formie tekstowej
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\textwidth]{images/write_throughput.pdf}
-  \caption{Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
-wielko¶ci kroku zapisu}
-  \label{figure:write_throughput_ssd}
+  \includegraphics[width=0.9\textwidth]{images/write_throughput_hdd.pdf}
+  \caption{Dysk HDD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:write_throughput_hdd}
 \end{figure}
 
 \begin{figure}[h]
   \centering
-  \includegraphics[width=0.9\textwidth]{images/write_breakdown.pdf}
-  \caption{Rozk³ad czasu zapisu na obliczenie i oczekiwanie na urz±dzenie.}
+  \includegraphics[width=0.9\textwidth]{images/write_throughput_ssd.pdf}
+  \caption{Dysk SSD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:write_throughput_ssd}
 \end{figure}
 
 Test polega³ na zapisie uprzednio wczytanej do pamiêci relacji do plików
@@ -1095,15 +1097,12 @@ $4000$, $5000$.}
 \end{itemize}
 Czas mierzony by³ od momentu rozpoczêcia faktycznego zapisu, przy w³±czonej
 pamiêci podrêcznej systemu plików, z wymuszeniem synchronizacji z no¶nikiem
-danych na koñcu testu (za pomoc± funkcji \texttt{sync()}). Dodatkowo, liczony
-by³ czas zu¿ywany na operacje wej¶cia / wyj¶cia - zarówno w warstwie fizycznej
-magazynu jak i potrzebny na finaln± synchronizacjê danych. \\
+danych na koñcu testu (za pomoc± funkcji \texttt{sync()}). Ka¿dy test wykonany
+zosta³ trzykrotnie. Prezentowane wyniki s± u¶rednione. Pomiêdzy kolejnymi
+próbami czyszczona by³a pamiêæ podrêczna systemu plików. \\
 
-Rysunek \ref{figure:write_throughput_ssd} przedstawia przepustowo¶æ operacji
-zapisu dla dysku SSD.
-
-{\color{red} TODO: Zrobiæ test dla HDD i napisaæ interpretacjê. Poprawiæ
-czytelno¶æ wykresów.}
+Rysunki \ref{figure:write_throughput_hdd} oraz \ref{figure:write_throughput_ssd}
+przedstawiaj± przepustowo¶æ operacji zapisu w zale¿no¶ci od ustawieñ testu.
 
 \section{Testy odczytu}
 
