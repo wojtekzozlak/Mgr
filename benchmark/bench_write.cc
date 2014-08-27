@@ -110,15 +110,16 @@ int main(int argc, const char* argv[]) {
   }
   std::cerr << "Loaded. Flushing into storage." << std::endl;
 
-  //static const int batches_arr[] = {100, 200, 500, 1000, 2000, 3000, 4000, 5000};
-  static const int batches_arr[] = {5000, 4000, 3000, 2000, 1000, 500, 200, 100};
-  //static const int batches_arr[] = {4000, 5000};
+  //static const int batches_arr[] = {500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000};
+  //static const int batches_arr[] = {100, 200};
+  //static const int batches_arr[] = {5000, 4000, 3000, 2000, 1000, 500, 200, 100};
+  static const int batches_arr[] = {4000};
   std::vector<int> batches(batches_arr, batches_arr + sizeof(batches_arr) / sizeof(batches_arr[0]));
-  //static const int families_arr[] = {1, 2, 4, 8, 16};
-  static const int families_arr[] = {1, 2, 4, 8, 16};
+  static const int families_arr[] = {3, 5};
+  //static const int families_arr[] = {5, 6, 7, 10, 12, 14};
   std::vector<int> families(families_arr, families_arr + sizeof(families_arr) / sizeof(families_arr[0]));
 
-  int repeat = 3;
+  int repeat = 1;
   for (int i = 0; i < repeat; i++) {
   for (int batch_size : batches) {
   for (int family_size : families) {
@@ -200,6 +201,8 @@ int main(int argc, const char* argv[]) {
     std::cerr << "Troughput: " << ((double) data_size / elapsed) * (1000000000.0 / 1024 / 1024) << "MB/s" << std::endl;
 
      delete BenchmarkingFile::timer;
+
+    //system("rm outs/*");
   } while(repeat);
 
   }

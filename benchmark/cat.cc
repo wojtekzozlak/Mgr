@@ -1,6 +1,7 @@
 #include <time.h>
 
 #include <boost/algorithm/string.hpp>
+#include <boost/timer/timer.hpp>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -30,7 +31,7 @@
 }
 
 int main(int argc, const char* argv[]) {
-  if (argc < 5) {
+  if (argc < 4) {
     std::cout << "Usage: " << argv[0] << " FILENAME BATCH_SIZE OFFSET [QUERY]" << std::endl;
     return 1;
   }
@@ -43,7 +44,7 @@ int main(int argc, const char* argv[]) {
   }
 
   supersonic::TupleSchema schema;
-  if (query == 0) {
+  if (query == -1) {
     schema = lineitem_schema();
   } else if (query == 1) {
     schema = Q1();
@@ -107,17 +108,21 @@ int main(int argc, const char* argv[]) {
   std::unique_ptr<supersonic::Cursor>
       storage_scan(storage_scan_result.release());
 
+//  supersonic::ViewPrinter printer(false, true);
   long read_lines = 0;
-  supersonic::ViewPrinter printer(false, true);
-  supersonic::ResultView result_view = supersonic::ResultView::EOS();
+  supersonic::ResultView result_view = supersonic::ResultView::EOS(); 
+  boost::timer::cpu_timer timer;
   do {
     result_view = storage_scan->Next(batch_size);
     CHECK_FAILURE(result_view);
     if (result_view.has_data()) {
       read_lines += result_view.view().row_count();
-  //    printer.AppendViewToStream(result_view.view(), &std::cout);
+//      printer.AppendViewToStream(result_view.view(), &std::cout);
     }
   } while(!result_view.is_eos());
+  timer.stop();
+
+  std::cout << filename << ", " << batch_size << ", " << offset << ", " << timer.elapsed().wall << std::endl;
 
   std::cerr << "Read " << read_lines << " rows from storage." << std::endl;
 }

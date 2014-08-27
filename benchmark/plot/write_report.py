@@ -17,10 +17,14 @@ for suffix in ['ssd', 'hdd']:
         write_throughput = 'write_throughput'
         with open('{}_{}.dat'.format(write_throughput, suffix), 'w+') as f:
             f.write("# X Y Z\n")
+            i = 0
             for group in groups:
+                i = (i + 1) % 5
                 batch, families = group[0][0].split('_')
                 avg_time = avg([throughput(g) for g in group])
                 f.write("{} {} {}\n".format(batch, families, avg_time))
+                if i == 0:
+                    f.write('\n')
 
         write_breakdown = 'write_breakdown'
         with open('{}_suffix.dat'.format(write_breakdown), 'w+') as f:

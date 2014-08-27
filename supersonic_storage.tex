@@ -972,6 +972,8 @@ przetwarza dane w stosunkowo niewielkich porcjach, swobodnie mieszcz±cych siê w
 pamiêci podrêcznej procesora. W zwi±zku z tym, rozmiar generowanych stron nie
 powinien stanowiæ problemu.
 
+{\color{red} dopisaæ o odczycie (nie wiêcej ni¿ strona danych)}
+
 \subsection{Metadane}
 
 Do serializacji metadanych wykorzystywana jest biblioteka
@@ -1037,22 +1039,25 @@ jako nowe tabele.
 
 Jako platformy testowej u¿yto komputera o nastêpuj±cych parametrach:
 \begin{itemize}
-  \item{\textbf{Procesor}: Intel Core i7-3517U 1.9\ GHz (do 3.0\ GHz w trybie
-turbo)}
+  \item{\textbf{Procesor}: Intel Core i7-3517U 1.9\ GHz (zablokowany na 3.0\ GHz
+w trybie turbo).}
   \item{\textbf{Pamiêæ RAM}: 10\ GB DDR3 1600\ MHz (w dwóch ko¶ciach - 2\ GB oraz
-8\ GB)}
+8\ GB).}
   \item{\textbf{Dyski}:
     \begin{itemize}
-      \item{\textbf{SSD} - Samsung 840 Pro 256\ GB SATA3 (przechowuj±cy równie¿ system
-operacyjny)}
-      \item{\textbf{HDD} - WD Elements Portable 500GB 5400RPM USB 3.0}
+      \item{\textbf{SSD} - Samsung 840 EVO 256\ GB SATA3 (przechowuj±cy równie¿ system
+operacyjny)m}
+      \item{\textbf{HDD} - WD Elements Portable 500GB 5400RPM USB 3.0.}
     \end{itemize}
   }
-  \item{\textbf{System operacyjny}: Ubuntu 12.04.4 LTS}
+  \item{\textbf{System operacyjny}: Ubuntu 12.04.4 LTS.}
 \end{itemize}
 
-Procesor zosta³ zablokowany w trybie wydajno¶ci w celu utrzymania stabilnego
-taktowania na poziomie 3.0\ GHz we wszystkich testach.
+W eksperymentach wykorzystano prost± implementacjê warstwy fizycznej
+umo¿liwiaj±c± zapis do plików zgodny ze standardem POSIX. Jest ona w pe³ni
+synchronicza i nie korzysta z bardziej zaawansowanych technik takich jak np.
+\textit{odczyt z wyprzedzeniem} (\textit{read-ahead}), które mog± znacz±co
+poprawiæ wydajno¶æ.
 
 \subsubsection{Dane testowe}
 
@@ -1069,31 +1074,15 @@ uzyskano relacjê zawieraj±c± 23'996'604 rekordów, zajmuj±cych w formie tekstowej
 
 \section{Testy zapisu}
 
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\textwidth]{images/write_throughput_hdd.pdf}
-  \caption{Dysk HDD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
-wielko¶ci kroku zapisu.}
-  \label{figure:write_throughput_hdd}
-\end{figure}
-
-\begin{figure}[h]
-  \centering
-  \includegraphics[width=0.9\textwidth]{images/write_throughput_ssd.pdf}
-  \caption{Dysk SSD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
-wielko¶ci kroku zapisu.}
-  \label{figure:write_throughput_ssd}
-\end{figure}
-
 Test polega³ na zapisie uprzednio wczytanej do pamiêci relacji do plików
-magazynu o rozmiarze oko³o 128\ MB, zawieraj±cych strony danych o rozmiarze ok³o
+magazynu o rozmiarze oko³o 128\ MB, zawieraj±cych strony danych o rozmiarze oko³o
 512\ KB. Próby przeprowadzone zosta³y z ró¿nymi ustawieniami:
 \begin{itemize}
   \item{maksymalnego rozmiaru pojedynczej rodziny: $1$, $2$, $4$, $8$, $16$
 atrybutów;}
   \item{ilo¶ci wierszy przekazywanej do pojedynczego wywo³ania
-\texttt{StorageSink::Write()}: $100$, $200$, $500$, $1000$, $2000$, $3000$,
-$4000$, $5000$.}
+\texttt{StorageSink::Write}: $500$, $1000$, $2000$, $3000$, $4000$, $5000$,
+$6000$, $7000$, $8000$, $9000$, $10000$}
 \end{itemize}
 Czas mierzony by³ od momentu rozpoczêcia faktycznego zapisu, przy w³±czonej
 pamiêci podrêcznej systemu plików, z wymuszeniem synchronizacji z no¶nikiem
@@ -1101,11 +1090,63 @@ danych na koñcu testu (za pomoc± funkcji \texttt{sync()}). Ka¿dy test wykonany
 zosta³ trzykrotnie. Prezentowane wyniki s± u¶rednione. Pomiêdzy kolejnymi
 próbami czyszczona by³a pamiêæ podrêczna systemu plików. \\
 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/write_throughput_hdd.pdf}
+  \caption{Dysk HDD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:write_throughput_hdd}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/write_throughput_ssd.pdf}
+  \caption{Dysk SSD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:write_throughput_ssd}
+\end{figure}
+
 Rysunki \ref{figure:write_throughput_hdd} oraz \ref{figure:write_throughput_ssd}
-przedstawiaj± przepustowo¶æ operacji zapisu w zale¿no¶ci od ustawieñ testu.
+przedstawiaj± przepustowo¶æ operacji zapisu w zale¿no¶ci od ustawieñ testu.  O¶
+$Z$ zosta³a przesuniêta w celu zwiêkszenia czytelno¶ci.  W przypadku HDD
+wyra¼nie widaæ, ¿e nie istnieje korelacja miedzy ilo¶ci± zapisywanych rodzin a
+prêdko¶ci±. Bardziej istotna jest ilo¶æ wierszy przekazywana do pojedynczego
+wywo³ania metody \texttt{Write} - ró¿ne warto¶ci powoduj± wahania wydajno¶æ do
+oko³o 10\%.\\
+
+W przypadku SSD w zasadzie brak jakiejkolwiek regularno¶ci w wynikach, za
+wyj±tkiem faktu, ¿e wszystkie osculuj± w okolicach 180 MB/s. Wyniki
+pojedynczych testów cechowa³a spora warinacja (20-30 MB/s). Byæ mo¿e da³oby siê
+je bardziej ustabilizowaæ, przez u¿ycie wiêkszego zbioru danych. Poniewa¿ dyski
+SSD s± wra¿liwe na wielokrotny zapis du¿ych ilo¶ci danych i wi±za³oby siê to z
+ryzykiem uszkodzenia no¶nika, w zwi±zku z czym autor nie podj±³ takiej próby. \\
+
+W obu przypadkach wahania przepustowo¶ci operacji zapisu nie s± zbyt du¿e,
+niezale¿nie od ustawieñ i wynosz± do 10\%. Bior±c pod uwagê drugorzêdn± rolê
+operacji zapisu w funkcjonowaniu projektowanego sk³adu jest to ró¿nica ma³o
+istotna. Sama prêdko¶æ w obu przypadkach wynosi 65-75\% maksymalnej prêdko¶ci
+zapisu sekwencyjnego no¶ników (oko³o 280 MB/s w przypadku SSD, 80 MB/s HDD).
+Nie jest to mo¿e wynik osza³amiaj±cy, ale w tym przypadku ca³kowicie
+satysfakcjonuj±cy. \\
 
 \section{Testy odczytu}
 
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/read_throughput_ssd.pdf}
+  \caption{Dysk SSD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:read_throughput_hdd}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.9\textwidth]{images/read_throughput_hdd.pdf}
+  \caption{Dysk HDD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:read_throughput_hdd}
+\end{figure}
 
 \section{Testy porównawcze}
 
