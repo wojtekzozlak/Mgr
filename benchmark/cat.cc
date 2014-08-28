@@ -14,6 +14,7 @@
 #include <supersonic/cursor/infrastructure/table.h>
 #include <supersonic/cursor/infrastructure/view_printer.h>
 #include <supersonic/contrib/storage/base/raw_storage.h>
+#include <supersonic/contrib/storage/base/page.h>
 #include <supersonic/contrib/storage/core/file_storage.h>
 #include <supersonic/contrib/storage/core/file_series.h>
 #include <supersonic/contrib/storage/core/storage_scan.h>
@@ -99,6 +100,43 @@ int main(int argc, const char* argv[]) {
   std::unique_ptr<supersonic::ReadableRawStorage>
       readable_storage(readable_storage_result.release());
 
+/*
+int all_pages = 0;
+
+while (readable_storage->HasNext()) {
+  supersonic::FailureOrOwned<supersonic::RandomPageReader> page_reader_result =
+      readable_storage->NextRandomPageReader();
+  CHECK_FAILURE(page_reader_result);
+  std::unique_ptr<supersonic::RandomPageReader>
+      page_reader(page_reader_result.release());
+  supersonic::RandomPageReader* x = page_reader.get();
+
+  supersonic::FailureOrOwned<supersonic::DataStorage> storage_result =
+      supersonic::CreateDataStorage(std::move(page_reader), allocator);
+  CHECK_FAILURE(storage_result);
+  std::unique_ptr<supersonic::DataStorage> storage(storage_result.release());
+
+//  std::cout << "-- New file --" << std::endl;
+  supersonic::StorageMetadata meta = storage->Metadata();
+  for (supersonic::PageFamily family : meta.page_families()) {
+//    std::cout << "Reading family: " << family.family_number() << std::endl;
+    long max = 0;
+//    std::cout << "Num pages: " << family.pages_size() << std::endl;
+    all_pages += family.pages_size();
+    for (supersonic::PageMetadata page_meta : family.pages()) {
+      supersonic::FailureOr<const supersonic::Page*> page_result =
+          x->GetPage(family.family_number(), page_meta.page_number());
+      CHECK_FAILURE(page_result);
+      max = fmax(max, page_result.get()->PageHeader().total_size);
+//      std::cout << "Page size: " << page_result.get()->PageHeader().total_size << std::endl;;
+    }
+//    std::cout << "max: " << max << std::endl;
+  }
+}
+std::cout << "All pages:" << all_pages << std::endl;
+*/
+
+
   supersonic::FailureOrOwned<supersonic::Cursor> storage_scan_result =
       supersonic::MultiFilesScan(std::move(readable_storage),
                      offset,
@@ -108,16 +146,18 @@ int main(int argc, const char* argv[]) {
   std::unique_ptr<supersonic::Cursor>
       storage_scan(storage_scan_result.release());
 
-//  supersonic::ViewPrinter printer(false, true);
+  supersonic::ViewPrinter printer(false, true);
   long read_lines = 0;
+  long pulls = 0;
   supersonic::ResultView result_view = supersonic::ResultView::EOS(); 
   boost::timer::cpu_timer timer;
   do {
+    pulls++;
     result_view = storage_scan->Next(batch_size);
     CHECK_FAILURE(result_view);
     if (result_view.has_data()) {
       read_lines += result_view.view().row_count();
-//      printer.AppendViewToStream(result_view.view(), &std::cout);
+      //printer.AppendViewToStream(result_view.view(), &std::cout);
     }
   } while(!result_view.is_eos());
   timer.stop();
@@ -125,4 +165,5 @@ int main(int argc, const char* argv[]) {
   std::cout << filename << ", " << batch_size << ", " << offset << ", " << timer.elapsed().wall << std::endl;
 
   std::cerr << "Read " << read_lines << " rows from storage." << std::endl;
+
 }

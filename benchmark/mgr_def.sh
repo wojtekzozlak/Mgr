@@ -1,2 +1,3 @@
-export LD_LIBRARY_PATH=~/local_mgr/lib
+export LD_LIBRARY_PATH=~/local_mgr2/lib
+export LD_RUN_PATH=$LD_LIBRARY_PATH
 export LD_PATH=$LD_LIBRARY_PATH
