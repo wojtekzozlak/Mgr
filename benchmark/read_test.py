@@ -8,9 +8,10 @@ if len(sys.argv) < 3:
 path = sys.argv[1]
 offset = sys.argv[2]
 
-#sizes = [500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
-sizes = [2000]
-offsets = range(0, 10, 1)
+sizes = [500, 1000, 2000, 3000, 4000, 5000, 6000, 7000, 8000, 9000, 10000]
+#sizes = [2000]
+#offsets = range(0, 10, 1)
+offsets = [0]
 families = [1,2,4,8,16]
 
 rows = 23996604
