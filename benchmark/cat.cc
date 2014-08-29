@@ -100,6 +100,7 @@ int main(int argc, const char* argv[]) {
   std::unique_ptr<supersonic::ReadableRawStorage>
       readable_storage(readable_storage_result.release());
 
+
 /*
 int all_pages = 0;
 
@@ -110,7 +111,6 @@ while (readable_storage->HasNext()) {
   std::unique_ptr<supersonic::RandomPageReader>
       page_reader(page_reader_result.release());
   supersonic::RandomPageReader* x = page_reader.get();
-
   supersonic::FailureOrOwned<supersonic::DataStorage> storage_result =
       supersonic::CreateDataStorage(std::move(page_reader), allocator);
   CHECK_FAILURE(storage_result);
@@ -123,19 +123,20 @@ while (readable_storage->HasNext()) {
     long max = 0;
 //    std::cout << "Num pages: " << family.pages_size() << std::endl;
     all_pages += family.pages_size();
-    for (supersonic::PageMetadata page_meta : family.pages()) {
-      supersonic::FailureOr<const supersonic::Page*> page_result =
-          x->GetPage(family.family_number(), page_meta.page_number());
-      CHECK_FAILURE(page_result);
-      max = fmax(max, page_result.get()->PageHeader().total_size);
+//    for (supersonic::PageMetadata page_meta : family.pages()) {
+//      supersonic::FailureOr<const supersonic::Page*> page_result =
+//          x->GetPage(family.family_number(), page_meta.page_number());
+//      CHECK_FAILURE(page_result);
+//      max = fmax(max, page_result.get()->PageHeader().total_size);
 //      std::cout << "Page size: " << page_result.get()->PageHeader().total_size << std::endl;;
-    }
+//    }
 //    std::cout << "max: " << max << std::endl;
   }
 }
-std::cout << "All pages:" << all_pages << std::endl;
-*/
+std::cout << filename << ", " << batch_size << ", " << offset << ", " << all_pages << std::endl;
+std::cerr << "All pages:" << all_pages << std::endl;
 
+*/
 
   supersonic::FailureOrOwned<supersonic::Cursor> storage_scan_result =
       supersonic::MultiFilesScan(std::move(readable_storage),
@@ -162,7 +163,7 @@ std::cout << "All pages:" << all_pages << std::endl;
   } while(!result_view.is_eos());
   timer.stop();
 
-  std::cout << filename << ", " << batch_size << ", " << offset << ", " << timer.elapsed().wall << std::endl;
+  std::cout << filename << ", " << batch_size << ", " << offset << ", " << timer.elapsed().wall << ", " << query << ", " << schema.attribute_count() << std::endl;
 
   std::cerr << "Read " << read_lines << " rows from storage." << std::endl;
 
