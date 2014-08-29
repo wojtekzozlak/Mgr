@@ -34,4 +34,3 @@ for suffix in ['ssd', 'hdd']:
                 f.write("{} {} {}\n".format(batch, avg_time, 1 - avg_time))
 
 subprocess.call(['gnuplot', 'write_throughput.plot'])
-subprocess.call(['gnuplot', 'write_breakdown.plot'])
