@@ -76,38 +76,11 @@ formie plików na dysku). Wszystko to znacznie utrudnia korzystanie z
 Supersonica zwyk³emu u¿ytkownikowi i znacznie ogranicza grupê potencjalnych
 odbiorców.
 
-\section{Cel pracy}
-{\color{red} Somehow merge with 1.3}\\
-Celem niniejszej pracy magisterskiej jest zaprojektowanie, zaimplementowanie i
-zbadanie zachowania sk³adu danych dla silnika Supersonic. Powinien byæ on
-dostosowany do pracy w ¶rodowisku typowym dla hurtowni danych. Wi±¿e siê to z:
-
-\begin{itemize}
-  \item{obs³ug± rozproszonych systemów plików,}
-  \item{wydajnym odczytem interesuj±cego podzbioru kolumn,}
-  \item{strumieniowym zapisem (brak zapisu losowego) danych,}
-  \item{podzia³em wyj¶cia na wiele, niezale¿nych plików, umo¿liwiaj±cym ich
-    równoleg³e przetworzenie w przysz³o¶ci},
-  \item{wydajnym odczytem danych od zadanego wiersza}
-\end{itemize}
-
-Temat efektywnego sk³adowania danych relacyjnych by³ szeroko poruszany w
-literaturze\cite{nsm} i wielu publikacjach
-naukowych\cite{dsm,pax,column-vs-row}. Przyk³adowe sposoby
-przechowywania takich danych opisane s± w drugim rozdziale pracy.
-Zaimplementowane przez autora rozwi±zanie jest wariacj± na temat struktury typu
-PAX (\textit{Partition Attributes Across}), ³±cz±cej zalety wierszowej i
-kolumnowej organizacji danych. \\
-
-TODO: \\
-- Na co pozwala implementacja. \\
-- Ogólnie na czym polega ewaluacja. \\
-- Ogólnie z kim siê porównujê.
-
 \section{¦rodowisko hurtownii danych}
 
-W ¶rodowiskach typowych dla hurtownii danych zapytania zazwyczaj maj± do¶æ
-specyficzn± postaæ:
+Supersonic, ze wzglêdu na swoj± kolumnow± naturê, przeznaczony jest do pracy w
+¶rodowiskach typowych dla hurtownii danych. Obliczane w nich zapytania
+zazwyczaj maj± do¶æ specyficzn± postaæ:
 \begin{itemize}
   \item{Przewa¿nie operuj± na naprawdê du¿ych tabelach - zawieraj±cych wiele
 giga-, tera- czy nawet petabajtów danych.}
@@ -123,6 +96,38 @@ takich jak na przyk³ad \textit{HDFS}. Systemy takie cechuje czêsto brak
 mo¿liwo¶ci zapisu swobodnego, a jedynie dopisywanie danych na koñcu pliku.
 Ponadto, w ¶rodowisku takim wa¿nym zasobem jest sieæ. Redukcja ilo¶ci danych,
 które trzeba przez ni± przes³aæ mo¿e mieæ du¿y wp³yw na wydajno¶æ obliczenia.
+
+
+\section{Zakres pracy}
+
+Celem niniejszej pracy magisterskiej by³o zaprojektowanie, zaimplementowanie i
+zbadanie zachowania sk³adu danych dla silnika Supersonic przystosowanego do
+pracy w opisanym wcze¶niej ¶rodowisku. \\
+
+Temat efektywnego sk³adowania danych relacyjnych by³ szeroko poruszany w
+literaturze\cite{nsm} i wielu publikacjach
+naukowych\cite{dsm,pax,column-vs-row}. Przyk³adowe sposoby przechowywania takich
+danych opisane s± w drugim rozdziale pracy. Znajduj± siê tam równie¿ informacje
+dotycz±ce ró¿nych metod kompresji oraz wykorzystania metadanych w celu
+zwiêkszenia efektywno¶ci magazynu. \\
+
+Rozdzia³ trzeci zawiera szczegó³owy opis rozwi±zania oraz jego implementacji.
+Proponowany magazyn ³±czy w sobie wiele rozwi±zañ znanych z istniej±cych
+systemów, m.in. organizacjê danych na stronach w schemacie \textit{PAX}
+(\textit{Partition Attributes Across}), grupowanie atrybutów w rodziny
+(stosowane np. w BigTable\cite{bigtable}) czy zastosowanie metadanych oraz
+indeksów. \\
+
+W rozdziale czwartym opisane zosta³y do¶wiadczenia wykonane na magazynie w celu
+zbadania jego zachowania podczas pracy. Wykorzystano do tego dane pochodz±ce z
+testu porównawczego \textit{TPC-H}\cite{tpch}, bêd±cego standardem przemys³owym
+w zakresie badania wydajno¶ci systemów bazodanowych. W celu umieszczenia
+wyników w szerszym kontek¶cie, czê¶æ z testów zosta³a wykonan równie¿ na
+innych, popularnych systemach bazodanowych: \textit{MySQL} oraz
+\textit{PostrgreSQL}. Zestawienie tych rezultatów pozwala oceniæ jak dobrze
+zachowuje siê proponowane rozwi±zanie w porównaniu z ju¿ istniej±cymi
+magazynami, w kontek¶cie zastosowania w hurtowniach danych. \\
+
 
 \section{Za³o¿enia dotycz±ce rozwi±zania}
 
@@ -167,26 +172,19 @@ dostêp do plików, np. w systamach Linux,}
 \textit{HDFS}.}
 \end{itemize}
 
-\section{Sposób ewaluacji rozwi±zania}
-{\color{red} clean this up} \\
+\subsection{Sposób ewaluacji rozwi±zania}
+{\color{red} czê¶ciowo przenie¶æ do Zakresu, czê¶ciowo do ewaluacji, a potem
+usun±æ.} \\
 Ewaluacja rozwi±zania opieraæ siê bêdzie o wykonanie testów wydajno¶ciowych
 dotycz±cych ró¿nych aspektów funkcjonowania magazynu:
 
 \begin{itemize}
-  \item{Przepustowo¶æ operacji zapisu/odczytu w megabajtach na sekundê.}
-  \item{Rozk³ad operacji zapisu/odczytu na czas przetwarzania danych przez
-procesor oraz oczekiwania na warstwê fizyczn±.}
+  \item{Przepustowo¶æ operacji zapisu i odczytu w megabajtach na sekundê.}
   \item{Zale¿no¶æ miêdzy liczb± kolumn wymaganych w zapytaniu a czasem
 odczytu danych.}
   \item{Zale¿no¶æ miêdzy zakresem wymaganych danych (np. zapytania o rekordy z
 fizycznie spójnego przedzia³u) a czasem odczytu.}
 \end{itemize}
-
-W pomiarach wykorzystane zostan± dane pochodz±ce z testu porównawczego
-\textit{TPC-H}\cite{tpch} (w wersji 2.17.0), bêd±cego w zasadzie standardem
-przemys³owym w kontek¶cie ewaluacji wydajno¶ci systemów bazodanowych.
-Do¶wiadczenia zostan± przeprowadzone w dwóch ¶rodowiskach, ró¿ni±cych siê typem
-wykorzystywanego dysku (SSD oraz HDD).
 
 \subsubsection{Porównanie z istniej±cymi systemami}
 
@@ -195,6 +193,7 @@ równie¿ na innych, popularnych systemach bazodanowych: \textit{MySQL} oraz
 \textit{PostgreSQL}. Wyniki, zestawione razem, pozwol± na porównanie zachowania
 opracowanego rozwi±zania z istniej±cymi ju¿ magazynami, w kontek¶cie
 zastosowania w hurtowniach danych. \\
+
 
 
 
@@ -619,6 +618,8 @@ porz±dkiem wewn±trz przechowywanej tabeli. Na koñcu magazynu znajduje siê indeks
 stron, bêd±cy s³ownikiem \texttt{(rodzina, strona) -> pozycja\_w\_pliku}.
 Umo¿liwia ona swobodny dostêp bezpo¶rednio do ¿±danych stron, bez potrzeby
 przegl±dania ca³ego magazynu. \\
+
+{\color{red} dodaæ, ¿e trzymamy te¿ rozmiar, ¿eby oszczêdziæ operacje seek}
 
 \begin{figure}[h]
   \centering
@@ -1052,9 +1053,9 @@ poprawiæ wydajno¶æ.
 \subsubsection{Dane testowe}
 
 W eksperymentach zosta³a wykorzystana tablica \textit{LINEITEM} pochodz±ca z
-testu porównawczego \textit{TPC-H}. Posiada ona 16 kolumn o typach liczbowych i
-znakowych. Ze wzglêdu na brak dok³adnych odpowiedników w Supersonicu,
-sta³oprzecinkowy typ \textit{DECIMAL} przedstawiony zosta³ jako typ
+testu porównawczego \textit{TPC-H} (w wersji 2.17.0). Posiada ona 16 kolumn o
+typach liczbowych i znakowych. Ze wzglêdu na brak dok³adnych odpowiedników w
+Supersonicu, sta³oprzecinkowy typ \textit{DECIMAL} przedstawiony zosta³ jako typ
 \textit{FLOAT}, natomiast ci±gi znaków sta³ej d³ugo¶ci \textit{VARCHAR} jako
 normalne ci±gi znaków \textit{STRING}. \\
 
@@ -1175,6 +1176,7 @@ zapisie wszystkich danych razem. W wypadku pojedynczej rodziny atrybutów mamy de
 facto do czynienia z sekwencyjnym odczytem stron z medium. Pozwala to na
 wykorzystanie pe³ni jego mo¿liwo¶ci. \\
 
+{\color{red} dodaæ wykres z ilo¶ci± seeków}
 Brak zale¿no¶ci miêdzy rozmiarem ¿±dania i przepustowo¶ci± wynika z semantyki
 operacji odczytu.
 
@@ -1204,6 +1206,9 @@ czasowy zwi±zany z samym obliczeniem. Dziêki temu czas ich wykonania powinien
 byæ bardzo bliski faktycznemu czasowi samego odczytu, a przez to mo¿liwy do
 porównanie z wynikami testu opisywanego magazynu. \\
 
+\subsubsection{\color{red}porównanie z monetdb i infobright}
+
+Dlaczego siê nie uda³o
 
 \section{Podsumowanie}
 
