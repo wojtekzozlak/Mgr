@@ -2,7 +2,7 @@ import csv
 import subprocess
 
 def throughput(row):
-    return (float(2130537436) / float(row[3])) * (10**9 / 1024 / 1024)
+    return (float(2553384000) / float(row[3])) * (10**9 / 1024 / 1024)
 
 def avg(l):
     l = [ float(x) for x in l ]

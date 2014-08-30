@@ -176,7 +176,7 @@ dotycz±cych ró¿nych aspektów funkcjonowania magazynu:
   \item{Przepustowo¶æ operacji zapisu/odczytu w megabajtach na sekundê.}
   \item{Rozk³ad operacji zapisu/odczytu na czas przetwarzania danych przez
 procesor oraz oczekiwania na warstwê fizyczn±.}
-  \item{Zale¿no¶æ miêdzy ilo¶ci± kolumn wymaganych w zapytaniu a czasem
+  \item{Zale¿no¶æ miêdzy liczb± kolumn wymaganych w zapytaniu a czasem
 odczytu danych.}
   \item{Zale¿no¶æ miêdzy zakresem wymaganych danych (np. zapytania o rekordy z
 fizycznie spójnego przedzia³u) a czasem odczytu.}
@@ -268,7 +268,7 @@ mo¿e mieæ bardzo istotny wp³yw na wydajno¶æ. Jest to zwi±zane z ró¿nymi
 aspektami pracy systemu bazodanowego, m.in.:
 
 \begin{itemize}
-  \item{ilo¶ci± operacji wej¶cia/wyj¶cia niezbêdnych do realizacji zapytania,}
+  \item{liczb± operacji wej¶cia/wyj¶cia niezbêdnych do realizacji zapytania,}
   \item{efektywnym wykorzystaniem pamiêci podrêcznych procesora,}
   \item{kosztem \textit{materializacji krotek}, czyli rekonstrukcji relacji w
     formie umo¿liwiaj±cej dostêp do wierszy.}
@@ -337,7 +337,7 @@ Schemat ten cechuje siê wysok± lokalno¶ci± danych w obrêbie kolumny i w zasadzie
 rozwi±zuje przedstawione wy¿ej problemy. Rodzi jednak nowe, zwi±zane z
 materializacj± relacji. Rekonstrukcja wierszy z³o¿onych z $N$ kolumn wymaga
 dokonania z³±czenia na $N$ podrelacjach. Koszt takiej operacji ro¶nie wraz z
-ilo¶ci± atrybutów, a¿ w koñcu staje siê dominuj±cy. Niektóre bazy danych
+liczb± atrybutów, a¿ w koñcu staje siê dominuj±cy. Niektóre bazy danych
 (najczê¶ciej kolumnowe) stosuj± technikê zwan± \textit{pó¼n±
 materializacj±}\cite{materialization}, która w pewnym stopniu redukuje problem.
 Polega ona na operowaniu na pojedynczych kolumnach relacji tak d³ugo jak to
@@ -351,7 +351,7 @@ Dodatkowy problem stanowi niska lokalno¶æ wierszy relacji. Dostêp do
 pojedynczych rekordów mo¿e wymagaæ odczytania wielu stron, co jest kosztowne. Z
 tego powodu rozwiazanie takie ¼le sprawuje siê w systemach typu OLTP
 (\textit{Online Transaction Processing}) cechuj±cych siê zapytaniami
-odwo³uj±cymi siê do ma³ej ilo¶ci (a czêsto nawet pojedynczych) rekordów.
+odwo³uj±cymi siê do ma³ej liczby (a czêsto nawet pojedynczych) rekordów.
 
 
 \subsubsection{PAX}
@@ -387,7 +387,7 @@ wierszy) PAX jest bardzo dobrym rozwi±zaniem. \\
 Warto przy okazji wspomnieæ, ¿e od pewnego czasu rozwój centralnych jednostek
 obliczeniowych nie jest zwi±zany ze zwiêkszaniem taktowania (ju¿ w 2005 roku
 dostêpne by³y procesory Pentium 4 3.8GHz, które, przy zastosowaniu odpowiedniego
-ch³odzenia, mog³y dzia³aæ stabilnie nawet przy taktowaniu 5GHz), a wiêc ilo¶ci±
+ch³odzenia, mog³y dzia³aæ stabilnie nawet przy taktowaniu 5GHz), a wiêc liczb± 
 instrukcji, które mog± zostaæ wykonane na sekundê. Zamiast tego istotne jest
 wykorzystanie wielu rdzeni oraz redukcja pustych cykli procesora zwi±zanych np.
 z hazardem danych i sterowania, potokowaniem, czy opó¼nieniami w dostêpie do
@@ -408,14 +408,14 @@ nim nie wspomnieæ.
 \subsection{Cele i wymagania stawiane przed kompresj± danych}
 
 Podstawowym celem kompresji danych jest zmniejszenie ich objêto¶ci, a co z tym
-idzie, redukcjê ilo¶ci operacji wej¶cia/wyj¶cia niezbêdnych do przeniesienia
+idzie, redukcjê liczb± operacji wej¶cia/wyj¶cia niezbêdnych do przeniesienia
 ich miêdzy pamiêci± operacyjn± a urz±dzeniem. Dodatkowo, w przypadku systemów
 rozproszonych, pozwala to oszczêdniejsze wykorzystanie transferu sieciowego,
 bêd±cego czêsto cennym i mocno ograniczonym zasobem. \\
 
 Rzecz jasna, kompresja kosztuje czas procesora. W zwi±zku z tym, wymaga siê od
 niej odpowiedniej wydajno¶ci. W ogólno¶ci, koszt (de)kompresji nie mo¿e byæ
-wiêkszy ni¿ zysk wynikaj±cy z mniejszej ilo¶ci odwo³añ do medium przechowuj±cego
+wiêkszy ni¿ zysk wynikaj±cy z mniejszej liczby odwo³añ do medium przechowuj±cego
 dane. Oznacza to, ¿e najbardziej efektywne pod wzglêdem redukcji objêto¶ci
 schematy wcale nie musz± dawaæ dobrych rezultatów w zastosowaniu wewn±trz
 sk³adów danych. Dobór odpowiedniej metody jest kluczowym aspektem wykorzystania
@@ -591,7 +591,7 @@ kolumn w przypadku zapytañ odnosz±cych siê do ich niewielkiego podzbioru.
 Omawiane wcze¶niej rozwi±zania organizacji stron nie s± w tym przypadku
 satysfakcjonuj±ce. \textit{NSM} oraz \textit{PAX} zak³adaj± obecno¶æ
 kompletnych wierszy w obrêbie pojedynczej strony. W efekcie, niezale¿nie od
-ilo¶ci atrybutów bior±cych czynny udzia³ w obliczeniu wymagane jest wczytanie
+liczby atrybutów bior±cych czynny udzia³ w obliczeniu wymagane jest wczytanie
 do pamiêci wszystkich danych. Z kolei w przypadku \textit{DSM} koszt
 ewentualnej materializacji wiêkszej czê¶ci relacji by³by ogromny. \\
 
@@ -630,7 +630,7 @@ przegl±dania ca³ego magazynu. \\
 
 Magazyn umo¿liwia zapis danych wy³±cznie na koñcu pliku i tylko do momentu jego
 zamkniêcia. Jest on przeznaczony do pracy w hurtowniach danych, w których
-potrzeba modyfikacji b±d¼ dodania do tablicy niewielkiej ilo¶ci rekordów jest
+potrzeba modyfikacji b±d¼ dodania do tablicy niewielkiej liczby rekordów jest
 niezwykle rzadka. Ponadto, wielkie ilo¶ci danych czêsto przetwarzane s± w
 ¶rodowiskach rozproszonych, gdzie pliki wsadowe serwowane s± przez rozproszony
 system plików. Te natomiast cechuje czêsto brak mo¿liwo¶ci zapisu losowego. W
@@ -688,7 +688,7 @@ podstawie odpowiednich stron.}
 relacjê.}
 \end{itemize}
 Podobnie jak w przypadku zapisu, proces odczytu odbywa siê iteracyjnie,
-dostarczaj±c kolejne porcje danych o ograniczonej ilo¶ci wierszy w celu ich
+dostarczaj±c kolejne porcje danych o ograniczonej liczby wierszy w celu ich
 dalszego przetworzenia. Podrelacje nie s± rekonstruowane od razu w ca³o¶ci -
 odczytana zostaje zawarto¶æ jedynie tylu stron ile niezbêdne jest do realizacji
 pojedynczego kroku.
@@ -705,7 +705,7 @@ rodzin.
 \subsubsection{Odczyt danych od zadanego wiersza}
 
 Dziêki zapisowi metadanych, mo¿liwy jest tak¿e efektywny odczyt danych od
-zadanego wiersza. Maj±c wiedzê o ilo¶ci rekordów w ka¿dej stronie mo¿na z
+zadanego wiersza. Maj±c wiedzê o liczby rekordów w ka¿dej stronie mo¿na z
 ³atwo¶ci± zidentyfikowaæ i pomin±æ te, które nie zawieraj± interesuj±cych
 danych, a co za tym idzie zredukowaæ liczbê operacji wej¶cia/wyj¶cia do
 niezbêdnego minimum.
@@ -814,7 +814,7 @@ mieæ istotny wp³yw na efektywno¶æ magazynu. Wczytuj±ce dane mo¿emy pobraæ strony
 reprezentuj±ce tylko wybrane rodzin atrybutów. Nie da siê jednak dostaæ do
 wybranego atrybutu nie wczytuj±c kompletnej strony, a co za tym idzie innych
 atrybutów nale¿acych do jego rodziny. W konsekwencji, w zale¿no¶ci od podzia³u
-ten sam pozdbiór kolumn mo¿e wymagaæ do odczytu diametrialnie ró¿nej ilo¶ci
+ten sam pozdbiór kolumn mo¿e wymagaæ do odczytu diametrialnie ró¿nej liczb± 
 operacji wej¶cia/wyj¶cia. Mo¿na wiêc próbowaæ optymalizowaæ koszt korzystania z
 magazynu np. przez grupowanie atrybutów, które czêsto razem wystêpuj± w
 zapytaniach\cite{column-vs-row}. Jest to jednak problem nietrywialny i móg³by z
@@ -835,7 +835,7 @@ Strona danych jest obiektem wy³±cznie do odczytu, przechowuj±cym pewn± liczbê
 buforów danych o ró¿nych d³ugo¶ciach. Sk³adaj± siê z nastêpuj±cych czêsci:
 \begin{itemize}
   \item{\textbf{nag³ówek strony} - zawieraj±cy informacje o jej rozmiarze oraz
-ilo¶ci przechowywanych buforów,}
+liczbie przechowywanych buforów,}
   \item{\textbf{tablicê wska¼ników na bufory} - okre¶laj±ce pozycjê
 poszczególnych buforów w obrêbie strony,}
   \item{\textbf{nag³ówki buforów} - zawieraj± informacje o rozmiarze buforu; w
@@ -895,10 +895,10 @@ siê na trzy grupy:
 \begin{itemize}
   \item{\textbf{Typ logiczny}, czyli ci±g warto¶ci \texttt{prawda/fa³sz}.
 Ka¿da porcja danych zapisywana jest jako sekwencja 4-bajtowych masek bitowych
-poprzedzona ilo¶ci± zserializowanych warto¶ci. Jest to przy okazji przyk³ad
+poprzedzona liczb± zserializowanych warto¶ci. Jest to przy okazji przyk³ad
 zastosowania lekkiej kompresji.}
   \item{\textbf{Typy liczbowe}, o sta³ej szeroko¶ci. Zapisywane s± bez ¿adnej
-konwersji, jako zrzut surowych danych kolumny, poprzedzony ilo¶ci±
+konwersji, jako zrzut surowych danych kolumny, poprzedzony liczb± 
 zserializowanych warto¶ci. Obecnie nie wspier}
 
 \begin{figure}[h]
@@ -948,8 +948,22 @@ przetwarza dane w stosunkowo niewielkich porcjach, swobodnie mieszcz±cych siê w
 pamiêci podrêcznej procesora. W zwi±zku z tym, rozmiar generowanych stron nie
 powinien stanowiæ problemu.
 
-{\color{red} dopisaæ o odczycie (nie wiêcej ni¿ strona danych)}
+\subsection{Granulacja odczytu danych}
+\label{sec:read_granularity}
 
+Operacja odczytu jest w gruncie rzeczy kompletnie dualna do zapisu. Z pliku
+magazynu odczytywane s± odpowiednie strony danych, deserializowane do
+podrelacji, które nastêpnie s± z³±czane i zwracane do u¿ytkownika. Co istotne,
+liczba wierszy przekazywana do wywo³ania metody \texttt{Next} kursora
+\texttt{StorageScan} okre¶la wy³±cznie maksymaln± liczbê rekordów wyniku.
+Faktyczny rozmiar zwróconego widoku zale¿y od stanu buforów stron danych
+poszczególnych rodzin. Strony wczytywane s± wy³±cznie w momencie gdy bufor
+odpowiedniej rodziny jest pusty \texttt{Next} i to najwy¿ej raz dla ka¿dej
+rodziny w obrêbie jednego wywo³ania. W szczególno¶ci, niezale¿nie od rozmiaru
+¿±dania, niemo¿liwe jest uzyskanie wiêkszej liczby wierszy ni¿ zapisana w
+obrêbie pojedynczej strony danych. 
+
+ 
 \subsection{Metadane}
 
 Do serializacji metadanych wykorzystywana jest biblioteka
@@ -1056,7 +1070,7 @@ magazynu o rozmiarze oko³o 128\ MB, zawieraj±cych strony danych o rozmiarze oko³
 \begin{itemize}
   \item{maksymalnego rozmiaru pojedynczej rodziny: $1$, $2$, $4$, $8$, $16$
 atrybutów;}
-  \item{ilo¶ci wierszy przekazywanej do pojedynczego wywo³ania
+  \item{liczba wierszy przekazywanej do pojedynczego wywo³ania
 \texttt{StorageSink::Write}: $500$, $1000$, $2000$, $3000$, $4000$, $5000$,
 $6000$, $7000$, $8000$, $9000$, $10000$}
 \end{itemize}
@@ -1068,7 +1082,7 @@ kolejnymi próbami czyszczona by³a pamiêæ podrêczna systemu plików. \\
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{images/write_throughput_hdd.pdf}
+  \includegraphics[width=0.8\textwidth]{images/write_throughput_hdd.pdf}
   \caption{Dysk HDD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
 wielko¶ci kroku zapisu.}
   \label{figure:write_throughput_hdd}
@@ -1076,23 +1090,33 @@ wielko¶ci kroku zapisu.}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{images/write_throughput_ssd.pdf}
+  \includegraphics[width=0.8\textwidth]{images/blocks.pdf}
+  \caption{Liczba stron danych w magazynie w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku zapisu.}
+  \label{figure:data_pages}
+\end{figure}
+
+Rysunek \ref{figure:write_throughput_hdd} przedstawia przepustowo¶æ operacji
+zapisu, dla dysku talerzowego, w zale¿no¶ci od ustawieñ testu.  O¶ $Z$ zosta³a
+przesuniêta w celu zwiêkszenia czytelno¶ci. Wydaje siê istnieæ niewielka
+korelacja miêdzy rozmiarem zapisywanych rodzin a prêdko¶ci±. Mo¿na podejrzewaæ,
+¿e jest to zwi±zane z liczb± stron w magazynie jednak na podstawie rysunku
+\ref{figure:data_pages} trudno stwierdziæ wyra¼n± zale¿no¶æ. Bardziej istotna
+wydaje liczba wierszy przekazywana do pojedynczego wywo³ania metody
+\texttt{Write} - ró¿ne warto¶ci powoduj± wahania wydajno¶ci w granicach 10\%.\\
+
+Sam kszta³t wykresu liczby stron danych nie powinien dziwiæ, je¶li pamiêta siê o
+niepodzielno¶ci grup rekordów przekazywanych do zapisu. Im wiêkszy krok oraz
+maksymalny rozmiar rodziny atrybutów, tym wiêkszy potencjalny rozmiar stron. Im
+za¶ wiêksze strony tym mniej ich potrzeba do zapisu tej samej ilo¶ci danych.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/write_throughput_ssd.pdf}
   \caption{Dysk SSD. Przepustowo¶æ operacji zapisu w zale¿no¶ci od rozmiaru rodziny i
 wielko¶ci kroku zapisu.}
   \label{figure:write_throughput_ssd}
 \end{figure}
-
-Rysunki \ref{figure:write_throughput_hdd} oraz \ref{figure:write_throughput_ssd}
-przedstawiaj± przepustowo¶æ operacji zapisu w zale¿no¶ci od ustawieñ testu.  O¶
-$Z$ zosta³a przesuniêta w celu zwiêkszenia czytelno¶ci.  W przypadku HDD wydaje
-siê istnieæ niewielka korelacja miêdzy rozmiarem zapisywanych rodzin a
-prêdko¶ci±.
-{\color{red} check number of blocks}.
-
-wyra¼nie widaæ, ¿e nie istnieje korelacja miedzy ilo¶ci± zapisywanych rodzin a
-prêdko¶ci±. Bardziej istotna jest liczba wierszy przekazywana do pojedynczego
-wywo³ania metody \texttt{Write} - ró¿ne warto¶ci powoduj± wahania wydajno¶æ do
-oko³o 10\%.\\
 
 W przypadku SSD w zasadzie brak jakiejkolwiek regularno¶ci w wynikach, za
 wyj±tkiem faktu, ¿e wszystkie osculuj± w okolicach 180 MB/s. Wyniki
@@ -1102,7 +1126,7 @@ SSD s± wra¿liwe na wielokrotny zapis du¿ych ilo¶ci danych i wi±za³oby siê to z
 ryzykiem uszkodzenia no¶nika, w zwi±zku z czym autor nie podj±³ takiej próby. \\
 
 W obu przypadkach wahania przepustowo¶ci operacji zapisu nie s± zbyt du¿e,
-niezale¿nie od ustawieñ i wynosz± do 10\%. Bior±c pod uwagê drugorzêdn± rolê
+niezale¿nie od ustawieñ i wynosz± 10-15\%. Bior±c pod uwagê drugorzêdn± rolê
 operacji zapisu w funkcjonowaniu projektowanego sk³adu jest to ró¿nica ma³o
 istotna. Sama prêdko¶æ w obu przypadkach wynosi 65-75\% maksymalnej prêdko¶ci
 zapisu sekwencyjnego no¶ników (oko³o 280 MB/s w przypadku SSD, 80 MB/s HDD).
@@ -1127,7 +1151,7 @@ u¶redniono. Pomiêdzy testami opró¿niano pamiêæ podrêczn± systemu plików.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{images/read_throughput_hdd.pdf}
+  \includegraphics[width=0.8\textwidth]{images/read_throughput_hdd.pdf}
   \caption{Dysk HDD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
 wielko¶ci kroku zapisu.}
   \label{figure:read_throughput_hdd}
@@ -1135,7 +1159,7 @@ wielko¶ci kroku zapisu.}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=0.9\textwidth]{images/read_throughput_ssd.pdf}
+  \includegraphics[width=0.8\textwidth]{images/read_throughput_ssd.pdf}
   \caption{Dysk SSD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
 wielko¶ci kroku zapisu.}
   \label{figure:read_throughput_ssd}
@@ -1143,9 +1167,20 @@ wielko¶ci kroku zapisu.}
 
 Rysunki \ref{figure:read_throughput_hdd} oraz \ref{figure:read_throughput_ssd}
 przedstawiaj± przepustowo¶æ operacji odczytu w zale¿no¶ci od maksymalnego
-rozmiaru rodziny w odczytywanym magazynie oraz ¿±danej ilo¶ci wierszy w
-pojedynczym wywo³aniu metody \texttt{Next} kursora \texttt{StorageScan}. \\
+rozmiaru rodziny w odczytywanym magazynie oraz ¿±danej liczby wierszy w
+pojedynczym wywo³aniu metody \texttt{Next} kursora \texttt{StorageScan}. W obu
+przypadkach obserwujemy bardzo podobne zachowanie - drobne wahania przy
+rozmiarach rodzin od 1 do 8 oraz gwa³towny skok wydajno¶ci o 30-40\% przy
+zapisie wszystkich danych razem. W wypadku pojedynczej rodziny atrybutów mamy de
+facto do czynienia z sekwencyjnym odczytem stron z medium. Pozwala to na
+wykorzystanie pe³ni jego mo¿liwo¶ci. \\
 
+Brak zale¿no¶ci miêdzy rozmiarem ¿±dania i przepustowo¶ci± wynika z semantyki
+operacji odczytu.
+
+Brak zale¿no¶ci miêdzy rozmiarem ¿±dania a przepustowo¶ci± odczytu pokazuje, ¿e
+koszt ca³ej operacji jest zdominowany przez pobieranie danych ze stron oraz ich
+deserializacjê. 
 
 \subsection{Odczyt od zadanego wiersza}
 \label{sec:read_offset}
