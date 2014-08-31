@@ -117,6 +117,7 @@ int main(int argc, const char* argv[]) {
   std::vector<int> batches(batches_arr, batches_arr + sizeof(batches_arr) / sizeof(batches_arr[0]));
   //static const int families_arr[] = {3, 5};
   static const int families_arr[] = {1, 2, 4, 8, 16};
+  //static const int families_arr[] = {16};
   std::vector<int> families(families_arr, families_arr + sizeof(families_arr) / sizeof(families_arr[0]));
 
   int repeat = 3;
