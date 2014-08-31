@@ -2,7 +2,7 @@ import csv
 import subprocess
 
 def throughput(row):
-    return (float(row[4]) / float(row[2])) * (10**9 / 1024 / 1024)
+    return (float(row[4]) / float(row[1])) * (10**9 / 1024 / 1024)
 
 def avg(l):
     l = [ float(x) for x in l ]
@@ -15,22 +15,19 @@ for suffix in ['ssd', 'hdd']:
         groups = [rows[n:n+3] for n in range(0, len(rows), 3)]
 
         write_throughput = 'write_throughput'
+        output = list()
+        for group in groups:
+            batch, families = group[0][0].split('_')
+            avg_time = avg([throughput(g) for g in group])
+            output.append((int(batch), int(families), float(avg_time)))
+
         with open('{}_{}.dat'.format(write_throughput, suffix), 'w+') as f:
             f.write("# X Y Z\n")
             i = 0
-            for group in groups:
+            for x in sorted(output):
                 i = (i + 1) % 5
-                batch, families = group[0][0].split('_')
-                avg_time = avg([throughput(g) for g in group])
-                f.write("{} {} {}\n".format(batch, families, avg_time))
+                f.write("{} {} {}\n".format(*x))
                 if i == 0:
                     f.write('\n')
-
-        write_breakdown = 'write_breakdown'
-        with open('{}_suffix.dat'.format(write_breakdown), 'w+') as f:
-            for group in groups:
-                batch, families = group[0][0].split('_')
-                avg_time = avg([g[3] for g in group])
-                f.write("{} {} {}\n".format(batch, avg_time, 1 - avg_time))
 
 subprocess.call(['gnuplot', 'write_throughput.plot'])
