@@ -7,7 +7,8 @@
 \usepackage{amsthm}
 \usepackage{svg}
 \usepackage[intlimits]{amsmath}
-
+\widowpenalty=10000
+\clubpenalty=10000
 % student
 \author{Wojciech ¯ó³tak}
 
@@ -131,6 +132,10 @@ magazynami, w kontek¶cie zastosowania w hurtowniach danych. \\
 
 \section{Za³o¿enia dotycz±ce rozwi±zania}
 
+Maj±c na uwadzê specyfikê ¶rodowiska pracy w hurtownii danych, w którym ma
+funkcjonowaæ projektowany magazyn, sformu³owane zosta³y pewne za³o¿enia
+dotycz±ce oczekiwanego rozwi±zania.
+
 \subsubsection{Format magazynu na no¶niku}
 
 Zapis danych na no¶nik powinien generowaæ seriê fizycznych plików o
@@ -145,9 +150,8 @@ dwóch ró¿nych zapytañ).
 
 \subsubsection{Odczyt jako podstawowa operacja}
 
-Maj±c na uwadze specyfikê ¶rodowiska, w którym ma funkcjonowaæ projektowany
-magazyn mo¿na za³o¿yæ, ¿e odczyt jest podstawow± operacj± i musi byæ wykonywany
-mo¿liwie efektywnie. W szczególno¶ci, oznacza to, ¿e:
+Mo¿na za³o¿yæ, ¿e odczyt jest podstawow± operacj± i musi byæ wykonywany mo¿liwie
+efektywnie. W szczególno¶ci, oznacza to, ¿e:
 \begin{itemize}
   \item{Prêdko¶æ zapisu jest spraw± drugorzêdn±. W szczególno¶ci, czas
 po¶wiêcony na przyk³ad na wyliczenie i utrwalenie metadatanych pozwalaj±cych na
@@ -171,30 +175,6 @@ dostêp do plików, np. w systamach Linux,}
   \item{wyspecjalizowanych, rozproszonych systemów plików, takich jak
 \textit{HDFS}.}
 \end{itemize}
-
-\subsection{Sposób ewaluacji rozwi±zania}
-{\color{red} czê¶ciowo przenie¶æ do Zakresu, czê¶ciowo do ewaluacji, a potem
-usun±æ.} \\
-Ewaluacja rozwi±zania opieraæ siê bêdzie o wykonanie testów wydajno¶ciowych
-dotycz±cych ró¿nych aspektów funkcjonowania magazynu:
-
-\begin{itemize}
-  \item{Przepustowo¶æ operacji zapisu i odczytu w megabajtach na sekundê.}
-  \item{Zale¿no¶æ miêdzy liczb± kolumn wymaganych w zapytaniu a czasem
-odczytu danych.}
-  \item{Zale¿no¶æ miêdzy zakresem wymaganych danych (np. zapytania o rekordy z
-fizycznie spójnego przedzia³u) a czasem odczytu.}
-\end{itemize}
-
-\subsubsection{Porównanie z istniej±cymi systemami}
-
-Aby osadziæ wyniki testów w szerszym kontek¶cie, czê¶æ z nich zostanie wykonana
-równie¿ na innych, popularnych systemach bazodanowych: \textit{MySQL} oraz
-\textit{PostgreSQL}. Wyniki, zestawione razem, pozwol± na porównanie zachowania
-opracowanego rozwi±zania z istniej±cymi ju¿ magazynami, w kontek¶cie
-zastosowania w hurtowniach danych. \\
-
-
 
 
 %
@@ -571,7 +551,7 @@ przypadku. Przyk³adowo, mog± to byæ:
 sobie bazami danych, które mo¿na odpytaæ o ró¿ne informacje dotycz±ce tabel
 oraz zbiór stron spe³niaj±cych wiêzy narzucone na zapytanie. Zwykle stosuje siê
 je w przypadku rozwi±zañ rozproszonych, zawieraj±cych wiele wêz³ów z
-danymi.\cite{hbase-region-server}}
+danymi\cite{hbase-region-server}.}
 \end{itemize}
 
 
@@ -587,12 +567,9 @@ danymi.\cite{hbase-region-server}}
 Jednym z wyzwañ stoj±cych przed projektowanym magazynem danych by³o
 umo¿liwienie wydajnej obs³ugi tablic posiadaj±cych setki, a nawet tysi±ce
 kolumn w przypadku zapytañ odnosz±cych siê do ich niewielkiego podzbioru.
-Omawiane wcze¶niej rozwi±zania organizacji stron nie s± w tym przypadku
-satysfakcjonuj±ce. \textit{NSM} oraz \textit{PAX} zak³adaj± obecno¶æ
-kompletnych wierszy w obrêbie pojedynczej strony. W efekcie, niezale¿nie od
-liczby atrybutów bior±cych czynny udzia³ w obliczeniu wymagane jest wczytanie
-do pamiêci wszystkich danych. Z kolei w przypadku \textit{DSM} koszt
-ewentualnej materializacji wiêkszej czê¶ci relacji by³by ogromny. \\
+Przechowywanie kompletnych krotek relacji w pojedynczych stronach danych
+powodowa³oby odczyt wszystkich atrybutów niezale¿nie od ich faktycznie
+potrzebnej liczby.
 
 \begin{figure}[h]
   \centering
@@ -600,26 +577,32 @@ ewentualnej materializacji wiêkszej czê¶ci relacji by³by ogromny. \\
   \caption{Przyk³ad podzia³u schematu na rodziny atrybutów}
 \end{figure}
 
-W celu rozwi±zaniu tego problemu zastosowane zosta³o rozwi±zanie po¶rednie.
-Relacja dzielona jest na podrelacje, te jednak, w przeciwieñstwie do
-\textit{DSM} mog± zawieraæ wiêcej ni¿ jeden atrybut. Podrelacjê tak± nazywamy
-\textbf{rodzin± atrybutów}, a zbiór stron danych j± reprezentuj±cy
-\textbf{rodzin± stron}. Wewnêtrznie, strona danych zorganizowana jest na wzór
-schematu \textit{PAX}. Warto zauwa¿yæ, ¿e wewnêtrzna reprezentacja porcji
-danych w \textit{Supersonicu} bardzo przypomina w konstrukcji stronê
-\textit{PAX} - reprezentuje ona zbiór wierszy tabeli w postaci kolumnowej, w
-zwi±zku z tym proponowane rozwi±zanie wydaje siê byæ bardzo naturalne. \\
+W celu rozwi±zania tego problemu zastosowano rozwi±zanie polegaj±ce na
+grupowaniu atrybutów w tzw. \textit{rodziny} (\textit{column families}),
+stosowane m.in. w bazie danych BigTable (oraz pochodnych, jak Cassandra czy
+HBase). Przechowywana relacja dzielona jest na podrelacje, a te przechowywane
+jako ci±gi stron (nazywane dalej \textit{rodzinami stron}) zorganizowanych na
+wzór schematu PAX. Pozwala to zachowaæ do¶æ wysok± lokalno¶æ danych nale¿±cych
+do pojedynczego wiersza, równocze¶nie umo¿liwiaj±c odczyt podzbiorów atrybutów z
+warstwy fizycznej. \\
+
+Warto jednak zauwa¿yæ, ¿e w przeciwieñstwie do BigTable podzia³ na rodziny jest
+ca³kowicie transparentny dla wy¿szych warstw. We wspomnianych bazach musz± byæ
+one explicite zdefiniowane przez u¿ytkownika i stanowi± czê¶æ schematu tabeli.
+Czêsto nie ma te¿ mo¿liwo¶ci wykonywania zapytañ odnosz±cych siê do atrybutów z
+ró¿nych rodzin. Omawiany magazyn nie narzuca takich ograniczeñ. Podzia³ odbywa
+siê dynamicznie podczas zapisu i mo¿e byæ ró¿ny w ró¿nych plikach magazynu
+przechowuj±cych tabele o identycznym schemacie. Podczas odczytu za¶,
+podrelacje automatycznie z³±czane s± w relacjê wyj¶ciow±.
 
 \subsection{Organizacja stron w pliku magazynu}
 
 Plik magazynu sk³ada siê z ci±gu stron nale¿±cych do ró¿nych rodzin. W
 ogólno¶ci, nie musi istnieæ zwi±zek miêdzy ich kolejno¶ci± wewn±trz pliku a
 porz±dkiem wewn±trz przechowywanej tabeli. Na koñcu magazynu znajduje siê indeks
-stron, bêd±cy s³ownikiem \texttt{(rodzina, strona) -> pozycja\_w\_pliku}.
-Umo¿liwia ona swobodny dostêp bezpo¶rednio do ¿±danych stron, bez potrzeby
-przegl±dania ca³ego magazynu. \\
-
-{\color{red} dodaæ, ¿e trzymamy te¿ rozmiar, ¿eby oszczêdziæ operacje seek}
+stron, bêd±cy s³ownikiem \texttt{(rodzina, strona) -> (pozycja\_w\_pliku,
+rozmiar\_strony)}.  Umo¿liwia ona swobodny dostêp bezpo¶rednio do ¿±danych
+stron, bez potrzeby przegl±dania ca³ego magazynu. \\
 
 \begin{figure}[h]
   \centering
@@ -668,9 +651,6 @@ uwagi - powiedzmy, ¿e ma numer $0$), nie powi±zana z ¿adn± rodzin± atrybutów. W
 momencie zamykania pliku magazynu, przed dodaniem indeksu stron, metadane
 serializowane s± do postaci binarnej, a nastêpnie zapisywane w jedynej stronie
 nale¿±cej do tej rodziny.
-
-
-{\color{red} potrzebny obrazek, bo kto to zrozumie inaczej?}
 
 \subsection{Odczyt}
 
@@ -723,9 +703,10 @@ niezbêdnego minimum.
 \end{figure}
 
 \begin{itemize}
-  \item{{\color{red} tu powinno byæ co¶ o podziale na rodziny, z niewielk±
-ilo¶ci± szczegó³ów.}}
-  \item{Do zapisu danych tworzona jest instancja klasy\texttt{StorageSink}
+  \item{Schemat tabeli dzielony jest na rodziny przy pomocy strategii
+reprezentowanej przez obiekt klasy \texttt{SchemaPartitioner}. Jest ona podawana
+przez u¿ytkownika.}
+  \item{Do zapisu danych tworzona jest instancja klasy \texttt{StorageSink}
 implementuj±cej interfejs \texttt{Sink} silnika \textit{Supersonic}, który
 reprezentuje uj¶cia danych. Udostêpnia od metodê \texttt{Write}, która przyjmuje
 za argument widok zawieraj±cy porcjê danych.}
@@ -855,8 +836,8 @@ Plik magazynu sk³ada siê z dwóch g³ównych czê¶ci: ci±gu stron danych nale¿±cych
 do ró¿nych rodzin oraz ich indeksu. Rysunek \ref{figure:page_index} przedstawia
 sposób w jaki przechowywany jest indeks. Pierwsze cztery bajty zajmuje liczba
 ró¿nych rodzin w magazynie. Nastêpnie, dla ka¿dej z rodzin, zapisany jest jej
-numer, liczba stron oraz ich kolejne pozycje w obrêbie pliku (strony zawsze maj±
-ci±g³± numeracjê, pocz±wszy od zera). \\
+numer, liczba stron oraz ich kolejne pozycje w obrêbie pliku oraz rozmiary
+(strony zawsze maj± ci±g³± numeracjê, pocz±wszy od zera). \\
 
 \begin{figure}[!htbp]
   \centering
@@ -1028,20 +1009,25 @@ jako nowe tabele.
 
 \section{Platforma testowa}
 
-Jako platformy testowej u¿yto komputera o nastêpuj±cych parametrach:
+Jako platformy testowej u¿yto dwóch komputerów o nastêpuj±cych parametrach:
+
 \begin{itemize}
   \item{\textbf{Procesor}: Intel Core i7-3517U 1.9\ GHz (zablokowany na 3.0\ GHz
-w trybie turbo).}
+w trybie turbo)}
   \item{\textbf{Pamiêæ RAM}: 10\ GB DDR3 1600\ MHz (w dwóch ko¶ciach - 2\ GB oraz
-8\ GB).}
-  \item{\textbf{Dyski}:
-    \begin{itemize}
-      \item{\textbf{SSD} - Samsung 840 EVO 256\ GB SATA3 (przechowuj±cy równie¿ system
-operacyjny),}
-      \item{\textbf{HDD} - WD Elements Portable 500GB 5400RPM USB 3.0.}
-    \end{itemize}
-  }
-  \item{\textbf{System operacyjny}: Ubuntu 12.04.4 LTS.}
+8\ GB)}
+  \item{\textbf{Dysk SSD} - Samsung 840 EVO 256\ GB SATA3 (przechowuj±cy równie¿
+system operacyjny)}
+  \item{\textbf{System operacyjny}: Ubuntu 12.04.4 LTS}
+\end{itemize}
+oraz
+{\color{red} uzupe³niæ}
+\begin{itemize}
+  \item{\textbf{Procesor}: Intel Core i5-k3500 1.9\ GHz (zablokowany na 3.0\ GHz
+w trybie turbo)}
+  \item{\textbf{Pamiêæ RAM}: 8\ GB DDR3 1600\ MHz (w dwóch ko¶ciach po 4\ GB)}
+  \item{\textbf{Dysk HDD} - } 
+  \item{\textbf{System operacyjny}: Ubuntu 14.04.1 LTS}
 \end{itemize}
 
 W eksperymentach wykorzystano prost± implementacjê warstwy fizycznej
