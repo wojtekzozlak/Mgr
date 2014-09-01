@@ -31,142 +31,149 @@
 	<use xlink:href='#gpPt3' id='gpPt11' stroke='currentColor' transform='rotate(45)'/>
 	<use xlink:href='#gpPt11' id='gpPt12' fill='currentColor' stroke='none'/>
 </defs>
-<g style="fill:none; color:white; stroke:black; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
+<g style="fill:none; color:white; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 </g>
 <g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='black'  d='M132.4,449.1 L410.3,318.5 M891.6,393.9 L410.3,318.5 M132.4,449.1 L132.4,188.1 M891.6,393.9 L891.6,142.0 
-		M132.4,449.1 L140.7,445.2  h0.01'/>	<g transform="translate(120.7,461.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 0</tspan></text>
-	</g>
-	<path stroke='black'  d='M410.3,318.5 L402.0,322.4 M228.7,464.2 L237.0,460.3  h0.01'/>	<g transform="translate(217.0,476.5)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 2000</tspan></text>
-	</g>
-	<path stroke='black'  d='M506.6,333.6 L498.3,337.5 M325.0,479.3 L333.3,475.4  h0.01'/>	<g transform="translate(313.2,491.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 4000</tspan></text>
-	</g>
-	<path stroke='black'  d='M602.8,348.7 L594.5,352.6 M421.2,494.4 L429.5,490.5  h0.01'/>	<g transform="translate(409.5,506.7)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 6000</tspan></text>
-	</g>
-	<path stroke='black'  d='M699.0,363.8 L690.7,367.7 M517.4,509.5 L525.7,505.6  h0.01'/>	<g transform="translate(505.8,521.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 8000</tspan></text>
-	</g>
-	<path stroke='black'  d='M795.3,378.9 L787.0,382.8 M613.7,524.5 L622.0,520.6  h0.01'/>	<g transform="translate(601.9,536.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 10000</tspan></text>
-	</g>
-	<path stroke='black'  d='M891.6,393.9 L883.3,397.8 M613.7,524.5 L605.9,523.3  h0.01'/>	<g transform="translate(631.3,535.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M132.4,449.1 L410.3,318.5 M891.6,393.9 L410.3,318.5 M132.4,449.1 L132.4,188.1 M410.3,318.5 L410.3,88.2 
+		M891.6,393.9 L891.6,196.1 M132.4,449.1 L140.7,445.2  h0.01'/>	<g transform="translate(124.8,461.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text><tspan> 1</tspan></text>
 	</g>
-	<path stroke='black'  d='M132.4,449.1 L140.2,450.4 M683.1,491.9 L675.3,490.7  h0.01'/>	<g transform="translate(700.7,503.2)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M410.3,318.5 L402.0,322.4 M252.8,468.0 L261.1,464.1  h0.01'/>	<g transform="translate(245.1,480.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text><tspan> 2</tspan></text>
 	</g>
-	<path stroke='black'  d='M201.9,416.5 L209.7,417.7 M752.6,459.2 L744.8,458.0  h0.01'/>	<g transform="translate(770.2,470.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M530.6,337.4 L522.3,341.3 M373.1,486.8 L381.4,482.9  h0.01'/>	<g transform="translate(365.5,499.1)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text><tspan> 4</tspan></text>
 	</g>
-	<path stroke='black'  d='M271.4,383.8 L279.2,385.1 M822.1,426.6 L814.3,425.4  h0.01'/>	<g transform="translate(839.7,437.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M650.9,356.2 L642.6,360.1 M493.4,505.7 L501.7,501.8  h0.01'/>	<g transform="translate(485.8,518.0)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text><tspan> 8</tspan></text>
 	</g>
-	<path stroke='black'  d='M340.9,351.2 L348.7,352.4 M891.6,393.9 L883.8,392.7  h0.01'/>	<g transform="translate(909.2,405.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+	<path stroke='black'  d='M771.2,375.1 L762.9,379.0 M613.7,524.5 L622.0,520.6  h0.01'/>	<g transform="translate(606.0,536.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
 		<text><tspan> 16</tspan></text>
 	</g>
+	<path stroke='black'  d='M891.6,393.9 L883.3,397.8 M613.7,524.5 L605.9,523.3  h0.01'/>	<g transform="translate(631.3,535.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.1</tspan></text>
+	</g>
+	<path stroke='black'  d='M132.4,449.1 L140.2,450.4 M644.5,510.0 L636.8,508.8  h0.01'/>	<g transform="translate(662.1,521.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.2</tspan></text>
+	</g>
+	<path stroke='black'  d='M163.3,434.6 L171.1,435.9 M675.4,495.5 L667.6,494.3  h0.01'/>	<g transform="translate(693.0,506.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.3</tspan></text>
+	</g>
+	<path stroke='black'  d='M194.2,420.1 L202.0,421.3 M706.3,481.0 L698.5,479.8  h0.01'/>	<g transform="translate(723.9,492.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.4</tspan></text>
+	</g>
+	<path stroke='black'  d='M225.1,405.6 L232.9,406.8 M737.2,466.5 L729.4,465.3  h0.01'/>	<g transform="translate(754.8,477.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.5</tspan></text>
+	</g>
+	<path stroke='black'  d='M255.9,391.1 L263.7,392.3 M768.1,452.0 L760.3,450.8  h0.01'/>	<g transform="translate(785.6,463.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.6</tspan></text>
+	</g>
+	<path stroke='black'  d='M286.8,376.6 L294.6,377.8 M798.9,437.5 L791.1,436.3  h0.01'/>	<g transform="translate(816.5,448.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.7</tspan></text>
+	</g>
+	<path stroke='black'  d='M317.7,362.1 L325.5,363.3 M829.8,423.0 L822.0,421.7  h0.01'/>	<g transform="translate(847.4,434.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.8</tspan></text>
+	</g>
+	<path stroke='black'  d='M348.6,347.6 L356.4,348.8 M860.7,408.5 L852.9,407.2  h0.01'/>	<g transform="translate(878.3,419.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 0.9</tspan></text>
+	</g>
+	<path stroke='black'  d='M379.5,333.1 L387.2,334.3 M891.6,393.9 L883.8,392.7  h0.01'/>	<g transform="translate(909.2,405.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:middle">
+		<text><tspan> 1</tspan></text>
+	</g>
 	<path stroke='black'  d='M410.3,318.5 L418.1,319.8 M132.4,362.1 L141.4,362.1  h0.01'/>	<g transform="translate(114.4,366.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 38</tspan></text>
+		<text><tspan> 0</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,340.3 L141.4,340.3  h0.01'/>	<g transform="translate(114.4,344.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 40</tspan></text>
+		<text><tspan> 1</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,318.5 L141.4,318.5  h0.01'/>	<g transform="translate(114.4,323.0)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 42</tspan></text>
+		<text><tspan> 2</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,296.8 L141.4,296.8  h0.01'/>	<g transform="translate(114.4,301.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 44</tspan></text>
+		<text><tspan> 3</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,275.1 L141.4,275.1  h0.01'/>	<g transform="translate(114.4,279.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 46</tspan></text>
+		<text><tspan> 4</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,253.4 L141.4,253.4  h0.01'/>	<g transform="translate(114.4,257.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 48</tspan></text>
+		<text><tspan> 5</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,231.6 L141.4,231.6  h0.01'/>	<g transform="translate(114.4,236.1)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 50</tspan></text>
+		<text><tspan> 6</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,209.8 L141.4,209.8  h0.01'/>	<g transform="translate(114.4,214.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 52</tspan></text>
+		<text><tspan> 7</tspan></text>
 	</g>
 	<path stroke='black'  d='M132.4,188.1 L141.4,188.1  h0.01'/>	<g transform="translate(114.4,192.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:end">
-		<text><tspan> 54</tspan></text>
+		<text><tspan> 8</tspan></text>
 	</g>
-	<g transform="translate(49.5,280.3)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
-		<text><tspan font-weight="bold" >MB/s</tspan></text>
+	<g transform="translate(71.3,275.1) rotate(-90)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
+		<text><tspan font-weight="bold" >Czas odczytu (s)</tspan></text>
 	</g>
 </g>
 	<g id="gnuplot_plot_1" ><title>gnuplot_plot_1</title>
 <g style="fill:none; color:red; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
 	<g style = 'stroke:none; shape-rendering:crispEdges'>
-		<polygon fill = 'rgb(255, 207,   0)' points = '364.9,150.4 389.0,152.7 458.5,74.3 434.4,70.7 '/>
-		<polygon fill = 'rgb(255, 112,   0)' points = '295.4,265.6 319.5,269.0 389.0,152.7 364.9,150.4 '/>
-		<polygon fill = 'rgb(245,  82,   0)' points = '226.0,257.3 250.0,260.0 319.5,269.0 295.4,265.6 '/>
-		<polygon fill = 'rgb(255, 158,   0)' points = '156.5,227.2 180.6,228.6 250.0,260.0 226.0,257.3 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '389.0,152.7 437.1,160.5 506.6,81.8 458.5,74.3 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '319.5,269.0 367.6,276.4 437.1,160.5 389.0,152.7 '/>
-		<polygon fill = 'rgb(248,  83,   0)' points = '250.0,260.0 298.2,267.0 367.6,276.4 319.5,269.0 '/>
-		<polygon fill = 'rgb(255, 160,   0)' points = '180.6,228.6 228.7,236.4 298.2,267.0 250.0,260.0 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '437.1,160.5 485.3,168.2 554.6,89.1 506.6,81.8 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '367.6,276.4 415.8,283.8 485.3,168.2 437.1,160.5 '/>
-		<polygon fill = 'rgb(248,  83,   0)' points = '298.2,267.0 346.3,274.8 415.8,283.8 367.6,276.4 '/>
-		<polygon fill = 'rgb(255, 159,   0)' points = '228.7,236.4 276.8,245.3 346.3,274.8 298.2,267.0 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '485.3,168.2 533.3,175.5 602.8,96.4 554.6,89.1 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '415.8,283.8 463.9,291.3 533.3,175.5 485.3,168.2 '/>
-		<polygon fill = 'rgb(248,  83,   0)' points = '346.3,274.8 394.4,282.2 463.9,291.3 415.8,283.8 '/>
-		<polygon fill = 'rgb(255, 159,   0)' points = '276.8,245.3 325.0,252.4 394.4,282.2 346.3,274.8 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '533.3,175.5 581.4,183.0 650.9,104.0 602.8,96.4 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '463.9,291.3 512.0,300.0 581.4,183.0 533.3,175.5 '/>
-		<polygon fill = 'rgb(247,  82,   0)' points = '394.4,282.2 442.6,289.6 512.0,300.0 463.9,291.3 '/>
-		<polygon fill = 'rgb(255, 159,   0)' points = '325.0,252.4 373.1,259.5 442.6,289.6 394.4,282.2 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '581.4,183.0 629.6,190.8 699.0,112.1 650.9,104.0 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '512.0,300.0 560.1,306.7 629.6,190.8 581.4,183.0 '/>
-		<polygon fill = 'rgb(247,  82,   0)' points = '442.6,289.6 490.7,297.5 560.1,306.7 512.0,300.0 '/>
-		<polygon fill = 'rgb(255, 160,   0)' points = '373.1,259.5 421.2,266.8 490.7,297.5 442.6,289.6 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '629.6,190.8 677.7,198.0 747.2,119.1 699.0,112.1 '/>
-		<polygon fill = 'rgb(255, 103,   0)' points = '560.1,306.7 608.2,340.0 677.7,198.0 629.6,190.8 '/>
-		<polygon fill = 'rgb(218,  73,   0)' points = '490.7,297.5 538.7,305.9 608.2,340.0 560.1,306.7 '/>
-		<polygon fill = 'rgb(255, 159,   0)' points = '421.2,266.8 469.4,274.1 538.7,305.9 490.7,297.5 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '677.7,198.0 725.8,205.6 795.3,126.9 747.2,119.1 '/>
-		<polygon fill = 'rgb(255, 104,   0)' points = '608.2,340.0 656.4,321.3 725.8,205.6 677.7,198.0 '/>
-		<polygon fill = 'rgb(218,  73,   0)' points = '538.7,305.9 586.9,312.9 656.4,321.3 608.2,340.0 '/>
-		<polygon fill = 'rgb(255, 159,   0)' points = '469.4,274.1 517.4,281.3 586.9,312.9 538.7,305.9 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '725.8,205.6 774.0,213.0 843.4,134.3 795.3,126.9 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '656.4,321.3 704.5,329.5 774.0,213.0 725.8,205.6 '/>
-		<polygon fill = 'rgb(247,  82,   0)' points = '586.9,312.9 635.0,319.9 704.5,329.5 656.4,321.3 '/>
-		<polygon fill = 'rgb(255, 160,   0)' points = '517.4,281.3 565.5,289.5 635.0,319.9 586.9,312.9 '/>
-		<polygon fill = 'rgb(255, 208,   0)' points = '774.0,213.0 822.1,220.9 891.6,142.0 843.4,134.3 '/>
-		<polygon fill = 'rgb(255, 113,   0)' points = '704.5,329.5 752.6,336.9 822.1,220.9 774.0,213.0 '/>
-		<polygon fill = 'rgb(246,  82,   0)' points = '635.0,319.9 683.1,328.8 752.6,336.9 704.5,329.5 '/>
-		<polygon fill = 'rgb(255, 159,   0)' points = '565.5,289.5 613.7,297.3 683.1,328.8 635.0,319.9 '/>
+		<polygon fill = 'rgb(255, 203,   0)' points = '379.5,116.4 499.8,132.0 530.6,102.6 410.3,88.2 '/>
+		<polygon fill = 'rgb(255, 181,   0)' points = '348.6,145.7 468.9,161.5 499.8,132.0 379.5,116.4 '/>
+		<polygon fill = 'rgb(255, 160,   0)' points = '317.7,174.7 438.0,190.8 468.9,161.5 348.6,145.7 '/>
+		<polygon fill = 'rgb(255, 139,   0)' points = '286.8,203.5 407.2,219.8 438.0,190.8 317.7,174.7 '/>
+		<polygon fill = 'rgb(255, 117,   0)' points = '255.9,232.3 376.3,249.1 407.2,219.8 286.8,203.5 '/>
+		<polygon fill = 'rgb(255,  96,   0)' points = '225.1,261.3 345.4,278.2 376.3,249.1 255.9,232.3 '/>
+		<polygon fill = 'rgb(224,  75,   0)' points = '194.2,290.3 314.5,307.6 345.4,278.2 225.1,261.3 '/>
+		<polygon fill = 'rgb(160,  53,   0)' points = '163.3,318.6 283.6,336.9 314.5,307.6 194.2,290.3 '/>
+		<polygon fill = 'rgb( 96,  32,   0)' points = '132.4,348.0 252.8,366.2 283.6,336.9 163.3,318.6 '/>
+		<polygon fill = 'rgb(255, 210,   0)' points = '499.8,132.0 620.0,144.4 650.9,114.7 530.6,102.6 '/>
+		<polygon fill = 'rgb(255, 188,   0)' points = '468.9,161.5 589.1,174.6 620.0,144.4 499.8,132.0 '/>
+		<polygon fill = 'rgb(255, 166,   0)' points = '438.0,190.8 558.3,204.4 589.1,174.6 468.9,161.5 '/>
+		<polygon fill = 'rgb(255, 144,   0)' points = '407.2,219.8 527.4,234.5 558.3,204.4 438.0,190.8 '/>
+		<polygon fill = 'rgb(255, 122,   0)' points = '376.3,249.1 496.6,264.6 527.4,234.5 407.2,219.8 '/>
+		<polygon fill = 'rgb(255, 100,   0)' points = '345.4,278.2 465.7,294.5 496.6,264.6 376.3,249.1 '/>
+		<polygon fill = 'rgb(232,  77,   0)' points = '314.5,307.6 434.9,324.8 465.7,294.5 345.4,278.2 '/>
+		<polygon fill = 'rgb(165,  55,   0)' points = '283.6,336.9 404.0,354.4 434.9,324.8 314.5,307.6 '/>
+		<polygon fill = 'rgb( 99,  33,   0)' points = '252.8,366.2 373.1,384.4 404.0,354.4 283.6,336.9 '/>
+		<polygon fill = 'rgb(255, 215,   0)' points = '620.0,144.4 740.4,163.6 771.2,133.6 650.9,114.7 '/>
+		<polygon fill = 'rgb(255, 192,   0)' points = '589.1,174.6 709.5,193.9 740.4,163.6 620.0,144.4 '/>
+		<polygon fill = 'rgb(255, 170,   0)' points = '558.3,204.4 678.6,223.6 709.5,193.9 589.1,174.6 '/>
+		<polygon fill = 'rgb(255, 147,   0)' points = '527.4,234.5 647.7,253.3 678.6,223.6 558.3,204.4 '/>
+		<polygon fill = 'rgb(255, 124,   0)' points = '496.6,264.6 616.8,283.7 647.7,253.3 527.4,234.5 '/>
+		<polygon fill = 'rgb(255, 102,   0)' points = '465.7,294.5 586.0,313.3 616.8,283.7 496.6,264.6 '/>
+		<polygon fill = 'rgb(237,  79,   0)' points = '434.9,324.8 555.1,343.3 586.0,313.3 465.7,294.5 '/>
+		<polygon fill = 'rgb(169,  56,   0)' points = '404.0,354.4 524.2,373.1 555.1,343.3 434.9,324.8 '/>
+		<polygon fill = 'rgb(102,  34,   0)' points = '373.1,384.4 493.4,403.2 524.2,373.1 404.0,354.4 '/>
+		<polygon fill = 'rgb(255, 184,   0)' points = '740.4,163.6 860.7,222.2 891.6,196.1 771.2,133.6 '/>
+		<polygon fill = 'rgb(255, 165,   0)' points = '709.5,193.9 829.8,247.5 860.7,222.2 740.4,163.6 '/>
+		<polygon fill = 'rgb(255, 146,   0)' points = '678.6,223.6 798.9,272.8 829.8,247.5 709.5,193.9 '/>
+		<polygon fill = 'rgb(255, 126,   0)' points = '647.7,253.3 768.1,298.4 798.9,272.8 678.6,223.6 '/>
+		<polygon fill = 'rgb(255, 107,   0)' points = '616.8,283.7 737.2,324.0 768.1,298.4 647.7,253.3 '/>
+		<polygon fill = 'rgb(255,  87,   0)' points = '586.0,313.3 706.3,349.8 737.2,324.0 616.8,283.7 '/>
+		<polygon fill = 'rgb(204,  68,   0)' points = '555.1,343.3 675.4,375.4 706.3,349.8 586.0,313.3 '/>
+		<polygon fill = 'rgb(145,  48,   0)' points = '524.2,373.1 644.5,400.9 675.4,375.4 555.1,343.3 '/>
+		<polygon fill = 'rgb( 87,  29,   0)' points = '493.4,403.2 613.7,426.5 644.5,400.9 524.2,373.1 '/>
 	</g>
-	<path stroke='red'  d='M613.7,297.3 L683.1,328.8 L752.6,336.9 L822.1,220.9 L891.6,142.0 M565.5,289.5 L635.0,319.9 L704.5,329.5 
-		L774.0,213.0 L843.4,134.3 M517.4,281.3 L586.9,312.9 L656.4,321.3 L725.8,205.6 L795.3,126.9 M469.4,274.1 
-		L538.7,305.9 L608.2,340.0 L677.7,198.0 L747.2,119.1 M421.2,266.8 L490.7,297.5 L560.1,306.7 L629.6,190.8 
-		L699.0,112.1 M373.1,259.5 L442.6,289.6 L512.0,300.0 L581.4,183.0 L650.9,104.0 M325.0,252.4 L394.4,282.2 
-		L463.9,291.3 L533.3,175.5 L602.8,96.4 M276.8,245.3 L346.3,274.8 L415.8,283.8 L485.3,168.2 L554.6,89.1 
-		M228.7,236.4 L298.2,267.0 L367.6,276.4 L437.1,160.5 L506.6,81.8 M180.6,228.6 L250.0,260.0 L319.5,269.0 
-		L389.0,152.7 L458.5,74.3 M156.5,227.2 L226.0,257.3 L295.4,265.6 L364.9,150.4 L434.4,70.7 M891.6,142.0 
-		L843.4,134.3 L795.3,126.9 L747.2,119.1 L699.0,112.1 L650.9,104.0 L602.8,96.4 L554.6,89.1 L506.6,81.8 
-		L458.5,74.3 L434.4,70.7 M822.1,220.9 L774.0,213.0 L725.8,205.6 L677.7,198.0 L629.6,190.8 L581.4,183.0 
-		L533.3,175.5 L485.3,168.2 L437.1,160.5 L389.0,152.7 L364.9,150.4 M752.6,336.9 L704.5,329.5 L656.4,321.3 
-		L608.2,340.0 L560.1,306.7 L512.0,300.0 L463.9,291.3 L415.8,283.8 L367.6,276.4 L319.5,269.0 L295.4,265.6 
-		M683.1,328.8 L635.0,319.9 L586.9,312.9 L538.7,305.9 L490.7,297.5 L442.6,289.6 L394.4,282.2 L346.3,274.8 
-		L298.2,267.0 L250.0,260.0 L226.0,257.3 M613.7,297.3 L565.5,289.5 L517.4,281.3 L469.4,274.1 L421.2,266.8 
-		L373.1,259.5 L325.0,252.4 L276.8,245.3 L228.7,236.4 L180.6,228.6 L156.5,227.2  h0.01'/></g>
+	<path stroke='red'  d='M613.7,426.5 L644.5,400.9 L675.4,375.4 L706.3,349.8 L737.2,324.0 L768.1,298.4 L798.9,272.8 L829.8,247.5 
+		L860.7,222.2 L891.6,196.1 M493.4,403.2 L524.2,373.1 L555.1,343.3 L586.0,313.3 L616.8,283.7 L647.7,253.3 
+		L678.6,223.6 L709.5,193.9 L740.4,163.6 L771.2,133.6 M373.1,384.4 L404.0,354.4 L434.9,324.8 L465.7,294.5 
+		L496.6,264.6 L527.4,234.5 L558.3,204.4 L589.1,174.6 L620.0,144.4 L650.9,114.7 M252.8,366.2 L283.6,336.9 
+		L314.5,307.6 L345.4,278.2 L376.3,249.1 L407.2,219.8 L438.0,190.8 L468.9,161.5 L499.8,132.0 L530.6,102.6 
+		M132.4,348.0 L163.3,318.6 L194.2,290.3 L225.1,261.3 L255.9,232.3 L286.8,203.5 L317.7,174.7 L348.6,145.7 
+		L379.5,116.4 L410.3,88.2 M891.6,196.1 L771.2,133.6 L650.9,114.7 L530.6,102.6 L410.3,88.2 M860.7,222.2 
+		L740.4,163.6 L620.0,144.4 L499.8,132.0 L379.5,116.4 M829.8,247.5 L709.5,193.9 L589.1,174.6 L468.9,161.5 
+		L348.6,145.7 M798.9,272.8 L678.6,223.6 L558.3,204.4 L438.0,190.8 L317.7,174.7 M768.1,298.4 L647.7,253.3 
+		L527.4,234.5 L407.2,219.8 L286.8,203.5 M737.2,324.0 L616.8,283.7 L496.6,264.6 L376.3,249.1 L255.9,232.3 
+		M706.3,349.8 L586.0,313.3 L465.7,294.5 L345.4,278.2 L225.1,261.3 M675.4,375.4 L555.1,343.3 L434.9,324.8 
+		L314.5,307.6 L194.2,290.3 M644.5,400.9 L524.2,373.1 L404.0,354.4 L283.6,336.9 L163.3,318.6 M613.7,426.5 
+		L493.4,403.2 L373.1,384.4 L252.8,366.2 L132.4,348.0  h0.01'/></g>
 	</g>
 <g style="fill:none; color:black; stroke:currentColor; stroke-width:1.00; stroke-linecap:butt; stroke-linejoin:miter">
-	<path stroke='black'  d='M891.6,393.9 L613.7,524.5 M132.4,449.1 L613.7,524.5 L613.7,297.3  h0.01'/>	<g transform="translate(303.6,524.7)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
-		<text><tspan font-weight="bold" >Rozmiar kroku</tspan></text>
-	</g>
-	<g transform="translate(873.0,483.3)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
+	<path stroke='black'  d='M891.6,393.9 L613.7,524.5 M132.4,449.1 L613.7,524.5 L613.7,426.5  h0.01'/>	<g transform="translate(303.6,524.7)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
 		<text><tspan font-weight="bold" >Rozmiar rodziny</tspan></text>
 	</g>
-	<g transform="translate(49.5,280.3)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
-		<text><tspan font-weight="bold" >MB/s</tspan></text>
+	<g transform="translate(873.0,519.2)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
+		<text><tspan font-weight="bold" >Część odczytywanych wierszy</tspan></text>
+	</g>
+	<g transform="translate(71.3,275.1) rotate(-90)" style="stroke:none; fill:black; font-family:Verdana; font-size:14.00pt; font-weight:bold; text-anchor:middle">
+		<text><tspan font-weight="bold" >Czas odczytu (s)</tspan></text>
 	</g>
 	<g style = 'stroke:none; shape-rendering:crispEdges'>
 		<polygon fill = 'rgb(  0,   0,   0)' points = '906.0,335.4 944.4,335.4 944.4,333.8 906.0,333.8 '/>
@@ -299,31 +306,31 @@
 		<polygon fill = 'rgb(255, 253,   0)' points = '906.0,142.8 944.4,142.8 944.4,141.2 906.0,141.2 '/>
 	</g>
 	<path stroke='black'  d='M906.0,335.4 L944.4,335.4 L944.4,141.2 L906.0,141.2 L906.0,335.4 Z  h0.01'/>	<path stroke='black'  d='M944.4,335.4 L935.4,335.4  h0.01'/>	<g transform="translate(952.7,339.9)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 38</tspan></text>
+		<text><tspan> 0</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,335.4 L915.0,335.4 M944.4,311.2 L935.4,311.2  h0.01'/>	<g transform="translate(952.7,315.7)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 40</tspan></text>
+		<text><tspan> 1</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,311.2 L915.0,311.2 M944.4,286.9 L935.4,286.9  h0.01'/>	<g transform="translate(952.7,291.4)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 42</tspan></text>
+		<text><tspan> 2</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,286.9 L915.0,286.9 M944.4,262.6 L935.4,262.6  h0.01'/>	<g transform="translate(952.7,267.1)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 44</tspan></text>
+		<text><tspan> 3</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,262.6 L915.0,262.6 M944.4,238.3 L935.4,238.3  h0.01'/>	<g transform="translate(952.7,242.8)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 46</tspan></text>
+		<text><tspan> 4</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,238.3 L915.0,238.3 M944.4,214.1 L935.4,214.1  h0.01'/>	<g transform="translate(952.7,218.6)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 48</tspan></text>
+		<text><tspan> 5</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,214.1 L915.0,214.1 M944.4,189.8 L935.4,189.8  h0.01'/>	<g transform="translate(952.7,194.3)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 50</tspan></text>
+		<text><tspan> 6</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,189.8 L915.0,189.8 M944.4,165.5 L935.4,165.5  h0.01'/>	<g transform="translate(952.7,170.0)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 52</tspan></text>
+		<text><tspan> 7</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,165.5 L915.0,165.5 M944.4,141.2 L935.4,141.2  h0.01'/>	<g transform="translate(952.7,145.7)" style="stroke:none; fill:black; font-family:Arial; font-size:12.00pt; text-anchor:start">
-		<text><tspan> 54</tspan></text>
+		<text><tspan> 8</tspan></text>
 	</g>
 	<path stroke='black'  d='M906.0,141.2 L915.0,141.2  h0.01'/></g>
 </g>

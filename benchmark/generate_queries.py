@@ -12,3 +12,8 @@ with open('queries', 'r') as f:
         print '{}, {}, '.format(q, len(columns)),
         sys.stdout.flush()
         subprocess.call(['bash', 'mysql_query.sh', query])
+        print ', ',
+        sys.stdout.flush()
+        subprocess.call(['bash', 'psql_query.sh', query.lower()])
+        print
+        sys.stdout.flush()

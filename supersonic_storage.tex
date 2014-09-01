@@ -1052,8 +1052,8 @@ uzyskano relacjê zawieraj±c± 23'996'604 rekordów, zajmuj±cych w formie tekstowej
 \section{Testy zapisu}
 
 Test polega³ na zapisie uprzednio wczytanej do pamiêci relacji do plików
-magazynu o rozmiarze oko³o 128\ MB, zawieraj±cych strony danych o rozmiarze oko³o
-512\ KB. Próby przeprowadzone zosta³y z ró¿nymi ustawieniami:
+magazynu o rozmiarze oko³o 128\ MB, zawieraj±cych strony danych o rozmiarze
+minimum 512\ KB. Próby przeprowadzone zosta³y z ró¿nymi ustawieniami:
 \begin{itemize}
   \item{maksymalnego rozmiaru pojedynczej rodziny: $1$, $2$, $4$, $8$, $16$
 atrybutów;}
@@ -1086,16 +1086,15 @@ wielko¶ci kroku zapisu.}
 Rysunek \ref{figure:write_throughput_hdd} przedstawia przepustowo¶æ operacji
 zapisu, dla dysku talerzowego, w zale¿no¶ci od ustawieñ testu.  O¶ $Z$ zosta³a
 przesuniêta w celu zwiêkszenia czytelno¶ci. Wydaje siê istnieæ niewielka
-korelacja miêdzy rozmiarem zapisywanych rodzin a prêdko¶ci±. Mo¿na podejrzewaæ,
+korelacja miêdzy przepustowo¶ci± a obiema ze zmiennych. Mo¿na podejrzewaæ,
 ¿e jest to zwi±zane z liczb± stron w magazynie jednak na podstawie rysunku
-\ref{figure:data_pages} trudno stwierdziæ wyra¼n± zale¿no¶æ. Bardziej istotna
-wydaje liczba wierszy przekazywana do pojedynczego wywo³ania metody
-\texttt{Write} - ró¿ne warto¶ci powoduj± wahania wydajno¶ci w granicach 10\%.\\
+\ref{figure:data_pages} trudno jednoznacznie potwierdziæ tak± zale¿no¶æ. Faktem
+natomiast jest, ¿e w zale¿no¶ci od ustawieñ, wydajno¶æ zapisu waha siê o 15-20\%.\\
 
-Sam kszta³t wykresu liczby stron danych nie powinien dziwiæ, je¶li pamiêta siê o
+Sam kszta³t wykresu liczby stron danych nie powinien dziwiæ je¶li pamiêta siê o
 niepodzielno¶ci grup rekordów przekazywanych do zapisu. Im wiêkszy krok oraz
 maksymalny rozmiar rodziny atrybutów, tym wiêkszy potencjalny rozmiar stron. Im
-za¶ wiêksze strony tym mniej ich potrzeba do zapisu tej samej ilo¶ci danych.
+za¶ wiêksze strony tym mniej ich potrzeba do zapisu tej samej ilo¶ci danych. \\
 
 \begin{figure}[!htbp]
   \centering
@@ -1112,13 +1111,12 @@ je bardziej ustabilizowaæ, przez u¿ycie wiêkszego zbioru danych. Poniewa¿ dyski
 SSD s± wra¿liwe na wielokrotny zapis du¿ych ilo¶ci danych i wi±za³oby siê to z
 ryzykiem uszkodzenia no¶nika, w zwi±zku z czym autor nie podj±³ takiej próby. \\
 
-W obu przypadkach wahania przepustowo¶ci operacji zapisu nie s± zbyt du¿e,
-niezale¿nie od ustawieñ i wynosz± 10-15\%. Bior±c pod uwagê drugorzêdn± rolê
-operacji zapisu w funkcjonowaniu projektowanego sk³adu jest to ró¿nica ma³o
-istotna. Sama prêdko¶æ w obu przypadkach wynosi 65-75\% maksymalnej prêdko¶ci
-zapisu sekwencyjnego no¶ników (oko³o 280 MB/s w przypadku SSD, 80 MB/s HDD).
-Nie jest to mo¿e wynik osza³amiaj±cy, ale w tym przypadku ca³kowicie
-satysfakcjonuj±cy. \\
+W obu przypadkach wahania przepustowo¶ci operacji zapisu wynosz± 15-20\%. Bior±c
+pod uwagê drugorzêdn± rolê operacji zapisu w funkcjonowaniu projektowanego
+sk³adu jest to ró¿nica ma³o istotna. Sama prêdko¶æ w obu przypadkach wynosi
+60-75\% maksymalnej prêdko¶ci zapisu sekwencyjnego no¶ników (oko³o 280 MB/s w
+przypadku SSD, 60 MB/s HDD).  Nie jest to mo¿e wynik osza³amiaj±cy, ale w tym
+przypadku ca³kowicie satysfakcjonuj±cy. \\
 
 \section{Testy odczytu}
 
@@ -1140,41 +1138,123 @@ u¶redniono. Pomiêdzy testami opró¿niano pamiêæ podrêczn± systemu plików.
   \centering
   \includegraphics[width=0.8\textwidth]{images/read_throughput_hdd.pdf}
   \caption{Dysk HDD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
-wielko¶ci kroku zapisu.}
+wielko¶ci kroku odczytu.}
   \label{figure:read_throughput_hdd}
-\end{figure}
-
-\begin{figure}[!htbp]
-  \centering
-  \includegraphics[width=0.8\textwidth]{images/read_throughput_ssd.pdf}
-  \caption{Dysk SSD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
-wielko¶ci kroku zapisu.}
-  \label{figure:read_throughput_ssd}
 \end{figure}
 
 Rysunki \ref{figure:read_throughput_hdd} oraz \ref{figure:read_throughput_ssd}
 przedstawiaj± przepustowo¶æ operacji odczytu w zale¿no¶ci od maksymalnego
 rozmiaru rodziny w odczytywanym magazynie oraz ¿±danej liczby wierszy w
-pojedynczym wywo³aniu metody \texttt{Next} kursora \texttt{StorageScan}. W obu
-przypadkach obserwujemy bardzo podobne zachowanie - drobne wahania przy
-rozmiarach rodzin od 1 do 8 oraz gwa³towny skok wydajno¶ci o 30-40\% przy
-zapisie wszystkich danych razem. W wypadku pojedynczej rodziny atrybutów mamy de
-facto do czynienia z sekwencyjnym odczytem stron z medium. Pozwala to na
-wykorzystanie pe³ni jego mo¿liwo¶ci. \\
+pojedynczym wywo³aniu metody \texttt{Next} kursora \texttt{StorageScan}.  W obu
+przypadkach mo¿na zaobserwowaæ nastêpuj±c± zale¿no¶æ:
+\begin{enumerate}
+  \item{Magazyny z podzia³em na rodziny rozmiaru 1 i 8 s± czytane szybciej ni¿
+te z podzia³em na rodziny rozmiaru 2 i 4 (przy czym ró¿nice te s± znacznie
+bardziej widoczne w przypadku HDD).}
+  \item{Magazyn bez podzia³u na rodziny jest czytany istotnie szybciej ni¿
+wszystkie inne.}
+\end{enumerate}
 
-{\color{red} dodaæ wykres z ilo¶ci± seeków}
-Brak zale¿no¶ci miêdzy rozmiarem ¿±dania i przepustowo¶ci± wynika z semantyki
-operacji odczytu.
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/read_throughput_ssd.pdf}
+  \caption{Dysk SSD. Przepustowo¶æ operacji odczytu w zale¿no¶ci od rozmiaru rodziny i
+wielko¶ci kroku odczytu.}
+  \label{figure:read_throughput_ssd}
+\end{figure}
 
-Brak zale¿no¶ci miêdzy rozmiarem ¿±dania a przepustowo¶ci± odczytu pokazuje, ¿e
-koszt ca³ej operacji jest zdominowany przez pobieranie danych ze stron oraz ich
-deserializacjê. 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.7\textwidth]{images/seeks.pdf}
+  \caption{Liczba operacji \textit{seek} w zale¿no¶ci od rozmiaru rodziny.}
+  \label{figure:read_seeks}
+\end{figure}
+
+Zachowanie to mo¿na wynika najprawdpodobniej z uk³adu stron danych w obrêbie
+odczytywanych plików. Rysunek \ref{figure:read_seeks} ilustruje liczbê operacji
+\texttt{seek} niezbêdnych do przeczytania testowanych magazynów. W przypadku 
+magazynu z jedn± tylko rodzin± obserwujemy odczyt bardzo bliski sekwencyjnemu,
+co znacznie poprawia efektywno¶æ. Z reszt± nie jest ju¿ tak ³atwo - co
+prawda magazyn z pe³nym podzia³em wymaga mniejszej ilo¶ci przesuniêæ ni¿ 3
+pozosta³e, jednak przypadek podzia³u na rodziny rozmiaru 8 wymaga ich najwiêcej
+wcale nie bêd±c najwolniejszym! \\
+
+Jednak¿e, zale¿no¶æ nr 1 sugeruje, ¿e mamy do czynienia z problemami zwi±zanymi
+z losowym odczytem. Wynika to z faktu, ¿e obserwacja jest znacznie bardziej
+wyra¼na w przypadku dysku talerzowego, który posiada mechaniczn± g³owicê. W
+zwi±zku z tym, mo¿na s±dziæ, ¿e poza sam± liczb± przesuniêæ istotne jest w
+jakie dok³adnie miejsce je przesuwamy (czyli dystans pokonywany przez g³owicê).
+Byæ mo¿e w przypadku magazynu z podzia³em na rodziny rozmiaru 8 mieli¶my do
+czynienia z wiêksz± liczb± operacji \textit{seek} lecz na mniejszy dystans.
+Jest to jednak wy³±cznie hipoteza i powinna zostaæ sprawdzona dok³adniejszymi
+testami. \\
+
+{\color{red} napisaæ jak siê to ma do zapisu i dlaczego smutne}
 
 \subsection{Odczyt od zadanego wiersza}
 \label{sec:read_offset}
 
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/read_offset_hdd.pdf}
+  \caption{Dysk HDD. Czas odczytu w zale¿no¶ci od podzia³u na rodziny i czê¶ci
+odczytywanych wierszy.}
+  \label{figure:read_offset_hdd}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/read_offset_ssd.pdf}
+  \caption{Dysk SSD. Czas odczytu w zale¿no¶ci od podzia³u na rodziny i czê¶ci
+odczytywanych wierszy.}
+  \label{figure:read_offset_ssd}
+\end{figure}
+
+Test polega³ na odczycie danych z magazynu pocz±wszy od zadanego wiersza.
+Rysunki \ref{figure:read_offset_hdd} oraz \ref{figure:read_offset_ssd} ukazuj±
+zale¿no¶æ miêdzy czasem trwania operacji a czê¶ci± danych, któr± nale¿a³o
+odczytaæ, dla magazynów zapisanych z ró¿nymi ustawieniami podzia³u atrybutów na
+rodziny. Jest tu doskonale widoczna korzy¶æ p³yn±ca z przechowywania metadanych
+dotycz±cych stron - niepotrzebne dane zostaj± pominiête w trakcie odczytu z
+warstwy fizycznej, co w przeka³ada siê na wprost proporcjonalny spadek czasu
+realizacji ¿±dania. Typ no¶nika nie ma w zasadzie ¿adnego, istotnego wp³ywu,
+podobnie jak sposób podzia³u na rodziny. \\
+
+Warto zauwa¿yæ, ¿e zachowanie takie jest mo¿liwe dziêki niewielkiemu stosunkowi
+rozmiaru stron danych wzglêdem rozmiaru ca³ego magazynu. Gdyby zwiêkszyæ
+rozdzielczo¶æ przedstawionych wykresów, okaza³oby siê, ¿e w istocie s± one
+schodkowe. Rozmiar stopnia zale¿y za¶ w³a¶nie od wzglêdnego rozmiaru strony, co
+w tym konkretnym przypadku testowym oznacza dok³adno¶æ pominiêcia rekordów na
+poziomie kilku promili.
+
+
 \subsection{Odczytu podzbioru atrybutów}
 \label{sec:read_subset}
+
+W celu zbadania jak magazyn reaguje na ¿±dania dostarczenia podzbioru atrybutów
+relacji wykorzystane zosta³y zapytania pochodz±ce z \textit{TPC-H}. Dla ka¿dego
+z zapytañ wybrane zosta³y kolumny tabeli \texttt{LINEITEM} bior±ce w nim czynny
+udzia³, a nastêpnie zlecone do odczytania z magazynu. Zapytania nie maj±ce do
+czynienia z tablic± \texttt{LINEITEM} zosta³y pominiête.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{images/read_queries_hdd.pdf}
+  \caption{Dysk HDD. Czas odczytu w zale¿no¶ci od zapytania.}
+  \label{figure:read_queries_hdd}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{images/read_queries_ssd.pdf}
+  \caption{Dysk SSD. Czas odczytu w zale¿no¶ci od zapytania.}
+  \label{figure:read_queries_ssd}
+\end{figure}
+
+Rysunki \ref{figure:read_queries_hdd} oraz \ref{figure:read_queries_ssd}
+przedstawiaj± otrzymane wyniki. Widaæ na nich wyra¼nie, ¿e dane odczytywane s±
+ca³ymi rodzinami. Oszczêdno¶æ czasu jest proporcjonalna do liczby rodzin jakie
+mo¿na pomin±æ.
 
 \section{Testy porównawcze}
 
