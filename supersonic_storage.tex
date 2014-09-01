@@ -1239,14 +1239,14 @@ czynienia z tablic± \texttt{LINEITEM} zosta³y pominiête.
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=1\textwidth]{images/read_queries_hdd.pdf}
+  \includegraphics[width=\textwidth]{images/read_queries_hdd.pdf}
   \caption{Dysk HDD. Czas odczytu w zale¿no¶ci od zapytania.}
   \label{figure:read_queries_hdd}
 \end{figure}
 
 \begin{figure}[!htbp]
   \centering
-  \includegraphics[width=1\textwidth]{images/read_queries_ssd.pdf}
+  \includegraphics[width=\textwidth]{images/read_queries_ssd.pdf}
   \caption{Dysk SSD. Czas odczytu w zale¿no¶ci od zapytania.}
   \label{figure:read_queries_ssd}
 \end{figure}
@@ -1259,12 +1259,29 @@ mo¿na pomin±æ.
 \section{Testy porównawcze}
 
 Omawiany magazyn zosta³ porównany z dwoma popularnymi systemami bazodanowymi:
-\textit{MySQL} oraz \textit{PostgreSQL}. Na obu wykonano testy analogiczne do
-opisanych w sekcjach \ref{sec:read_offset} oraz \ref{sec:read_subset}. Niestety,
-systemy te nie udostêpniaj± prostej metody bezpo¶redniego dostêpu do magazynu
-danych. Z tego powodu, w trakcie testu wykonywane by³y zapytania postaci: \\
+\textit{MySQL} (w wersji 5.5, mechanizm sk³adowania danych \textit{InnoDB}) oraz
+\textit{PostgreSQL} (w wersji 9.1). Na obu wykonano testy analogiczne do
+opisanych w sekcjach \ref{sec:read_offset} oraz \ref{sec:read_subset}. Nale¿y
+tu zaznaczyæ, ¿e systemy te nie by³y tworzone z my¶l± o pracy w hurtownii
+danych, a raczej ¶rodowiskach OLTP. Autor usi³owa³ dokonaæ porównania z
+kolumnowymi bazami danych \textit{MonetDB} oraz \textit{Infobright}. Niestety,
+nie uda³o siê uzyskaæ ¿adnych miarodajnych wyników. Nie istnia³ prosty sposób
+odwo³ywania siê bezpo¶rednio do warstwy magazynowania danych, natomiast podczas
+wykonywania zapytañ wykorzystywa³y one ró¿nego rodzaju techniki optymalizacyjne
+(mapowanie danych w pamiêæ RAM, posi³kowanie siê szerok± gam± metadanych,
+wstêpne ³adowanie danych do pamiêci podrêcznej itd.) zaciemniaj±ce obraz
+sytuacjisiê uzyskaæ ¿adnych miarodajnych wyników. Nie istnia³ prosty
+sposób odwo³ywania siê bezpo¶rednio do warstwy magazynowania danych, natomiast
+podczas wykonywania zapytañ wykorzystywa³y one ró¿nego rodzaju techniki
+optymalizacyjne (mapowanie danych w pamiêæ RAM, posi³kowanie siê szerok± gam±
+metadanych,.
 
-  \texttt{SELECT COUNT(A1), ... , COUNT(An) FROM ...} \\
+\subsection{Odczyt podzbioru atrybutów}
+Niestety, wspomniane systemy nie udostêpniaj± prostej metody bezpo¶redniego
+dostêpu do magazynu danych. Z tego powodu, w trakcie testu wykonywane by³y
+zapytania postaci: \\
+
+  \texttt{SELECT COUNT(A1), ... , COUNT(An) FROM LINEITEM} \\
 
 gdzie $A_1, ..., A_n$ to zbiór wymaganych atrybutów. Zapytania takie wymuszaj±
 wczytanie zawarto¶ci podanych kolumn, generuj±c przy tym mo¿liwie minimalny narzut
@@ -1272,13 +1289,60 @@ czasowy zwi±zany z samym obliczeniem. Dziêki temu czas ich wykonania powinien
 byæ bardzo bliski faktycznemu czasowi samego odczytu, a przez to mo¿liwy do
 porównanie z wynikami testu opisywanego magazynu. \\
 
-\subsubsection{\color{red}porównanie z monetdb i infobright}
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{images/compare_queries.pdf}
+  \caption{Zestawienie czasu wykonania zapytañ o podzbiór atrybutów.}
+  \label{figure:compare_queries}
+\end{figure}
 
-Dlaczego siê nie uda³o
+Rysunek \ref{figure:compare_queries} przedstawia zestawienie czasu wykonania
+testów polegaj±cych na pobraniu wymaganego podzbioru, tak jak zosta³o to
+opisane w sekcji \ref{sec:read_subset}. Widaæ na nim wyra¼nie, ¿e zarówno
+\textit{MySQL} jak i \textit{PostgreSQL} pobieraj± z dysku komplet danych. Czas
+wykonania jest co prawda zkorelowany z ilo¶ci± atrybutów, lecz ró¿nice s±
+bardzo ma³e. Sugeruje to, ¿e istniej± one na poziomie przetwarzania danych
+przez procesor, nie komunikacji ze sk³adem danych. Omawiany w pracy magazyn w
+ka¿dym przypadku jest szybszy, czasami nawet o rz±d wielko¶ci.
 
-\section{Podsumowanie}
 
+\subsection{Odczyt od zadanego wiersza}
 
+W celu przetestowania odczytu danych od wybranego wiersza na tabeli za³o¿ony
+zosta³ klucz g³ówny (z³o¿ony z kolumn \texttt{L\_ORDERKEY} oraz
+\texttt{L\_LINENUMBER}), po którym fizycznie posortowano rekordy (w bazie
+\texttt{PostgreSQL} klucz g³ówny nie implikuje porz±dku danych na dysku). Na
+tak spreparowanej relacji wykonywano zapytania nastêpuj±cej postaci: \\
+
+  \texttt{SELECT COUNT(A1), ... , COUNT(An) FROM LINEITEM WHERE L\_ORDERKEY >= X} \\
+
+Gdzie \texttt{X} by³ uprzednio wyliczonym numerem gwarantuj±cy odpowiedni±
+selektywno¶æ zapytania. W za³o¿eniu - dostêpno¶æ indeksu na kluczu którego
+wykonujemy zapytanie o przedzia³ oraz odpowiadaj±cy mu porz±dek na dysku,
+powinny wystarczyæ systemowi bazodanowemu do efektywnej obs³ugi takie ¿±dania.
+Jednak¿e, korzystanie z indeksu samo w sobie nie jest operacj± darmow± i baza
+mo¿e zadecydowaæ, ¿e wykonanie pe³nego skanu tablicy jest bardziej op³acalne.
+¯eby tego unikn±æ (wyniki wygl±da³yby wtedy jak z rysunku
+\ref{figure:compare_queries} dla \texttt{Q4}) korzystanie z indeksu zosta³o
+wymuszone rêcznie (odpowiednio przez komendy \texttt{FORCE INDEX} oraz
+\texttt{enable\_seqscan=false}). \\
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=\textwidth]{images/compare_offsets.pdf}
+  \caption{Zestawienie czasu wykonania zapytañ o ci±g³y przedzia³ wierszy.}
+  \label{figure:compare_offsets}
+\end{figure}
+
+Rysunek \ref{figure:compare_offsets} pokazuje wyniki eksperymentów. W przypadku
+\textit{MySQL} wystêpuj± nieznaczne ró¿nice pomiêdzy kolejnymi testami (na
+poziomie 700ms), które bardzo trudno zauwa¿yæ na wykresie. Generalnie jednak
+czas wykonania jest mniej wiêcej niezale¿ny od rozmiaru niezbêdnych danych.
+Nieco lepiej ma siê sprawa z baz± \textit{PostgreSQL}. Widaæ wyra¼ny, liniowy
+spadek czasu obliczenia wraz z liczb± wierszy. Warto jednak zauwa¿yæ, ¿e dla
+przypadków od 0.6 do 0.9, przy wykorzystaniu dysku HDD, bardziej op³aca siê
+wykonaæ pe³ne skanowanie tablicy. Magazyn danych Supersonica wypada w tym
+porównaniu bardzo dobrze.
 
 \chapter{Podsumowanie}
 
