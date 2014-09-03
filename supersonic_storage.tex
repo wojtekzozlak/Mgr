@@ -50,7 +50,7 @@
 %
 \chapter{Wprowadzenie}
 
-\section{Supersonic jako kolumnowy silnik zapytañ}
+\section{Supersonic jako kolumnowy wykonawca zapytañ}
 Kolumnowe bazy danych nie s± nowym pomys³em. Pierwsze aplikacje organizuj±ce
 przetwarzane dane wed³ug kolumn powsta³y ju¿ pod koniec lat siedemdziesi±tych XX
 wieku\cite{taxir}. Na przestrzeni lat okaza³o siê, ¿e koncept ma praktyczne
@@ -59,7 +59,7 @@ na efektywne wykorzystanie pamiêci podrêcznej procesora\cite{bonch-cache} oraz
 operacji wektorowych\cite{bonch-pipe} mo¿liwe jest osi±gniêcie znacznie wiêkszej
 wydajno¶ci w zapytaniach wymagaj±cych przetworzenia du¿ych ilo¶ci danych. \\
 
-Supersonic\cite{supersonic} jest wysokowydajnym, kolumnowym silnikiem zapytañ
+Supersonic\cite{supersonic} jest wysokowydajnym, kolumnowym wykonawc± zapytañ
 wyprodukowanym przez firmê Google i udostêpnionym na zasadach wolnego
 oprogramowania w pa¼dzierniku 2012 roku. Cechuje go ¶wiadome wykorzystywanie
 funkcji nowoczesnych procesorów - pamiêci podrêcznej, potokowania, instrukcji
@@ -68,7 +68,7 @@ stabilny. Umo¿liwia wykonanie wiêkszo¶ci typowych operacji bazodanowych
 (selekcja, projekcja, z³±czenia, agregacja), a tak¿e wyra¿eñ matematycznych,
 operacji na datach i ci±gach znaków. \\
 
-Niestety, Supersonic jest w chwili obecnej wy³±cznie silnikiem zapytañ i nie
+Niestety, Supersonic jest w chwili obecnej wy³±cznie wykonawca zapytañ i nie
 udostêpnia wielu funkcjonalno¶ci oczekiwanych od systemów bazodanowych. Nie
 obs³uguje ¿adnego jêzyka zapytañ - drzewo algebry relacji musi byæ konstruowane
 rêcznie przez programistê. Nie istniej± optymalizatory zapytañ. Nie udostêpnia
@@ -102,8 +102,8 @@ które trzeba przez ni± przes³aæ mo¿e mieæ du¿y wp³yw na wydajno¶æ obliczenia.
 \section{Zakres pracy}
 
 Celem niniejszej pracy magisterskiej by³o zaprojektowanie, zaimplementowanie i
-zbadanie zachowania sk³adu danych dla silnika Supersonic przystosowanego do
-pracy w opisanym wcze¶niej ¶rodowisku. \\
+zbadanie zachowania sk³adu danych dla wykonawcy zapytañ Supersonic
+przystosowanego do pracy w opisanym wcze¶niej ¶rodowisku. \\
 
 Temat efektywnego sk³adowania danych relacyjnych by³ szeroko poruszany w
 literaturze\cite{nsm} i wielu publikacjach
@@ -217,13 +217,16 @@ pamiêci podrêcznych, daj±c aplikacjom wiêksz± kontrolê nad operacjami
 wej¶cia/wyj¶cia. Z tego powodu rozwi±zanie to jest znacznie rzadziej stosowane.}
 \end{itemize}
 
-Pliki w warstwie fizycznej sk³adaj± siê z \textit{bloków}. S± to struktury na
-poziomie systemu operacyjnego, okre¶laj±c± najmniejsz± jednostkê danych, które
-mo¿na odczytaæ/zapisaæ. Nie nale¿y ich myliæ z \textit{blokami danych} (zwanymi
-te¿ \textit{stronami}) z warstwy logicznej. Relacja miêdzy tymi dwoma rodzajami
+Pliki w warstwie fizycznej sk³adaj± siê z \textit{bloków} (udostêpniane przez
+tzw. \textit{urz±dzenia blokowe}). S± to struktury na poziomie systemu
+operacyjnego, okre¶laj±ce najmniejsz± jednostkê danych, które mo¿na
+odczytaæ/zapisaæ. Nie nale¿y ich myliæ z \textit{blokami danych} (zwanymi te¿
+\textit{stronami}) z warstwy logicznej. Relacja miêdzy tymi dwoma rodzajami
 bloków mo¿e, lecz nie musi istnieæ i mieæ wp³yw na wydajno¶æ operacji
-wej¶cia/wyj¶cia wewn±trz aplikacji.
-
+wej¶cia/wyj¶cia wewn±trz aplikacji. Nale¿y równie¿ podkre¶liæ, ¿e owe
+\textit{strony danych} to pojêcia zupe³nie inne ni¿ \textit{strony pamiêci}
+systemu operacyjnego i nie musz± mieæ ze sob± nic wspólnego.
+ 
 
 \subsection{Warstwa logiczna}
 
@@ -247,13 +250,17 @@ mo¿e mieæ bardzo istotny wp³yw na wydajno¶æ. Jest to zwi±zane z ró¿nymi
 aspektami pracy systemu bazodanowego, m.in.:
 
 \begin{itemize}
-  \item{liczb± operacji wej¶cia/wyj¶cia niezbêdnych do realizacji zapytania,}
+  \item{przepustowo¶ci± zapisu oraz odczytu medium, na którym sk³adowane s±
+dane},
+  \item{liczb± operacji wej¶cia/wyj¶cia niezbêdnych do realizacji zapytania (ze
+szczególnym uwzglêdnieniem operacji wymuszaj±cych przesuniêcia g³owicy, w
+przypadku dysków HDD),}
   \item{efektywnym wykorzystaniem pamiêci podrêcznych procesora,}
   \item{kosztem \textit{materializacji krotek}, czyli rekonstrukcji relacji w
     formie umo¿liwiaj±cej dostêp do wierszy.}
 \end{itemize}
 
-W zale¿no¶ci od konstrukcji silnika zapytañ, dostêp do danych mo¿e odbywaæ siê
+W zale¿no¶ci od konstrukcji wykonawcy zapytañ, dostêp do danych mo¿e odbywaæ siê
 poprzez przekazywanie fragmentów poszczególnych kolumn, b±d¼ poszczególnych
 rekordów. Warto zauwa¿yæ, ¿e kszta³t interfejsu nie musi determinowaæ
 implementacji i mo¿na przyk³adowo wykorzystywaæ wierszowo zorientowane strone
@@ -282,17 +289,27 @@ zmiennej d³ugo¶ci oraz dane zwi±zane z implementacj±. Ze wzglêdu na zmienn±
 d³ugo¶æ rekordów na koñcu strony utrzymywany jest indeks, utrzymuj±cy pozycje
 kolejnych wpisów w obrêbie strony. \\
 
-Zalet± takiej organizacji danych jest bardzo niski koszt materializacji ca³ej
-relacji, który w przypadku wierszowych silników zapytañ nastêpuje na samym
-pocz±tku obliczenia. Problemy pojawiaj± siê w przypadku gdy w zapytaniu bierze
-udzia³ tylko niewielki podzbiór kolumn. Strony danych odczytywane s± zawsze w
-ca³o¶ci, co w przypadku NSM oznacza ci±gi kompletnych rekordów. W momencie gdy
-zapytanie dotyczy wy³±cznie u³amka atrybutów wiêkszo¶æ pobranych danych jest
-zupe³nie nieprzydatna. Nieefektywne wykorzystanie magazynu i marnowanie operacji
-wej¶cia / wyj¶cia dramatycznie pogarsza wydajno¶æ systemu bazodanowego. \\ 
+Zalet± takiej organizacji danych jest wysoka lokalno¶æ wierszy relacji,
+pozwalaj±ca na odczyt wymaganych rekordów przy mo¿liwie niskiej liczbie operacji
+odczytu i przesuniêcia w obrêbie pliku. Problemy pojawiaj± siê w przypadku gdy w
+zapytaniu bierze udzia³ tylko niewielki podzbiór kolumn. Strony danych
+odczytywane s± zawsze w ca³o¶ci, co w przypadku NSM oznacza ci±gi kompletnych
+rekordów. W momencie gdy zapytanie dotyczy wy³±cznie u³amka atrybutów wiêkszo¶æ
+pobranych danych jest zupe³nie nieprzydatna. Nieefektywne wykorzystanie magazynu
+i marnowanie przepustowo¶ci medium dramatycznie pogarsza wydajno¶æ systemu
+bazodanowego. \\
 
-{\color{red} add sth regarding cache}
-
+Z tego samego powodu NSM mo¿e mieæ negatywny wp³yw na efektywno¶æ pamiêci
+podrêcznej procesora. Dane do niej pobierane s± zawsze ci±g³ymi przedzia³ami. W
+momencie gdy interesuj± nas tylko niektóre atrybuty z ca³ego wiersza tabeli mo¿e
+siê okazaæ, ¿e interesuj±cych danych mie¶ci siê bardzo ma³o i trzeba czêsto
+odwo³ywaæ siê do kolejnych warstw pamiêci, cechuj±cych siê coraz wiêkszymi
+opó¼nieniami. Warto przy tym wspomnieæ, ¿e obecnie typowa \text{linia pamiêci
+podrêcznej} L1 (a wiêc najmniejsza jednostka danych wymieniana miêdzy warstwami
+pamiêci) liczy sobie 64 bajty. Do jej wype³nienia wystarczy wiêc krotka
+zawieraj±ca szesna¶cie 32-bitowych liczb ca³kowitych czy np. pojedynczy hasz md5
+w formie tekstowej.
+ 
 \subsubsection{DSM}
 
 \begin{figure}[h]
@@ -330,7 +347,14 @@ Dodatkowy problem stanowi niska lokalno¶æ wierszy relacji. Dostêp do
 pojedynczych rekordów mo¿e wymagaæ odczytania wielu stron, co jest kosztowne. Z
 tego powodu rozwiazanie takie ¼le sprawuje siê w systemach typu OLTP
 (\textit{Online Transaction Processing}) cechuj±cych siê zapytaniami
-odwo³uj±cymi siê do ma³ej liczby (a czêsto nawet pojedynczych) rekordów.
+odwo³uj±cymi siê do ma³ej liczby (a czêsto nawet pojedynczych) rekordów. Problem
+sprawiaj± równie¿ przeszukiwania za pomoc± indeksów, które dokonuj± du¿ej ilo¶ci
+skoków w obrêbie danych. \\
+
+Generalnie, mamy wiêc do czynienia z charakterystyk± odwrotn± ni¿ w przypadku PAX
+- efektywnym wykorzystaniem pasma dysku poprzez pobieranie wy³±cznie niezbêdnych
+danych oraz wiêksz± ilo¶ci± przesuniêæ g³owicy potrzebnych do rekonstrukcji
+pojedynczych wierszy.
 
 
 \subsubsection{PAX}
@@ -342,7 +366,9 @@ sprawia, ¿e lokalno¶æ danych zarówno na poziomie wierszy jak i kolumn jest do¶æ
 wysoka. Poniewa¿ dane wewn±trz strony stanowi± spójn± i niezale¿n± ca³o¶æ
 materializacja relacji mo¿e byæ wykonana w bardzo efektywny sposób. To z kolei
 pozwala na efektywne wykorzystanie pamiêci podrêcznej podczas pracy na
-podzbiorze kolumn. \\
+podzbiorze kolumn. Niestety, nie rozwi±zuje to problemu na poziomie odczytu
+danych z no¶nika - zawsze pobierane s± wszystkie atrybuty relacji, a
+konsekwencji marnuje siê pasmo medium.
 
 \begin{figure}[h]
   \centering
@@ -359,7 +385,9 @@ pozwala na redukcjê pustych cykli procesora (nawet o 70-75\%), rekompensuj±c
 straty zwi±zane z potrzeb± ewentualnej materializacji wierszy. Je¶li za³o¿ymy,
 ¿e w typowym przypadku system bazodanowy musi wykonywaæ wiele ró¿nych typów
 zapytañ (np. zarówno agregacje pojedynczych atrybutów, jak i selekcje pe³nych
-wierszy) PAX jest bardzo dobrym rozwi±zaniem. \\
+wierszy) PAX jest dobrym rozwi±zaniem. \\
+
+
 
 \subsection{Rozwój procesorów a organizacja danych na stronie}
 
@@ -386,11 +414,11 @@ nim nie wspomnieæ.
 
 \subsection{Cele i wymagania stawiane przed kompresj± danych}
 
-Podstawowym celem kompresji danych jest zmniejszenie ich objêto¶ci, a co z tym
-idzie, redukcjê liczb± operacji wej¶cia/wyj¶cia niezbêdnych do przeniesienia
-ich miêdzy pamiêci± operacyjn± a urz±dzeniem. Dodatkowo, w przypadku systemów
-rozproszonych, pozwala to oszczêdniejsze wykorzystanie transferu sieciowego,
-bêd±cego czêsto cennym i mocno ograniczonym zasobem. \\
+Podstawowym celem kompresji danych jest zmniejszenie ich objêto¶ci, a co za tym
+idzie, zwiêkszenie przepustowo¶ci przep³ywu danych pomiêdzy pamiêci± operacyjn±
+a urz±dzeniem. Dodatkowo, w przypadku systemów rozproszonych, pozwala to
+oszczêdniejsze wykorzystanie transferu sieciowego, bêd±cego czêsto cennym i
+mocno ograniczonym zasobem. \\
 
 Rzecz jasna, kompresja kosztuje czas procesora. W zwi±zku z tym, wymaga siê od
 niej odpowiedniej wydajno¶ci. W ogólno¶ci, koszt (de)kompresji nie mo¿e byæ
@@ -593,7 +621,18 @@ Czêsto nie ma te¿ mo¿liwo¶ci wykonywania zapytañ odnosz±cych siê do atrybutów z
 ró¿nych rodzin. Omawiany magazyn nie narzuca takich ograniczeñ. Podzia³ odbywa
 siê dynamicznie podczas zapisu i mo¿e byæ ró¿ny w ró¿nych plikach magazynu
 przechowuj±cych tabele o identycznym schemacie. Podczas odczytu za¶,
-podrelacje automatycznie z³±czane s± w relacjê wyj¶ciow±.
+podrelacje automatycznie z³±czane s± w relacjê wyj¶ciow±. \\
+
+Koncepcjê grupowania atrybutów mo¿na rozszerzyæ, zmieniaj±c podzia³ schematu na
+jego pokrycie - tzn. dopuszczaj±c wyst±pienie tego samego atrybutu w kilku
+grupach. Redundancja taka z jednej strony zwiêksza objêto¶æ magazynu, a z
+drugiej mo¿e dawaæ wiêksz± swobodê doboru rodzin w trakcie planowania odczytu i
+w konsekwencji wiêksz± efektywno¶æ. Nie jest to jednak rozwi±zanie wspierane
+przez opracowan± implementacjê. Id±c krok dalej mo¿na pokusiæ siê o oddzielnie
+wektorów \texttt{IS\_NULL} (zawieraj±cych informacje o obecno¶ci danych) od
+odpowiadaj±cych im kolumn, jest to jednak ma³o praktyczny pomys³ i w przypadku
+omawianego magazynu s± one trzymane razem.
+
 
 \subsection{Organizacja stron w pliku magazynu}
 
@@ -694,9 +733,15 @@ niezbêdnego minimum.
 
 \section{Architektura implementacji}
 
+Poni¿sze opisy prezentuj± g³ówne klasy implementacji magazynu. Poniewa¿ w
+ca³o¶ci funkcjonowania sk³adu najwiêksze znaczenie maj± operacje odczytu i
+zapisu, architektura przedstawiona jest z perspektywy przep³ywu danych w trakcie
+ich wykonywania. Szczegó³owy opis konkretnych aspektów implementacji znajduje
+siê w dalszej czê¶ci pracy.
+
 \subsection{Schemat zapisu}
 
-\begin{figure}[h]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=\textwidth]{images/write_overview.pdf}
   \caption{Ogólny schemat zapisu danych}
@@ -707,7 +752,7 @@ niezbêdnego minimum.
 reprezentowanej przez obiekt klasy \texttt{SchemaPartitioner}. Jest ona podawana
 przez u¿ytkownika.}
   \item{Do zapisu danych tworzona jest instancja klasy \texttt{StorageSink}
-implementuj±cej interfejs \texttt{Sink} silnika \textit{Supersonic}, który
+implementuj±cej interfejs \texttt{Sink} wykonawcy \textit{Supersonic}, który
 reprezentuje uj¶cia danych. Udostêpnia od metodê \texttt{Write}, która przyjmuje
 za argument widok zawieraj±cy porcjê danych.}
   \item{Równolegle utworzony zostaje obiekt klasy \texttt{MetadataWriter}.
@@ -758,7 +803,7 @@ przez obiekt klasy \texttt{PageStreamWriter} w trakcie zapisu.}
   \item{Dostêp do metadanych oraz schematu tabeli przechowywanej w magazynie
 mo¿liwy jest przy u¿yciu instancji klasy \texttt{DataStorage}. S³u¿y ona równie¿
 do tworzenia kursorów - obiektów reprezentuj±cych strumieñ bloków danych w
-obliczeniach silnika Supersonic. Kursor mo¿e pobieraæ dane dla wybranego
+obliczeniach wykonawcy Supersonic. Kursor mo¿e pobieraæ dane dla wybranego
 podzbioru atrybutów oraz od zadanego wiersza.  Warto przy okazji zaznaczyæ, ¿e
 dostêp do metadanych poprzez \texttt{DataStorage} nie wi±¿e siê z odczytem
 faktycznych danych tabeli. Umo¿liwia to ich wydajn±, statyczn± analizê np. przez
@@ -906,15 +951,15 @@ swobodny dostêp do danych.}
 
 \end{itemize}
 
-W silniku \textit{Supersonic} kolumna reprezentowana jest przez wektor danych
-oraz wektor warto¶ci logicznych opisuj±cy obecno¶æ danych (warto¶ci
+W wykonawcy zapytañ \textit{Supersonic} kolumna reprezentowana jest przez wektor
+danych oraz wektor warto¶ci logicznych opisuj±cy obecno¶æ danych (warto¶ci
 \textit{NULL}). S± one traktowane jako niezale¿ne zbiory danych i zapisywane do
 oddzielnych buforów strony. W miejsce nieobecnych warto¶ci zapisywane s±
-przypadkowe dane, znajduj±ce siê w odpowiednich miejscach pamiêci. Ich
-zawarto¶æ nie ma znaczenia, poniewa¿ jest ignorowana w trakcie obliczenia.
-Wyj±tkiem s± typy o zmiennej d³ugo¶ci, które zawieraj± wska¼niki do ci±gów
-bajtów. W celu zachownia poprawno¶ci algorytmu serilizacji pozycje oznaczone
-jako \textit{NULL} inicjalizowane s± pustym ci±giem.
+przypadkowe dane, znajduj±ce siê w odpowiednich miejscach pamiêci. Ich zawarto¶æ
+nie ma znaczenia, poniewa¿ jest ignorowana w trakcie obliczenia.  Wyj±tkiem s±
+typy o zmiennej d³ugo¶ci, które zawieraj± wska¼niki do ci±gów bajtów. W celu
+zachownia poprawno¶ci algorytmu serilizacji pozycje oznaczone jako \textit{NULL}
+inicjalizowane s± pustym ci±giem.
 
 \subsubsection{Rozmiar strony}
 
@@ -1021,12 +1066,12 @@ system operacyjny)}
   \item{\textbf{System operacyjny}: Ubuntu 12.04.4 LTS}
 \end{itemize}
 oraz
-{\color{red} uzupe³niæ}
 \begin{itemize}
-  \item{\textbf{Procesor}: Intel Core i5-k3500 1.9\ GHz (zablokowany na 3.0\ GHz
-w trybie turbo)}
+  \item{\textbf{Procesor}: Intel Core i5-2500k 3.3 GHz (wy³±czone skalowanie
+zegara)}
   \item{\textbf{Pamiêæ RAM}: 8\ GB DDR3 1600\ MHz (w dwóch ko¶ciach po 4\ GB)}
-  \item{\textbf{Dysk HDD} - } 
+  \item{\textbf{Dysk HDD} - SAMSUNG Spinpoint F1 HD753LJ 750GB 7200 RPM 32MB
+Cache SATA3 (bez systemu operacyjnego)} 
   \item{\textbf{System operacyjny}: Ubuntu 14.04.1 LTS}
 \end{itemize}
 
@@ -1189,7 +1234,12 @@ czynienia z wiêksz± liczb± operacji \textit{seek} lecz na mniejszy dystans.
 Jest to jednak wy³±cznie hipoteza i powinna zostaæ sprawdzona dok³adniejszymi
 testami. \\
 
-{\color{red} napisaæ jak siê to ma do zapisu i dlaczego smutne}
+Niestety, o ile w przypadku dysku SSD mo¿na mówiæ o istotnej przewadze prêdko¶ci
+odczytu wzglêdem zapisu, to dla HDD nie jest ona a¿ tak wyra¼na i mie¶ci siê
+zazwyczaj w 20\%. Mamy tu do czynienia z ukrytym potencja³em, który
+przypuszczalnie da³oby siê wykorzystaæ stosuj±c bardziej wyszukane techniki
+doboru rozmiaru stron danych i u³o¿enia ich w obrêbie fizycznego pliku.
+
 
 \subsection{Odczyt od zadanego wiersza}
 \label{sec:read_offset}
@@ -1344,13 +1394,67 @@ przypadków od 0.6 do 0.9, przy wykorzystaniu dysku HDD, bardziej op³aca siê
 wykonaæ pe³ne skanowanie tablicy. Magazyn danych Supersonica wypada w tym
 porównaniu bardzo dobrze.
 
+
+
+%
+% Podsumowanie
+%
 \chapter{Podsumowanie}
 
-TODO(wzoltak)
+W dzisiajszych czasach problem efektywnego przetwarzania ogromnych zbiorów
+danych, np. na potrzeby systemów wspomagania decyzji, nabiera coraz wiêkszego
+znaczenia. Popularne, wierszowe bazy danych, przystosowane do pracy w
+¶rodowiskach typu OLTP, nie s± w stanie zaspokoiæ tych potrzeb. W takich
+warunkach du¿o lepiej sprawdzaj± siê systemy kolumnowego, które mimo istnienia
+od przesz³o trzydziestu lat, nigdy nie szerokiego audytorium. \\
 
+Supersonic jest przyk³adem nowoczesnego, kolumnowego wykonawcy zapytañ,
+udostêpnionego na zasadach wolnego oprogramowania przez firmê \textit{Google}.
+Dziêki ¶wiadomemu wykorzystaniu funkcji nowoczesnych procesorów jest on w stanie
+uzyskaæ bardzo wysok± wydajno¶æ w ¶rodowiskach typowych dla hurtownii danych.
+Niestety, trudno go w chwili obecnej nazwaæ pe³noprawnym systemem bazodanowych -
+nie posiada on wielu oczekiwanych przez u¿ytkowników funkcjonalno¶ci, w tym
+warstwy umo¿liwiaj±cej trwa³e magazynowanie przetwarzanych danych. \\
 
+W niniejszej pracy zaprojektowano i zaimplementowano sk³ad danych dla wykonawcy 
+zapytañ Supersonic. Wykorzystuje on fizyczn± organizacjê danych, bêd±c±
+wariacj± na temat schematu \textit{PAX} oraz grupowania kolumn wystêpuj±cego np.
+w bazie danych \textit{BigTable}. Dziêki temu mo¿liwy jest wydajny odczyt
+podzbioru atrybutów, co jest czêst± operacj± w przypadku systemów wspieraj±cych
+podejmowanie decyzji, gdzie tabele posiadaj± czêsto nawet kilkaset kolumn.
+Dodatkowo, magazyn wspiera sk³adowanie metadanych i wykorzystuje je w celu
+realizacji odczytów z pominiêciem zadanej ilo¶ci wierszy. Wykorzystanie
+serializacji przy pomocy biblioteki \textit{ProtocolBuffers} umo¿liwia dodanie w
+przysz³o¶ci nowych statystyk, które umo¿liwi± dodatkowe optymalizacje, z
+zachowaniem kompatybilno¶ci wstecznej z wcze¶niejszymi wersjami sk³adu.
+Architektura magazynu pozwala równie¿ na dostarczenie ró¿nych implementacji
+warstwy fizycznej - pocz±wszy od zwyk³ych plików systemu operacyjnego, przez
+rozwi±zania rozproszone, a¿ po dedykowane urz±dzenia, co powinno u³atwiæ
+adaptacjê w nowych ¶rodowiskach. \\
 
+Testy wydajno¶ci pokaza³y, ¿e w porównaniu z popularnymi, dojrza³ymi systemami
+bazodanowymi, \textit{MySQL} oraz \textit{PostgreSQL}, opracowany magazyn bardzo
+dobrze wykonuje stawiane przed nim zadania. Nale¿y jednak pamiêtaæ, ¿e
+wymienione systemy by³y projektowane z my¶l± o ¶rodowiskach typu OLTP, w zwi±zku
+z czym zestawienie takie nie jest w pe³ni miarodajne. Niestety, próba porównania
+z istniej±cymi kolumnowymi bazami danych takimi jak \textit{MonetDB} oraz
+\textit{Infobright} nie powiod³a siê, ze wzglêdu na trudno¶ci w zmierzeniu
+faktycznego czasu dostêpu do ich sk³adów danych. Ponadto, testy wykaza³y
+znaczenie fizycznego rozmieszczenia stron danych w obrêbie pliku, zw³aszcza w
+przypadku dysków talerzowych. \\
 
+Przedstawiony w pracy magazyn jest co prawda w pe³ni funkcjonalny, lecz tak
+naprawdê stanowi jedynie bazê, na której zbudowaæ mo¿na bardziej skomplikowane
+rozwi±zania. Spo¶ród tematów, które mog³yby byæ przedmiotem dalszych badañ
+wymieniæ mo¿na: zastosowanie kompresji danych, zbieranie i wykorzystywanie
+wiêkszej ilo¶ci statystyk czy optymalizacjê rozmiaru, u³o¿enia oraz odczytu
+stron danych wewn±trz fizycznych plików. Cenne by³oby tak¿e przeprowadzenie
+bardziej miarodajnych testów, zw³aszcza z systemami dedykowanymi do pracy w
+hurtowniach danych.
+
+%
+% Bibliografia
+%
 \begin{thebibliography}{99}
 \addcontentsline{toc}{chapter}{Bibliografia}
 
