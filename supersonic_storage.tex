@@ -14,23 +14,26 @@
 
 \nralbumu{292583}
 
-\title{TODO(wzoltak)}
+\title{Trwa³y sk³ad danych dla kolumnowej hurtowni danych Supersonic}
 
-\tytulang{TODO(wzoltak)}
+\tytulang{Persistent data store for columnar data warehouse Supersonic}
 
 
 % informacje o pracy
 \kierunek{Informatyka}
 
-\opiekun{TODO(wzoltak)}
+\opiekun{prof. dr hab. Krzysztofa Stencla}
 
 \date{Sierpieñ 2014}
 
 \dziedzina{11.3 Informatyka}
 
-\klasyfikacja{TODO(wzoltak)}
+\klasyfikacja{
+Data management systems\\
+Database design and models\\
+Physical data models}
 
-\keywords{TODO(wzoltak)}
+\keywords{baza danych, metody sk³adowania danych, trwa³y magazyn danych, metadane}
 
 \newtheorem{defi}{Definicja}[section]
 
@@ -93,8 +96,8 @@ relacji, zw³aszcza w przypadku tabel posiadaj±cych dziesi±tki czy setki kolumn.}
 \end{itemize}
 Efektywne przetworzenie takiej ilo¶ci danych wymaga zrównoleglenia obliczeñ na
 wiele maszyn, a w konsekwencji wykorzystanie rozproszonych systemów plików
-takich jak na przyk³ad \textit{HDFS}. Systemy takie cechuje czêsto brak
-mo¿liwo¶ci zapisu swobodnego, a jedynie dopisywanie danych na koñcu pliku.
+takich jak na przyk³ad \textit{HDFS}\cite{hdfs}. Systemy takie cechuje czêsto
+brak mo¿liwo¶ci zapisu swobodnego, a jedynie dopisywanie danych na koñcu pliku.
 Ponadto, w ¶rodowisku takim wa¿nym zasobem jest sieæ. Redukcja ilo¶ci danych,
 które trzeba przez ni± przes³aæ mo¿e mieæ du¿y wp³yw na wydajno¶æ obliczenia.
 
@@ -171,7 +174,7 @@ mo¿liwo¶æ obs³ugi ró¿nych systemów plików i no¶ników danych, np.:
 \begin{itemize}
   \item{urz±dzeñ blokowych,}
   \item{systemów plików zgodnych z \textit{VFS} (interfejsem ujednolicaj±cym
-dostêp do plików, np. w systamach Linux,}
+dostêp do plików, np. w systamach Linux),}
   \item{wyspecjalizowanych, rozproszonych systemów plików, takich jak
 \textit{HDFS}.}
 \end{itemize}
@@ -1152,9 +1155,7 @@ wielko¶ci kroku zapisu.}
 W przypadku SSD w zasadzie brak jakiejkolwiek regularno¶ci w wynikach, za
 wyj±tkiem faktu, ¿e wszystkie osculuj± w okolicach 180 MB/s. Wyniki
 pojedynczych testów cechowa³a spora warinacja (20-30 MB/s). Byæ mo¿e da³oby siê
-je bardziej ustabilizowaæ, przez u¿ycie wiêkszego zbioru danych. Poniewa¿ dyski
-SSD s± wra¿liwe na wielokrotny zapis du¿ych ilo¶ci danych i wi±za³oby siê to z
-ryzykiem uszkodzenia no¶nika, w zwi±zku z czym autor nie podj±³ takiej próby. \\
+je bardziej ustabilizowaæ, przez u¿ycie wiêkszego zbioru danych. \\
 
 W obu przypadkach wahania przepustowo¶ci operacji zapisu wynosz± 15-20\%. Bior±c
 pod uwagê drugorzêdn± rolê operacji zapisu w funkcjonowaniu projektowanego
@@ -1395,6 +1396,34 @@ wykonaæ pe³ne skanowanie tablicy. Magazyn danych Supersonica wypada w tym
 porównaniu bardzo dobrze.
 
 
+\subsection{Rozmiar danych na no¶niku}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=0.8\textwidth]{images/storage_size.pdf}
+  \caption{Zestawienie rozmiaru sk³adu w zale¿no¶ci od typu.}
+  \label{figure:storage_size}
+\end{figure}
+
+Rysunek \ref{figure:storage_size} ukazuje ró¿nice w rozmiarach miêdzy
+poszczególnymi rodzajami sk³adów. Reprezentacja tekstowa wygenerowana zosta³a
+przez narzêdzia do³±czone do \textit{TPC-H} i zawiera kolumny rozdzielane
+znakiem \texttt{|}. W przypadku MySQL oraz PostgreSQL rozmiar zosta³ pozyskany
+poprez u¿ycie odpowiednich komend (odpowiednio \texttt{SHOW TABLE STATUS} oraz
+\texttt{SELECT pg\_table\_size(lineitem)}). Tablice zapisane zosta³y bez
+redundancji. \\
+
+Ró¿nice s± tu bardzo wyra¼ne i dochodz± do 50\% na korzy¶æ omawianego sk³adu. W
+stosunku do formatu tekstowego uzyskuje przewagê dziêki kolumnom liczbowym i
+datom, które mie¶ci zawsze w czterech bajtach (plus jeden bit w wektorze
+\texttt{IS\_NULL}). W przypadku MySQL oraz PostgreSQL ró¿nica wynika w du¿ej
+mierze z obs³ugi operacji modyfikacji wierszy. W przypadku typów tekstowych
+wymaga to rezerwacji dostatecznej ilo¶ci miejsca (¿eby unikn±æ ewentualnej
+relokacji rekordu). W definicjach wygenerowanych przez \texttt{TPC-H}
+wykorzystywany jest typ \texttt{VARCHAR} o pojemno¶ci równej najwiêkszej
+warto¶ci w wybranej kolumnie. Wiêkszo¶æ danych jest jednak mniejsza (np. dla
+kolumny \texttt{L\_COMMMENT} maksimum wynosi 44, natomiast ¶rednia 26.5) i w
+efekcie znaczna czê¶æ przestrzeni nie jest wykorzystywana. 
 
 %
 % Podsumowanie
@@ -1460,7 +1489,7 @@ hurtowniach danych.
 
 \bibitem{taxir} G. F. Estabrook, R. C. Brill,
     \textit{The Theory of the TAXIR Accessioner}, Mathematical Biosciences,
-    Volume 5, Issues 3-4, Elsevier B.V.
+    Volume 5, Issues 3-4 (1969)
 
 \bibitem{bonch-cache} S. Manegold, P. A. Boncz, M. L. Kersten,
     \textit{Optimizing database architecture for the new bottleneck: memory
@@ -1470,8 +1499,13 @@ hurtowniach danych.
     \textit{MonetDB/X100: Hyper-Pipelining Query Execution}, CIDR (2005), s.
     225-237
 
-\bibitem{supersonic} \url{https://code.google.com/p/supersonic/}
+\bibitem{supersonic} \textit{Supersonic Query Engine},
+    \url{https://code.google.com/p/supersonic/}
 
+\bibitem{hdfs} J. Shaffer, S. Rixner, A. L. Cox, \textit{The Hadoop Distributed
+    Filesystem: Balancing Partability and Performance}, IEEE ISPASS (2010),
+
+    s. 122-133
 \bibitem{nsm} R. Ramakrishnan, J. Gehrke, \textit{Database Management
     Systems}, druga edycja (2000), McGraw-Hill
 
@@ -1479,47 +1513,68 @@ hurtowniach danych.
     \textit{A Decomposition Storage Model}, ACM SIGMOD International
     Conference on Management of Data (1985), s. 268-279
 
-\bibitem{column-vs-row} Column-Stores vs. Row-Stores: How Different Are They
-Really? TODO!
+\bibitem{pax} A. Ailamaki, D. J. DeWitt, M. D. Hill, M. Skounakis,
+    \textit{Weaving Relations for Cache Performance}, 27th International
+    Conference on Very Large Data Bases (2001), \mbox{s. 169-180}
 
-\bibitem{pax} pax TODO!
+\bibitem{column-vs-row} D. J. Abadi, S. R. Madden, N. Hachem,
+    \textit{Column-stores vs. row-stores: how different are they really?}, ACM
+    SIGMOD International Conference on Management of Data (2008), s. 967-980
 
-\bibitem{materialization} TODO! Materialization Strategies in a Column-Oriented
-DBMS
+\bibitem{bigtable} F. Chang, J. Dean, S. Ghemawat, W. C. Hsieh, D. A. Wallach,
+    M. Burrows, T. Chandra, A. Fikes, R. E. Gruber, \textit{Bigtable: A
+    Distributed Storage System for Structured Data}, ACM Transactions on
+    Computer Systems, Volume 26 (2008), Issue 2
 
-\bibitem{light-compression} TODO! Zukowsky lightweight compression
+\bibitem{tpch} \textit{TPC Benchmark\texttrademark H},
+    \url{http://www.tpc.org/tpch/}
 
-\bibitem{oracle-stats} TODO! http://docs.oracle.com/cd/B10500\_01/server.920/a96533/stats.htm
+\bibitem{materialization} D. J. Abadi, D. S. Myers, D. J. DeWitt, S. R.
+    Madden, \textit{Materialization strategies in a column-oriented DBMS}, ICDE
+    (2007), s. 466-475
 
-\bibitem{postgres-stats} TODO! http://www.postgresql.org/docs/9.1/static/catalog-pg-statistic.html
+\bibitem{light-compression} M. Zukowski, S. Héman, N. Nes, P. Boncz,
+    \textit{Super-Scalar RAM-CPU Cache Compression}, ICDE (2006), s. 59
 
-\bibitem{mongo-stats} TODO! http://docs.mongodb.org/manual/reference/command/collStats/
+\bibitem{snappy} \textit{Snappy, a fast compressor/decompressor},
+    \url{https://github.com/google/snappy}
 
-\bibitem{bigtable} TODO! http://static.googleusercontent.com/media/research.google.com/pl//archive/bigtable-osdi06.pdf
+\bibitem{lz4} \textit{lz4, Extremely Fast Compression alogrithm},
+    \url{https://code.google.com/p/lz4/}
 
-\bibitem{cassandra} TODO! Cassandra - A Decentralized Structured Storage System
+\bibitem{oracle-stats} 
+    \textit{\href{http://docs.oracle.com/cd/B10500\_01/server.920/a96533/stats.htm}{Oracle9i,
+    Database Performance Tuning Guide and Reference}}, rozdzia³ 3
 
-\bibitem{arena} TODO! http://download.bioon.com.cn/upload/month\_0910/20091016\_6e4b1bb1f9732801bfc6zbEe1LKmmXbI.attach.pdf
+\bibitem{postgres-stats}
+    \url{http://www.postgresql.org/docs/9.1/static/catalog-pg-statistic.html}
 
-\bibitem{arena-kernel} TODO http://www.linuxjournal.com/article/4681
+\bibitem{mongo-stats}
+    \url{http://docs.mongodb.org/manual/reference/command/collStats/}
 
-\bibitem{sqlite-format} TODO http://www.sqlite.org/fileformat.html
+\bibitem{cassandra} A. Lakshman, P. Malik, \textit{Cassandra: a decentralized
+    structured storage system}, ACM SIGOPS Operating Systems Review, Volume 44,
+    Issue 2 (2010), s. 35-40
 
-\bibitem{hbase-region-server} TODO
-http://hbase.apache.org/book/regionserver.arch.html
+\bibitem{sqlite-format} \url{http://www.sqlite.org/fileformat.html}
 
-\bibitem{oracle-data-files} TODO
-http://docs.oracle.com/cd/E11882\_01/server.112/e25789/physical.htm\#CNCPT403
+\bibitem{hbase-region-server}
+    \url{http://hbase.apache.org/book/regionserver.arch.html}
 
-\bibitem{protobuf} TODO http://code.google.com/p/protobuf/
+\bibitem{oracle-data-files}
+    \url{http://docs.oracle.com/cd/E11882\_01/server.112/e25789/physical.htm\#CNCPT403}
 
-\bibitem{x100} MonetDB/X100 - A DBMS In The CPU Cache
+\bibitem{arena} D. R. Hanson, \textit{Fast allocation and deallocation of
+    memory based on object lifetimes}, Software -- Practice \& Experience,
+    Volume 20, Issue 1 (1990), s. 5-12
 
-\bibitem{tpch} TODO: http://www.tpc.org/tpch/
+\bibitem{arena-kernel} P. Sorfa, \textit{Debugging Memory on Linux}, Linux
+    Journal, Issue 87 (2001)
 
-\bibitem{snappy} TODO: https://github.com/google/snappy
+\bibitem{protobuf} \textit{Protocol Buffers -- Google's data interchange
+format},
+    \url{http://code.google.com/p/protobuf/}
 
-\bibitem{lz4} TODO: https://code.google.com/p/lz4/
 \end{thebibliography}
 
 \end{document}
