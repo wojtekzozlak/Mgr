@@ -6,6 +6,7 @@
 \usepackage{graphicx}
 \usepackage{amsthm}
 \usepackage{svg}
+\usepackage{url}
 \usepackage[intlimits]{amsmath}
 \widowpenalty=10000
 \clubpenalty=10000
@@ -47,7 +48,20 @@ kolumnowo¶æ, metadane}
 \maketitle
 
 \begin{abstract}
-  TODO(wzoltak)
+Supersonic jest opracowan± przez firmê Google, kolumnow± hurtowni± danych.
+Dziêki wykorzystaniu algorytmów projektowanych z uwzglêdnieniem sposobu
+dzia³ania pamiêci podrêcznej procesora, instrukcji SIMD oraz obliczeñ
+wektorowych jest w stanie uzyskaæ bardzo wysok± wydajno¶æ. Niestety, obecnie nie
+udostêpnia ¿adnego mechanizmu pozwalaj±cego przechowywaæ dane.
+
+W pracy opracowano oraz zaimplementowano mechanizmy trwa³ego sk³adowania danych
+wzorowane ne schemacie PAX. W trakcie fazy projektowania uwzglêdniono
+przeznaczenie do pracy w ¶rodowisku hurtowni danych. Wytworzona implementacja
+zosta³a przeanalizowana pod k±tem wydajno¶ci operacji zapisu i odczytu, a tak¿e
+porównana ze sk³adami popularnych systemów bazodanowych - \textit{MySQL} oraz
+\textit{PostgreSQL}. Wykorzystano przy tym dane pochodz±ce z testu porównawczego
+\textit{TPC-H}. Ewaluacja wykaza³a, ¿e proponowane rozwi±zanie dobrze sprawdza
+siê w praktyce.
 \end{abstract}
 
 \tableofcontents
@@ -1488,98 +1502,9 @@ hurtowniach danych.
 %
 % Bibliografia
 %
-\begin{thebibliography}{99}
-\addcontentsline{toc}{chapter}{Bibliografia}
 
-\bibitem{taxir} G. F. Estabrook, R. C. Brill,
-    \textit{The Theory of the TAXIR Accessioner}, Mathematical Biosciences,
-    Volume 5, Issues 3-4 (1969)
-
-\bibitem{bonch-cache} S. Manegold, P. A. Boncz, M. L. Kersten,
-    \textit{Optimizing database architecture for the new bottleneck: memory
-    access}, The VLDB Journal, Volume 9, Issue 3 (2000)
-
-\bibitem{bonch-pipe} P. Boncz, M. Zukowski, N. Nes,
-    \textit{MonetDB/X100: Hyper-Pipelining Query Execution}, CIDR (2005), s.
-    225-237
-
-\bibitem{supersonic} \textit{Supersonic Query Engine},
-    \url{https://code.google.com/p/supersonic/}
-
-\bibitem{hdfs} J. Shaffer, S. Rixner, A. L. Cox, \textit{The Hadoop Distributed
-    Filesystem: Balancing Partability and Performance}, IEEE ISPASS (2010),
-
-    s. 122-133
-\bibitem{nsm} R. Ramakrishnan, J. Gehrke, \textit{Database Management
-    Systems}, druga edycja (2000), McGraw-Hill
-
-\bibitem{dsm} G. P. Copeland, S. F. Khoshafian,
-    \textit{A Decomposition Storage Model}, ACM SIGMOD International
-    Conference on Management of Data (1985), s. 268-279
-
-\bibitem{pax} A. Ailamaki, D. J. DeWitt, M. D. Hill, M. Skounakis,
-    \textit{Weaving Relations for Cache Performance}, 27th International
-    Conference on Very Large Data Bases (2001), \mbox{s. 169-180}
-
-\bibitem{column-vs-row} D. J. Abadi, S. R. Madden, N. Hachem,
-    \textit{Column-stores vs. row-stores: how different are they really?}, ACM
-    SIGMOD International Conference on Management of Data (2008), s. 967-980
-
-\bibitem{bigtable} F. Chang, J. Dean, S. Ghemawat, W. C. Hsieh, D. A. Wallach,
-    M. Burrows, T. Chandra, A. Fikes, R. E. Gruber, \textit{Bigtable: A
-    Distributed Storage System for Structured Data}, ACM Transactions on
-    Computer Systems, Volume 26 (2008), Issue 2
-
-\bibitem{tpch} \textit{TPC Benchmark\texttrademark H},
-    \url{http://www.tpc.org/tpch/}
-
-\bibitem{materialization} D. J. Abadi, D. S. Myers, D. J. DeWitt, S. R.
-    Madden, \textit{Materialization strategies in a column-oriented DBMS}, ICDE
-    (2007), s. 466-475
-
-\bibitem{light-compression} M. Zukowski, S. Héman, N. Nes, P. Boncz,
-    \textit{Super-Scalar RAM-CPU Cache Compression}, ICDE (2006), s. 59
-
-\bibitem{snappy} \textit{Snappy, a fast compressor/decompressor},
-    \url{https://github.com/google/snappy}
-
-\bibitem{lz4} \textit{lz4, Extremely Fast Compression alogrithm},
-    \url{https://code.google.com/p/lz4/}
-
-\bibitem{oracle-stats} 
-    \textit{\href{http://docs.oracle.com/cd/B10500\_01/server.920/a96533/stats.htm}{Oracle9i,
-    Database Performance Tuning Guide and Reference}}, rozdzia³ 3
-
-\bibitem{postgres-stats}
-    \url{http://www.postgresql.org/docs/9.1/static/catalog-pg-statistic.html}
-
-\bibitem{mongo-stats}
-    \url{http://docs.mongodb.org/manual/reference/command/collStats/}
-
-\bibitem{cassandra} A. Lakshman, P. Malik, \textit{Cassandra: a decentralized
-    structured storage system}, ACM SIGOPS Operating Systems Review, Volume 44,
-    Issue 2 (2010), s. 35-40
-
-\bibitem{sqlite-format} \url{http://www.sqlite.org/fileformat.html}
-
-\bibitem{hbase-region-server}
-    \url{http://hbase.apache.org/book/regionserver.arch.html}
-
-\bibitem{oracle-data-files}
-    \url{http://docs.oracle.com/cd/E11882\_01/server.112/e25789/physical.htm\#CNCPT403}
-
-\bibitem{arena} D. R. Hanson, \textit{Fast allocation and deallocation of
-    memory based on object lifetimes}, Software -- Practice \& Experience,
-    Volume 20, Issue 1 (1990), s. 5-12
-
-\bibitem{arena-kernel} P. Sorfa, \textit{Debugging Memory on Linux}, Linux
-    Journal, Issue 87 (2001)
-
-\bibitem{protobuf} \textit{Protocol Buffers -- Google's data interchange
-format},
-    \url{http://code.google.com/p/protobuf/}
-
-\end{thebibliography}
+\bibliographystyle{plain}
+\bibliography{test}
 
 \end{document}
 
