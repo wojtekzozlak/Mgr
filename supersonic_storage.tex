@@ -89,7 +89,7 @@ stabilny. Umo¿liwia wykonanie wiêkszo¶ci typowych operacji bazodanowych
 (selekcja, projekcja, z³±czenia, agregacja), a tak¿e wyra¿eñ matematycznych,
 operacji na datach i ci±gach znaków. \\
 
-Niestety, Supersonic jest w chwili obecnej wy³±cznie wykonawca zapytañ i nie
+Niestety, Supersonic jest w chwili obecnej wy³±cznie wykonawc± zapytañ i nie
 udostêpnia wielu funkcjonalno¶ci oczekiwanych od systemów bazodanowych. Nie
 obs³uguje ¿adnego jêzyka zapytañ - drzewo algebry relacji musi byæ konstruowane
 rêcznie przez programistê. Nie istniej± optymalizatory zapytañ. Nie udostêpnia
@@ -104,11 +104,11 @@ Supersonic, ze wzglêdu na swoj± kolumnow± naturê, przeznaczony jest do pracy w
 ¶rodowiskach typowych dla hurtownii danych. Obliczane w nich zapytania
 zazwyczaj maj± do¶æ specyficzn± postaæ:
 \begin{itemize}
-  \item{Przewa¿nie operuj± na naprawdê du¿ych tabelach - zawieraj±cych wiele
+  \item{Przewa¿nie operuj± na bardzo du¿ych tabelach - zawieraj±cych wiele
 giga-, tera- czy nawet petabajtów danych.}
   \item{Nie odnosz± siê do pojedynczych rekordów (np. dotycz±cych konkretnego
 u¿ytkownika), a raczej wiêkszych zakresów danych czy wrêcz kompletnych tabel.}
-  \item{Czêsto odnosz± siê do stosunkowo niewielkiego podzbiorach atrybutów
+  \item{Czêsto odnosz± siê do stosunkowo niewielkiego podzbioru atrybutów
 relacji, zw³aszcza w przypadku tabel posiadaj±cych dziesi±tki czy setki kolumn.}
   \item{Odczyt danych jest operacj± znacznie czêstsz± ni¿ zapis.}
 \end{itemize}
@@ -122,7 +122,7 @@ które trzeba przez ni± przes³aæ mo¿e mieæ du¿y wp³yw na wydajno¶æ obliczenia.
 
 \section{Zakres pracy}
 
-Celem niniejszej pracy magisterskiej by³o zaprojektowanie, zaimplementowanie i
+Celem niniejszej pracy magisterskiej jest zaprojektowanie, zaimplementowanie i
 zbadanie zachowania sk³adu danych dla wykonawcy zapytañ Supersonic
 przystosowanego do pracy w opisanym wcze¶niej ¶rodowisku. \\
 
@@ -144,7 +144,7 @@ W rozdziale czwartym opisane zosta³y do¶wiadczenia wykonane na magazynie w celu
 zbadania jego zachowania podczas pracy. Wykorzystano do tego dane pochodz±ce z
 testu porównawczego \textit{TPC-H}\cite{tpch}, bêd±cego standardem przemys³owym
 w zakresie badania wydajno¶ci systemów bazodanowych. W celu umieszczenia
-wyników w szerszym kontek¶cie, czê¶æ z testów zosta³a wykonan równie¿ na
+wyników w szerszym kontek¶cie, czê¶æ z testów zosta³a wykonana równie¿ na
 innych, popularnych systemach bazodanowych: \textit{MySQL} oraz
 \textit{PostrgreSQL}. Zestawienie tych rezultatów pozwala oceniæ jak dobrze
 zachowuje siê proponowane rozwi±zanie w porównaniu z ju¿ istniej±cymi
@@ -153,7 +153,7 @@ magazynami, w kontek¶cie zastosowania w hurtowniach danych. \\
 
 \section{Za³o¿enia dotycz±ce rozwi±zania}
 
-Maj±c na uwadzê specyfikê ¶rodowiska pracy w hurtowni danych, w którym ma
+Maj±c na uwadze specyfikê ¶rodowiska pracy w hurtowni danych, w którym ma
 funkcjonowaæ projektowany magazyn, sformu³owane zosta³y pewne za³o¿enia
 dotycz±ce oczekiwanego rozwi±zania.
 
@@ -165,7 +165,7 @@ magazyny, co umo¿liwi ich równoleg³e przetwarzanie np. w ¶rodowisku
 rozproszonym. \\
 
 Analogicznie, odczyt zapisanych danych powinien byæ mo¿liwy z serii plików.
-Pliki zawieraj±ce relacja o takim samym zbiorze atrybutów powinny byæ ze sob±
+Pliki zawieraj±ce relacje o takim samym zbiorze atrybutów powinny byæ ze sob±
 kompatybilne niezale¿nie od tego kiedy zosta³y zapisane (np. pliki pochodz±ce z
 dwóch ró¿nych zapytañ).
 
@@ -175,14 +175,14 @@ Mo¿na za³o¿yæ, ¿e odczyt jest podstawow± operacj± i musi byæ wykonywany mo¿liwie
 efektywnie. W szczególno¶ci, oznacza to, ¿e:
 \begin{itemize}
   \item{Prêdko¶æ zapisu jest spraw± drugorzêdn±. W szczególno¶ci, czas
-po¶wiêcony na przyk³ad na wyliczenie i utrwalenie metadatanych pozwalaj±cych na
+po¶wiêcony na przyk³ad na wyliczenie i utrwalenie metadatanych, pozwalaj±cych na
 optymalizacjê operacji odczytu nie jest czasem straconym.}
   \item{Nie jest wymagana mo¿liwo¶æ modyfikacji istniej±cych plików magazynu. W
 razie potrzeby mo¿na przeczytaæ i przetworzyæ dane, a nastêpnie zapisaæ w nowej
 lokalizacji.}
 \end{itemize}
 Szczególna uwaga powinna zostaæ po¶wiêcona efektywnemu odczytywaniu podzbioru
-atrybutów, co mo¿e mieæ bardzo du¿y wp³yw na liczbê, które trzeba przes³aæ
+atrybutów, co mo¿e mieæ bardzo du¿y wp³yw na ilo¶æ danych, które trzeba przes³aæ
 miêdzy sk³adem a aplikacj± obliczaj±c± wynik zapytania.
 
 \subsubsection{Obs³uga ró¿nych systemów plików i no¶ników danych}
@@ -208,8 +208,8 @@ dostêp do plików, np. w systamach Linux),}
 W ka¿dym sk³adzie danych mo¿na wyró¿niæ dwie podstawowe warstwy:
 
 \begin{itemize}
-  \item{\textbf{fizyczn±} - obejmuj±c± sposób w jaki dany zorganizowane s± w
-    systemie plików czy na urz±dzeniu blokowym.}
+  \item{\textbf{fizyczn±} - obejmuj±c± sposób, w jaki dany zorganizowane s± w
+    systemie plików, czy na urz±dzeniu blokowym.}
   \item{\textbf{logiczn±} - obejmuj±c± logiczne struktury danych, pozwalaj±ce
     na manipulacjê danymi przez aplikacjê bez ¶wiadomo¶ci faktycznej
     organizacji danych na no¶niku.}
@@ -218,7 +218,7 @@ W ka¿dym sk³adzie danych mo¿na wyró¿niæ dwie podstawowe warstwy:
 Obecnie, ze wzglêdu na coraz popularniejsze wykorzystanie rozproszonych systemów
 plików oraz maszyn wirtualnych, granica miêdzy fizyczn± i logiczn± warstw±
 zaciera siê. Pod abstrakcyjnym interfejsem umo¿liwiaj±cym dostêp do pliku, czy
-urz±dzenia mo¿e kryæ siê nie fizyczny sprzêt lecz skomplikowana logika.
+urz±dzenia mo¿e kryæ siê nie fizyczny sprzêt, lecz skomplikowana logika.
 
 
 \subsection{Warstwa fizyczna}
@@ -226,7 +226,7 @@ urz±dzenia mo¿e kryæ siê nie fizyczny sprzêt lecz skomplikowana logika.
 Na poziomie warstwy fizycznej dane mog± byæ zorganizowane na ró¿ne sposoby:
 
 \begin{itemize}
-  \item{W systemie plików systemu operacyjnego, jako jeden b±d¼ wiêcej plików.
+  \item{W systemie plików systemu operacyjnego, jako jeden lub wiêcej plików.
 U³atwia to zarz±dzanie danymi, przenoszenie ich miêdzy no¶nikami itp.  Jest to
 najczê¶ciej spotykane rozwi±zanie w popularnych systemach bazodanowych.}
   \item{Bezpo¶rednio na partycji, z pominiêciem systemu plików (np. dostêpne
@@ -238,7 +238,7 @@ pamiêci podrêcznych, daj±c aplikacjom wiêksz± kontrolê nad operacjami
 wej¶cia/wyj¶cia. Z tego powodu rozwi±zanie to jest znacznie rzadziej stosowane.}
 \end{itemize}
 
-Pliki w warstwie fizycznej sk³adaj± siê z \textit{bloków} (udostêpniane przez
+Pliki, w warstwie fizycznej, sk³adaj± siê z \textit{bloków} (udostêpniane przez
 tzw. \textit{urz±dzenia blokowe}). S± to struktury na poziomie systemu
 operacyjnego, okre¶laj±ce najmniejsz± jednostkê danych, które mo¿na
 odczytaæ/zapisaæ. Nie nale¿y ich myliæ z \textit{blokami danych} (zwanymi te¿
@@ -251,7 +251,7 @@ systemu operacyjnego i nie musz± mieæ ze sob± nic wspólnego.
 
 \subsection{Warstwa logiczna}
 
-Podstawow± jednostk± organizacji danych jest \textit{blok danych} nazywany tak¿e
+Podstawow± jednostk± organizacji danych jest \textit{blok danych}, nazywany tak¿e
 \textit{stron±} (w dalszej czê¶ci pracy u¿ywaæ bêdziemy tej drugiej nazwy, w
 celu odró¿nienia od bloków systemu operacyjnego). Znajduj± siê one na styku
 warstwy logicznej i fizycznej. Z jednej strony udostêpniaj± abstrakcyjny
@@ -260,7 +260,7 @@ organizacjê, maj±c± wielki wp³yw na pracê systemu. \\
 
 Strony czêsto organizowane s± w wiêksze struktury np. reprezentuj±ce poszczególne
 tablice bazy danych, zarz±dzane i interpretowane przez kolejne czê¶ci warstwy
-logicznej. Ich konstrukcja w du¿ej mierze zale¿y od sposobu w jaki baza danych
+logicznej. Ich konstrukcja w du¿ej mierze zale¿y od sposobu, w jaki baza danych
 przetwarza zapytania.
 
 
@@ -284,7 +284,7 @@ przypadku dysków HDD),}
 W zale¿no¶ci od konstrukcji wykonawcy zapytañ, dostêp do danych mo¿e odbywaæ siê
 poprzez przekazywanie fragmentów poszczególnych kolumn, b±d¼ poszczególnych
 rekordów. Warto zauwa¿yæ, ¿e kszta³t interfejsu nie musi determinowaæ
-implementacji i mo¿na przyk³adowo wykorzystywaæ wierszowo zorientowane strone
+implementacji i mo¿na przyk³adowo wykorzystywaæ wierszowo zorientowane strony
 implementuj±c interfejs kolumnowy. Istniej± jednak badania pokazuj±ce, ¿e
 takie sztuczne symulowanie odmiennej organizacji nie pozwala uzyskaæ tak
 dobrych wyników jak w pe³ni spójny system.\cite{column-vs-row} \\
@@ -304,29 +304,29 @@ danych w obrêbie stron:
 \end{figure}
 
 W NSM (\textit{N-ary Storage Model}) dane relacji zapisywane s± sekwencyjnie, w
-obrêbie strony. Ka¿dy rekord posiada nag³ówek zawieraj±cy maskê bitow± mówi±c± o
-istnieniu danych (przy obs³udze warto¶ci \textit{NULL}), pozycje atrybutów
-zmiennej d³ugo¶ci oraz dane zwi±zane z implementacj±. Ze wzglêdu na zmienn±
-d³ugo¶æ rekordów na koñcu strony utrzymywany jest indeks, utrzymuj±cy pozycje
-kolejnych wpisów w obrêbie strony. \\
+obrêbie strony. Ka¿dy rekord posiada nag³ówek zawieraj±cy maskê bitow±
+wskazuj±c± na istnieniu danych (przy obs³udze warto¶ci \textit{NULL}), pozycje
+atrybutów zmiennej d³ugo¶ci oraz dane zwi±zane z implementacj±. Ze wzglêdu na
+zmienn± d³ugo¶æ rekordów na koñcu strony utrzymywany jest indeks, utrzymuj±cy
+pozycje kolejnych wpisów w obrêbie strony. \\
 
 Zalet± takiej organizacji danych jest wysoka lokalno¶æ wierszy relacji,
 pozwalaj±ca na odczyt wymaganych rekordów przy mo¿liwie niskiej liczbie operacji
-odczytu i przesuniêcia w obrêbie pliku. Problemy pojawiaj± siê w przypadku gdy w
+odczytu i przesuniêcia w obrêbie pliku. Problemy pojawiaj± siê w przypadku, gdy w
 zapytaniu bierze udzia³ tylko niewielki podzbiór kolumn. Strony danych
 odczytywane s± zawsze w ca³o¶ci, co w przypadku NSM oznacza ci±gi kompletnych
-rekordów. W momencie gdy zapytanie dotyczy wy³±cznie u³amka atrybutów wiêkszo¶æ
+rekordów. W momencie, gdy zapytanie dotyczy wy³±cznie u³amka atrybutów wiêkszo¶æ
 pobranych danych jest zupe³nie nieprzydatna. Nieefektywne wykorzystanie magazynu
 i marnowanie przepustowo¶ci medium dramatycznie pogarsza wydajno¶æ systemu
 bazodanowego. \\
 
 Z tego samego powodu NSM mo¿e mieæ negatywny wp³yw na efektywno¶æ pamiêci
 podrêcznej procesora. Dane do niej pobierane s± zawsze ci±g³ymi przedzia³ami. W
-momencie gdy interesuj± nas tylko niektóre atrybuty z ca³ego wiersza tabeli mo¿e
-siê okazaæ, ¿e interesuj±cych danych mie¶ci siê bardzo ma³o i trzeba czêsto
+momencie, gdy interesuj± nas tylko niektóre atrybuty z ca³ego wiersza tabeli,
+mo¿e siê okazaæ, ¿e interesuj±cych danych mie¶ci siê bardzo ma³o i trzeba czêsto
 odwo³ywaæ siê do kolejnych warstw pamiêci, cechuj±cych siê coraz wiêkszymi
 opó¼nieniami. Warto przy tym wspomnieæ, ¿e obecnie typowa \text{linia pamiêci
-podrêcznej} L1 (a wiêc najmniejsza jednostka danych wymieniana miêdzy warstwami
+podrêcznej} L1 (a wiêc najmniejsza jednostka danych, wymieniana miêdzy warstwami
 pamiêci) liczy sobie 64 bajty. Do jej wype³nienia wystarczy wiêc krotka
 zawieraj±ca szesna¶cie 32-bitowych liczb ca³kowitych czy np. pojedynczy hasz md5
 w formie tekstowej.
@@ -342,11 +342,11 @@ w formie tekstowej.
 DSM (\textit{Decomposition Storage Model}) by³o prób± odpowiedzi na problemy
 NSM z pamiêci± podrêczn± i zbêdnymi operacjami wej¶cia/wyj¶cia w przypadku
 pracy na podzbiorze atrybutów relacji. Idea opiera siê na rozbiciu relacji na
-\textit{podrelacje} z³o¿one z dwóch atrybutów - identyfikatora rekordu oraz
-pojedynczej kolumny relacji. Identyfikator jest sztucznym atrybutem u¿ywanym
+\textit{podrelacje}, z³o¿one z dwóch atrybutów - identyfikatora rekordu oraz
+pojedynczej kolumny relacji. Identyfikator jest sztucznym atrybutem, u¿ywanym
 wy³±cznie do materializacji relacji na potrzeby obliczenia, czêsto nie jest
 nawet fizycznie utrzymywany, a jedynie wyliczany w locie na podstawie pozycji
-rekordu w stronie. Zamiast w nag³ówkach informacje o warto¶ciach \textit{NULL}
+rekordu w stronie. Zamiast w nag³ówkach, informacje o warto¶ciach \textit{NULL}
 przechowywane s± w tablicy na koñcu strony. W przypadku typów zmiennej d³ugo¶ci
 znajduj± siê tam równie¿ wska¼niki do odpowiednich pozycji. \\
 
@@ -369,19 +369,19 @@ pojedynczych rekordów mo¿e wymagaæ odczytania wielu stron, co jest kosztowne. Z
 tego powodu rozwiazanie takie ¼le sprawuje siê w systemach typu OLTP
 (\textit{Online Transaction Processing}) cechuj±cych siê zapytaniami
 odwo³uj±cymi siê do ma³ej liczby (a czêsto nawet pojedynczych) rekordów. Problem
-sprawiaj± równie¿ przeszukiwania za pomoc± indeksów, które dokonuj± du¿ej ilo¶ci
+sprawiaj± równie¿ przeszukiwania za pomoc± indeksów, które dokonuj± du¿ej liczby
 skoków w obrêbie danych. \\
 
 Generalnie, mamy wiêc do czynienia z charakterystyk± odwrotn± ni¿ w przypadku PAX
 - efektywnym wykorzystaniem pasma dysku poprzez pobieranie wy³±cznie niezbêdnych
-danych oraz wiêksz± ilo¶ci± przesuniêæ g³owicy potrzebnych do rekonstrukcji
+danych oraz wiêksz± liczb± przesuniêæ g³owicy potrzebnych do rekonstrukcji
 pojedynczych wierszy.
 
 
 \subsubsection{PAX}
 
 PAX (Partition Attributes Across) jest prób± po³±czenia zalet NSM i DSM. Pomys³
-polega na sekwencyjnym zapisie stron zawieraj±cych zbiór rekordów, tak jak w
+polega na sekwencyjnym zapisie stron, zawieraj±cych zbiór rekordów, tak jak w
 NSM, lecz z wewnêtrzn± organizacj± kolumnow±, tak jak w DSM. Rozwi±zanie takie
 sprawia, ¿e lokalno¶æ danych zarówno na poziomie wierszy jak i kolumn jest do¶æ
 wysoka. Poniewa¿ dane wewn±trz strony stanowi± spójn± i niezale¿n± ca³o¶æ
@@ -389,7 +389,7 @@ materializacja relacji mo¿e byæ wykonana w bardzo efektywny sposób. To z kolei
 pozwala na efektywne wykorzystanie pamiêci podrêcznej podczas pracy na
 podzbiorze kolumn. Niestety, nie rozwi±zuje to problemu na poziomie odczytu
 danych z no¶nika - zawsze pobierane s± wszystkie atrybuty relacji, a
-konsekwencji marnuje siê pasmo medium.
+w konsekwencji marnuje siê pasmo medium.
 
 \begin{figure}[h]
   \centering
@@ -421,14 +421,14 @@ wykorzystanie wielu rdzeni oraz redukcja pustych cykli procesora zwi±zanych np.
 z hazardem danych i sterowania, potokowaniem, czy opó¼nieniami w dostêpie do
 pamiêci RAM. Pamiêæ podrêczna odgrywa tutaj bardzo wa¿n± rolê, przez co jej
 efektywne wykorzystywanie bywa kluczowe przy pisaniu wydajnych aplikacji. Wobec
-tego PAX wydaje byæ najbardziej przysz³o¶ciowym schematem organizacji danych
-spo¶ród przedstawionych.
+tego PAX wydaje siê byæ najbardziej przysz³o¶ciowym schematem organizacji danych
+spo¶ród tu przedstawionych.
 
 
 \section{Kompresja danych}
 
 Zagadanienie wykorzystania kompresji w systemach bazodanowych jest bardzo
-obszerne i mog³oby stanowiæ g³ówny temat oddzielnego opracowania. Omawiane w
+obszerne i mog³oby stanowiæ g³ówny temat oddzielnego opracowania. Omawiane tej w
 pracy rozwi±zanie nie implementuje ¿adnych metod kompresji danych. Jest to
 jednak temat na tyle istotny w kontek¶cie sk³adowania danych, ¿e nie sposób o
 nim nie wspomnieæ.
@@ -437,7 +437,7 @@ nim nie wspomnieæ.
 
 Podstawowym celem kompresji danych jest zmniejszenie ich objêto¶ci, a co za tym
 idzie, zwiêkszenie przepustowo¶ci przep³ywu danych pomiêdzy pamiêci± operacyjn±
-a urz±dzeniem. Dodatkowo, w przypadku systemów rozproszonych, pozwala to
+a urz±dzeniem. Dodatkowo, w przypadku systemów rozproszonych, pozwala to na 
 oszczêdniejsze wykorzystanie transferu sieciowego, bêd±cego czêsto cennym i
 mocno ograniczonym zasobem. \\
 
@@ -474,7 +474,7 @@ wzglêdu na koszt obliczeniowy:
       badania\cite{light-compression} pokazuj±ce, ¿e w³a¶ciwie zastosowane
       mog± dawaæ bardzo dobre wyniki (np. dziêki efektywnemu wykorzystaniu
       pamiêci podrêcznej procesora). Czêsto umo¿liwaj± praktycznie losowy
-      dostêp do danych, bez potrzeby dokompresji wiêkszego kontekstu, a tak¿e
+      dostêp do danych, bez potrzeby dekompresji wiêkszego kontekstu, a tak¿e
       operowanie bezpo¶rednio na skompresowanych danych.
       Przyk³adem takiej kompresji jest \textit{Run-Lenght Encoding}
       (RLE)} czy \textit{prefix-supression} (PS).
@@ -500,13 +500,13 @@ pojêcie o konstrukcji takich rozwi±zañ.
 \subsubsection{Run-Length Encoding}
 
 Polega na zliczaniu d³ugo¶ci sekwencji powtórzeñ elementów i zapisywania ich
-jako pary \textit{(element, liczba)}. Przyk³adowo, sekwencja znaków \texttt{a w w
-z z z z z d d d e f f} reprezentuje sekwencja par \texttt{(a,1) (w,2) (z,5)
+jako pary \textit{(element, liczba)}. Przyk³adowo, sekwencja znaków \texttt{a w
+w z z z z z d d d e f f} reprezentuje sekwencja par \texttt{(a,1) (w,2) (z,5)
 (d,3) (e,1) (f,2)}. W zale¿no¶ci od rozk³adu elementów uzyskaæ mo¿na ró¿n±
-efektywno¶æ kompresji (tak¿e negatywn±), w zwi±zku z czym mo¿na jej stosowaæ w
-ka¿dym przypadku.  Warto zauwa¿yæ, ¿e wiele operacji (np. arytmetycznych) mo¿na
-wykonywaæ bezpo¶rednio na elementach bez potrzeby rekonstrukcji pierwotnych
-danych.
+efektywno¶æ kompresji (tak¿e negatywn±), w zwi±zku z czym nie mo¿na jej stosowaæ
+w ka¿dym przypadku.  Warto zauwa¿yæ, ¿e wiele operacji (np. arytmetycznych)
+mo¿na wykonywaæ bezpo¶rednio na elementach bez potrzeby rekonstrukcji
+pierwotnych danych.
 
 \subsubsection{Prefix-Suppression}
 
@@ -516,14 +516,14 @@ zer z zapisu binarnego liczb. Na przyk³ad ci±g liczb reprezentowany przez
 0001}. Ma wiêc szczególne zastosowanie w przypadku liczb, bêd±cych istotnie
 mniejszymi od maksymalnych warto¶ci z danego typu. Ma on równie¿ zastosowanie
 podczas kompresji posortowanych ciagów znaków. Dobrym przyk³adem s± indeksy
-adresów URL gdzie wszystkie wpisy dle pojedynczej domeny posiadaj± wspólny
+adresów URL, gdzie wszystkie wpisy dle pojedynczej domeny posiadaj± wspólny
 prefiks.
 
 \subsubsection{Frame-Of-Reference}
 
-Dla danego bloku numerycznych warto¶ci znajduje namniejsz± warto¶æ $min$, a
+Dla danego bloku numerycznych warto¶ci znajduje najmniejsz± warto¶æ $min$, a
 nastêpnie zapisuje ka¿d± warto¶æ $v[i]$ jako $v[i] - min$ korzystaj±c z
-\textit{Prefix-Suppresion}. Schemat ten dobrze stosuje siê sklastrowanych
+\textit{Prefix-Suppresion}. Schemat ten dobrze stosuje siê sklastrowanych do
 danych, zawieraj±cych warto¶ci stosunkowo bliskie siebie.
 
 
@@ -531,7 +531,7 @@ danych, zawieraj±cych warto¶ci stosunkowo bliskie siebie.
 
 Poza przechowywaniem danych samych w sobie bardzo istotne jest przechowywanie
 dodatkowych informacji o nich, zwanych \textit{metadanymi}. Mog± byæ one
-przeró¿nego rodzaju:
+ró¿nego rodzaju:
 
 \begin{itemize}
   \item{\textbf{Schemat tabeli} - opisuj±cy nazwê, typ i inne mo¿liwe cechy
@@ -556,7 +556,7 @@ Blooma}\cite{bigtable,cassandra}.}
 Metadane mog± byæ generowane w ró¿nych momentach ¿ycia systemu bazodanowego, w
 zale¿no¶ci od projektu, konfiguracji oraz rodzaju. Czê¶æ z nich, np. liczba 
 wierszy w tabli, da siê uzyskaæ jako efekt uboczny wykonywania zapytañ.
-Niestety wiele przydatnych statystyk, takich jak rozk³ad warto¶ci (histogram) w
+Niestety, wiele przydatnych statystyk, takich jak rozk³ad warto¶ci (histogram) w
 wybranej kolumnie, wymaga sporego narzutu obliczeniowego, który móg³by mieæ
 istotny wp³yw na prêdko¶æ wykonywania zapytañ. W zwi±zku z tym, czêsto stosuje
 siê rozwi±zanie, w którym szczegó³owe informacje wyliczane s± na ¿±danie, przez
@@ -565,13 +565,13 @@ oddzielny proces.
 \subsubsection{Zysk p³yn±cy z metadanych}
 
 Posiadanie aktuanych metadanych mo¿e mieæ bardzo du¿y wp³yw na wydajno¶æ
-systemu bazodanowego. Na ich podstawie mo¿na czêsto podj±æ decyzjê czy wybrana
+systemu bazodanowego. Na ich podstawie mo¿na czêsto podj±æ decyzjê, czy wybrana
 strona zawiera dane interesuj±ce z perspektywy zapytania - np. przez
 odpytanie \textit{filtru Blooma} albo sprawdzenie czy warto¶ci mieszcz± siê
 w zadanym przedziale. Blok taki nie ma wp³ywu na wynik obliczenia i mo¿e zostaæ
 pominiêty, co w prosty sposób przek³ada siê na skrócenie czasu wykonania
-zapytania. Podobnie sprawa ma siê z indeksami, które czêsto pozwalaj± bardzo
-dok³adnie okre¶liæ zbiór stron (a czasami nawet konkretnych rekordów w nich
+zapytania. Podobny problem jest z indeksami, które czêsto pozwalaj± bardzo
+dok³adnie okre¶liæ zbiór stron, (a czasami nawet konkretnych rekordów w nich
 zawartych) bior±cych czynny udzia³ w obliczeniu. \\
 
 Statystyki s± tak¿e cenn± informacj± dla optymalizatora zapytañ. Rozmiar tabel,
@@ -579,13 +579,13 @@ rozk³ad warto¶ci, oczekiwana selektywno¶æ filtrów - wszystko to mo¿na
 wykorzystaæ w modelu kosztowym w celu oszacowania zasobów potrzebnych do
 wykonania konkretnego planu zapytania. Dziêki temu, optymalizator jest w stanie
 np. dobraæ algorytm z³±czeñ, czy zmieniæ kolejno¶æ operacji w drzewie algebry
-zapytania tak by obliczenie odbywa³o siê w baradziej efektywny sposób. 
+zapytania tak, by obliczenie odbywa³o siê w bardziej efektywny sposób. 
 
 \subsubsection{Miejsce i sposób przechowywania}
 
 Metadane w postaci statystyk zajmuj± stosunkowo niewiele miejsca w stosunku do
 danych, które opisuj±. Mimo to warto przechowywaæ je w przemy¶lany sposób.
-Konkretny format powinien zale¿eæ w g³ównej mierze od celu w jakim gromadzimy
+Konkretny format powinien zale¿eæ w g³ównej mierze od celu, w jakim gromadzimy
 wybrane statystki, tak by da³o siê z nich korzystaæ mo¿liwie ma³ym kosztem.
 Przyk³adowo, metadane bloków trzymaæ mo¿emy w kolejno¶ci ich wystêpowania na
 dysku, tak by iteruj±c siê po nich znajdowaæ interesuj±ce strony w porz±dku
@@ -613,7 +613,7 @@ danymi\cite{hbase-region-server}.}
 
 \subsection{Rodziny atrybutów}
 
-Jednym z wyzwañ stoj±cych przed projektowanym magazynem danych by³o
+Jednym z wyzwañ, stoj±cych przed projektowanym magazynem danych, by³o
 umo¿liwienie wydajnej obs³ugi tablic posiadaj±cych setki, a nawet tysi±ce
 kolumn w przypadku zapytañ odnosz±cych siê do ich niewielkiego podzbioru.
 Przechowywanie kompletnych krotek relacji w pojedynczych stronach danych
@@ -626,7 +626,7 @@ potrzebnej liczby.
   \caption{Przyk³ad podzia³u schematu na rodziny atrybutów}
 \end{figure}
 
-W celu rozwi±zania tego problemu zastosowano rozwi±zanie polegaj±ce na
+W celu rozwik³ania tego problemu zastosowano rozwi±zanie polegaj±ce na
 grupowaniu atrybutów w tzw. \textit{rodziny} (\textit{column families}),
 stosowane m.in. w bazie danych BigTable (oraz pochodnych, jak Cassandra czy
 HBase). Przechowywana relacja dzielona jest na podrelacje, a te przechowywane
@@ -649,19 +649,19 @@ jego pokrycie - tzn. dopuszczaj±c wyst±pienie tego samego atrybutu w kilku
 grupach. Redundancja taka z jednej strony zwiêksza objêto¶æ magazynu, a z
 drugiej mo¿e dawaæ wiêksz± swobodê doboru rodzin w trakcie planowania odczytu i
 w konsekwencji wiêksz± efektywno¶æ. Nie jest to jednak rozwi±zanie wspierane
-przez opracowan± implementacjê. Id±c krok dalej mo¿na pokusiæ siê o oddzielnie
+przez opracowan± implementacjê. Id±c krok dalej mo¿na pokusiæ siê o oddzielenie
 wektorów \texttt{IS\_NULL} (zawieraj±cych informacje o obecno¶ci danych) od
-odpowiadaj±cych im kolumn, jest to jednak ma³o praktyczny pomys³ i w przypadku
+odpowiadaj±cych im kolumn. Jest to jednak ma³o praktyczny pomys³ i w przypadku
 omawianego magazynu s± one trzymane razem.
 
 
 \subsection{Organizacja stron w pliku magazynu}
 
-Plik magazynu sk³ada siê z ci±gu stron nale¿±cych do ró¿nych rodzin. W
+Plik magazynu sk³ada siê z ci±gu stron, nale¿±cych do ró¿nych rodzin. W
 ogólno¶ci, nie musi istnieæ zwi±zek miêdzy ich kolejno¶ci± wewn±trz pliku a
 porz±dkiem wewn±trz przechowywanej tabeli. Na koñcu magazynu znajduje siê indeks
 stron, bêd±cy s³ownikiem \texttt{(rodzina, strona) -> (pozycja\_w\_pliku,
-rozmiar\_strony)}.  Umo¿liwia ona swobodny dostêp bezpo¶rednio do ¿±danych
+rozmiar\_strony)}.  Umo¿liwia on swobodny dostêp bezpo¶rednio do ¿±danych
 stron, bez potrzeby przegl±dania ca³ego magazynu. \\
 
 \begin{figure}[h]
@@ -678,7 +678,7 @@ potrzeba modyfikacji b±d¼ dodania do tablicy niewielkiej liczby rekordów jest
 niezwykle rzadka. Ponadto, wielkie ilo¶ci danych czêsto przetwarzane s± w
 ¶rodowiskach rozproszonych, gdzie pliki wsadowe serwowane s± przez rozproszony
 system plików. Te natomiast cechuje czêsto brak mo¿liwo¶ci zapisu losowego. W
-momencie gdy modyfikacja danych jest konieczna, niezbêdne jest przeczytanie
+momencie, gdy modyfikacja danych jest konieczna, niezbêdne jest przeczytanie
 istniej±cego magazynu i przepisanie danych do nowego. \\
 
 Sam proces zapisu porcji wierszy mo¿na podzieliæ na trzy fazy:
@@ -692,14 +692,14 @@ ustalony z góry zakres).}
 \end{itemize}
 Warto zauwa¿yæ, ¿e strony dla poszczególnych rodzin wype³niaj± siê z ró¿n±
 prêdko¶ci± (zale¿n± od schematu podrelacji i zawarto¶ci wierszy). Oznacza to,
-¿e w skrajnych przypadkach dane dotycz±ce wiersza mog± byæ znajdowaæ siê na
-dwóch, przeciwnych koñcach pliku magazynu. Jednak¿e, dobieraj±c odpowiednio
-rozmiar strony oraz podzia³ schematu na atrybuty, mo¿na zachowaæ dostatecznie
-dobr± lokalno¶æ danych.
+¿e w skrajnych przypadkach dane dotycz±ce wiersza mog± znajdowaæ siê na dwóch,
+przeciwnych koñcach pliku magazynu. Jednak¿e, dobieraj±c odpowiednio rozmiar
+strony oraz podzia³ schematu na atrybuty, mo¿na zachowaæ dostatecznie dobr±
+lokalno¶æ danych.
 
 \subsubsection{Metadane}
 
-Przy okazji zapisu stron danych dla relacji gromadzone s± nastêpuj±ce metadane:
+Przy zapisie stron danych dla relacji gromadzone s± nastêpuj±ce metadane:
 \begin{itemize}
   \item{schemat ka¿dej rodziny atrybutów,}
   \item{liczba stron w ka¿dej rodzinie,}
@@ -707,7 +707,7 @@ Przy okazji zapisu stron danych dla relacji gromadzone s± nastêpuj±ce metadane:
 \end{itemize}
 
 Do ich zapisu wykorzystywana jest wyszczególniona rodzina stron (dla ustalenia
-uwagi - powiedzmy, ¿e ma numer $0$), nie powi±zana z ¿adn± rodzin± atrybutów. W
+uwagi - niech umownie ma numer $0$), nie powi±zana z ¿adn± rodzin± atrybutów. W
 momencie zamykania pliku magazynu, przed dodaniem indeksu stron, metadane
 serializowane s± do postaci binarnej, a nastêpnie zapisywane w jedynej stronie
 nale¿±cej do tej rodziny.
@@ -729,7 +729,7 @@ podstawie odpowiednich stron.}
 relacjê.}
 \end{itemize}
 Podobnie jak w przypadku zapisu, proces odczytu odbywa siê iteracyjnie,
-dostarczaj±c kolejne porcje danych o ograniczonej liczby wierszy w celu ich
+dostarczaj±c kolejne porcje danych o ograniczonej liczbie wierszy w celu ich
 dalszego przetworzenia. Podrelacje nie s± rekonstruowane od razu w ca³o¶ci -
 odczytana zostaje zawarto¶æ jedynie tylu stron ile niezbêdne jest do realizacji
 pojedynczego kroku.
@@ -737,16 +737,16 @@ pojedynczego kroku.
 \subsubsection{Odczyt podzbioru atrybutów}
 
 W przypadku gdy zapytanie odnosi siê wy³±cznie do niektórych kolumn tabeli,
-mo¿liwe jest zlecenie odczytu wy³±cznie zadanego pozdbioru atrybutów relacji.
+mo¿liwe jest zlecenie odczytu wy³±cznie zadanego podzbioru atrybutów relacji.
 Powoduje to pominiêcie rodzin tych rodzin atrybutów, które nie dostarczaj±
 ¿adnej z ¿±danych kolumn, a co za tym idzie odczyt mniejszej ilo¶ci danych z
 dysku. Efektywno¶æ tej techniki w g³ównej mierze zale¿y od podzia³u schematu na
-rodzin.
+rodziny.
 
 \subsubsection{Odczyt danych od zadanego wiersza}
 
 Dziêki zapisowi metadanych, mo¿liwy jest tak¿e efektywny odczyt danych od
-zadanego wiersza. Maj±c wiedzê o liczby rekordów w ka¿dej stronie mo¿na z
+zadanego wiersza. Maj±c wiedzê o liczbie rekordów w ka¿dej stronie mo¿na z
 ³atwo¶ci± zidentyfikowaæ i pomin±æ te, które nie zawieraj± interesuj±cych
 danych, a co za tym idzie zredukowaæ liczbê operacji wej¶cia/wyj¶cia do
 niezbêdnego minimum.
@@ -769,12 +769,12 @@ siê w dalszej czê¶ci pracy.
 \end{figure}
 
 \begin{itemize}
-  \item{Schemat tabeli dzielony jest na rodziny przy pomocy strategii
+  \item{Schemat tabeli dzielony jest na rodziny za pomoc± strategii
 reprezentowanej przez obiekt klasy \texttt{SchemaPartitioner}. Jest ona podawana
 przez u¿ytkownika.}
   \item{Do zapisu danych tworzona jest instancja klasy \texttt{StorageSink}
 implementuj±cej interfejs \texttt{Sink} wykonawcy \textit{Supersonic}, który
-reprezentuje uj¶cia danych. Udostêpnia od metodê \texttt{Write}, która przyjmuje
+reprezentuje uj¶cia danych. Udostêpnia on metodê \texttt{Write}, która przyjmuje
 za argument widok zawieraj±cy porcjê danych.}
   \item{Równolegle utworzony zostaje obiekt klasy \texttt{MetadataWriter}.
 Posiada on informacje na temat wydzielonych \textit{rodzin atrybutów} i
@@ -783,12 +783,12 @@ agreguje metadane dotycz±ce zapisywanych stron danych.}
 \texttt{PageSink}. Ka¿dy z nich odpowiada za jedn±, wybran± \textit{rodzinê
 stron} i zna jej numer. Dane odpowiednich atrybutów s± serializowane na strony
 danych.}
-  \item{Klasa \texttt{PageStreamWriter} udostêpnia interfejs umo¿liwiaj±cy zapis
+  \item{Klasa \texttt{PageStreamWriter} udostêpnia interfejs, umo¿liwiaj±cy zapis
 logicznych stron do plików z warstwy fizycznej. Jest ¶wiadoma istnienia
 \textit{rodzin stron} i buduje wewnêtrzny indeks, który umo¿liwi dostêp do
 wybranych danych w trakcie odczytu.}
   \item{W momencie, gdy rozmiar strony wype³nianej przez \texttt{PageSink}
-przekroczy zadany limit, zostaje one zapisana do strumienia reprezentowanego
+przekroczy zadany limit, zostaje ona zapisana do strumienia reprezentowanego
 przez obiekt klasy \texttt{PageStreamWriter}. Metadane dotycz±ce strony
 przekazywane s± do instancji \texttt{MetadataWriter}, a \texttt{PageSink}
 tworzy now± stronê dla dalszych zapisów.}
@@ -802,7 +802,7 @@ u¿yciu metody \texttt{Finalize}. W efekcie:
   (oczywi¶cie, nie przypisanej do ¿adnej \textit{rodziny atrybutów})}
     \item{Na sam koniec, \texttt{PageStreamWriter} zapisuje do pliku indeks
   stron oraz \textit{pieczêæ}. Pieczêæ pozwala na wczesne wykrycie
-  uszkodzonych plików magazynu, nie nadaj±cych siê do odczut.}
+  uszkodzonych plików magazynu, nie nadaj±cych siê do odczytu.}
   \end{itemize}
 }
 \end{itemize}
@@ -832,12 +832,12 @@ optymalizator zapytañ.}
   \item{Dane relacji ze stron udostêpnianych przez \texttt{RandomPageReader}
 odczytywane s± przez obiekty \texttt{PageReader}. Ka¿dy z nich dostarcza
 strumieñ bloków z danymi dok³adnie jednej rodziny atrybutów, deserializuj±c je z
-odpowiednich stron. Poniewa¿ \texttt{PageReader} implementuje interfejs
-kursora, mo¿na o nim my¶leæ jak o pe³nowarto¶ciowej operacji odczytu
+odpowiednich stron. Ze wzglêdu na to, ¿e \texttt{PageReader} implementuje
+interfejs kursora, mo¿na go traktowaæ jak pe³nowarto¶ciow± operacjê odczytu
 pojedynczej podrelacji tabeli.}
   \item{Kursory dla pojedynczych rodzin atrybutów z³±czane s± w jeden, wiêkszy,
 za pomoc± wbudowanej w Supersonica operacji \texttt{Coalesce}. Jej semantyka
-odpowiada z³±czeniu tablic przy u¿yciu sztucznie wprowadzonego atrytutu
+odpowiada z³±czeniu tablic przy u¿yciu sztucznie wprowadzonego atrybutu
 zawieraj±cego numer wiersza w strumieniu danych.}
 \end{itemize}
 
@@ -847,10 +847,10 @@ zawieraj±cego numer wiersza w strumieniu danych.}
 \subsection{Podzia³ schematu na rodziny}
 
 W opisywanej implementacji podzia³ schematu na rodziny odbywa siê przy pomocy
-zadanej przez u¿ytkownika stretegii, reprezentowanej przez interfejs
+zadanej przez u¿ytkownika strategii, reprezentowanej przez interfejs
 \texttt{SchemaPartitioner}. Jako przyk³ad zaimplementowano trywialn± strategiê
 \texttt{FixedSizeSchemaPartitioner}, polegajac± na podziale schematu tabeli na
-grupy zawieraj±ce narzucon± z góry liczbê atrybutów (za wyj±tkiem ostatniej).  W
+grupy zawieraj±ce narzucon± z góry liczbê atrybutów (z wyj±tkiem ostatniej).  W
 zasadzie nie istniej± ¿adne ograniczenia dotycz±ce metody podzia³u. W
 szczególno¶ci, kolejno¶æ atrybutów w wynikowych grupach nie musi byæ w ¿aden
 sposób powi±zana z kolejno¶ci± atrybutów w pierwotnym schemacie. Strategia
@@ -858,10 +858,10 @@ zwracaj±ca pojedyncz± grupê z permutacj± wszystkich kolumn jest poprawn± (choæ
 raczej ma³o u¿yteczn±) strategi±. \\
 
 Dobór odpowiedniego podzia³u schematu jest zagadnieniem bardzo ciekawym i mo¿e
-mieæ istotny wp³yw na efektywno¶æ magazynu. Wczytuj±ce dane mo¿emy pobraæ strony
-reprezentuj±ce tylko wybrane rodzin atrybutów. Nie da siê jednak dostaæ do
+mieæ istotny wp³yw na efektywno¶æ magazynu. Wczytuj±c dane mo¿emy pobraæ strony
+reprezentuj±ce tylko wybrane rodziny atrybutów. Nie da siê jednak dostaæ do
 wybranego atrybutu nie wczytuj±c kompletnej strony, a co za tym idzie innych
-atrybutów nale¿acych do jego rodziny. W konsekwencji, w zale¿no¶ci od podzia³u
+atrybutów nale¿acych do jego rodziny. W konsekwencji, w zale¿no¶ci od podzia³u,
 ten sam pozdbiór kolumn mo¿e wymagaæ do odczytu diametrialnie ró¿nej liczb± 
 operacji wej¶cia/wyj¶cia. Mo¿na wiêc próbowaæ optymalizowaæ koszt korzystania z
 magazynu np. przez grupowanie atrybutów, które czêsto razem wystêpuj± w
@@ -880,27 +880,27 @@ powodzeniem stanowiæ temat samodzielnej pracy naukowej.
 \end{figure}
 
 Strona danych jest obiektem wy³±cznie do odczytu, przechowuj±cym pewn± liczbê 
-buforów danych o ró¿nych d³ugo¶ciach. Sk³adaj± siê z nastêpuj±cych czêsci:
+buforów danych o ró¿nych d³ugo¶ciach. Sk³ada siê z nastêpuj±cych czê¶ci:
 \begin{itemize}
   \item{\textbf{nag³ówek strony} - zawieraj±cy informacje o jej rozmiarze oraz
 liczbie przechowywanych buforów,}
-  \item{\textbf{tablicê wska¼ników na bufory} - okre¶laj±ce pozycjê
+  \item{\textbf{tablicê wska¼ników na bufory} - okre¶laj±ca pozycje
 poszczególnych buforów w obrêbie strony,}
-  \item{\textbf{nag³ówki buforów} - zawieraj± informacje o rozmiarze buforu; w
+  \item{\textbf{nag³ówki buforów} - zawieraj±ce informacje o rozmiarze buforu; w
 przysz³o¶ci mog± zawieraæ informacje np. o zastosowanej kompresji,}
   \item{\textbf{dane buforów} - czyli ci±gi bajtów.}
 \end{itemize}
 
 Do tworzenia stron s³u¿± obiekty klasy \texttt{PageBuilder}. Umo¿liwiaj± one
-dopisywanie danych na koñcu wybranych buforów oraz wyprodukowanie strony
+dopisywanie danych na koñcu wybranych buforów oraz wyprodukowanie strony,
 zawieraj±cej wszystkie zgromadzone do tej pory dane. Potrafi± tak¿e w wydajny
 sposób okre¶liæ rozmiar takiej strony bez potrzeby jej materializacji. \\
 
 \subsection{Plik magazynu}
 
-Plik magazynu sk³ada siê z dwóch g³ównych czê¶ci: ci±gu stron danych nale¿±cych
+Plik magazynu sk³ada siê z dwóch g³ównych czê¶ci: ci±gu stron danych, nale¿±cych
 do ró¿nych rodzin oraz ich indeksu. Rysunek \ref{figure:page_index} przedstawia
-sposób w jaki przechowywany jest indeks. Pierwsze cztery bajty zajmuje liczba
+sposóbi, w jaki przechowywany jest indeks. Pierwsze cztery bajty zajmuje liczba
 ró¿nych rodzin w magazynie. Nastêpnie, dla ka¿dej z rodzin, zapisany jest jej
 numer, liczba stron oraz ich kolejne pozycje w obrêbie pliku oraz rozmiary
 (strony zawsze maj± ci±g³± numeracjê, pocz±wszy od zera). \\
@@ -942,12 +942,12 @@ Sposób serializacji zale¿y od typu danych. Te, w obecnej implementacji, dziel±
 siê na trzy grupy:
 \begin{itemize}
   \item{\textbf{Typ logiczny}, czyli ci±g warto¶ci \texttt{prawda/fa³sz}.
-Ka¿da porcja danych zapisywana jest jako sekwencja 4-bajtowych masek bitowych
+Ka¿da porcja danych zapisywana jest jako sekwencja 4-bajtowych masek bitowych,
 poprzedzona liczb± zserializowanych warto¶ci. Jest to przy okazji przyk³ad
 zastosowania lekkiej kompresji.}
   \item{\textbf{Typy liczbowe}, o sta³ej szeroko¶ci. Zapisywane s± bez ¿adnej
 konwersji, jako zrzut surowych danych kolumny, poprzedzony liczb± 
-zserializowanych warto¶ci. Obecnie nie wspier}
+zserializowanych warto¶ci.}
 
 \begin{figure}[h]
   \centering
@@ -961,7 +961,7 @@ Serializacja polega na zapisie w strukturze nazywanej
 pamiêci, z którego przydzielaæ mo¿na mniejsze fragmenty. Od strony logicznej
 mo¿na o niej my¶leæ jak o stercie w jêzykach niskiego poziomu. Dla ka¿dego ci±gu
 przydzielany jest bufor odpowiedniej wielko¶ci, do którego kopiuje siê jego
-zawarto¶æ. Przestrzeñ alokowane jest od pocz±tku bloku areny, natomiast od koñca
+zawarto¶æ. Przestrzeñ alokowana jest od pocz±tku bloku areny, natomiast od koñca
 zapisywane s± informacje na temat rozmiaru i pozycji przydzielonych fragmentów.
 Omawiana implementacja przechowuje wy³±cznie d³ugo¶ci ci±gów.  Licz±c sumê
 prefiksow± mo¿na okre¶liæ dok³adn± pozycjê ka¿dego zaalokowanego fragmentu
@@ -1005,7 +1005,7 @@ podrelacji, które nastêpnie s± z³±czane i zwracane do u¿ytkownika. Co istotne,
 liczba wierszy przekazywana do wywo³ania metody \texttt{Next} kursora
 \texttt{StorageScan} okre¶la wy³±cznie maksymaln± liczbê rekordów wyniku.
 Faktyczny rozmiar zwróconego widoku zale¿y od stanu buforów stron danych
-poszczególnych rodzin. Strony wczytywane s± wy³±cznie w momencie gdy bufor
+poszczególnych rodzin. Strony wczytywane s± wy³±cznie w momencie, gdy bufor
 odpowiedniej rodziny jest pusty \texttt{Next} i to najwy¿ej raz dla ka¿dej
 rodziny w obrêbie jednego wywo³ania. W szczególno¶ci, niezale¿nie od rozmiaru
 ¿±dania, niemo¿liwe jest uzyskanie wiêkszej liczby wierszy ni¿ zapisana w
@@ -1015,13 +1015,13 @@ obrêbie pojedynczej strony danych.
 \subsection{Metadane}
 
 Do serializacji metadanych wykorzystywana jest biblioteka
-\textit{ProtocolBuffer}\cite{protobuf}, opublikowana przez firme Google na
+\textit{ProtocolBuffer}\cite{protobuf}, opublikowana przez firmê Google na
 zasadach wolnego oprogramowania. Umo¿liwia ona kodowanie ustrukturalizowanych
 danych do postaci binarnej w wydajny sposób. Definicje struktur da siê w wygodny
 sposób rozszerzaæ. Dziêki temu istnieje mo¿liwo¶æ dodania nowych rodzajów
 metadanych w przysz³o¶ci, przy zachowaniu wstecznej kompatybilno¶ci plików
 magazynu. Postaæ binarna metadanych zapisywana jest do pojedynczej strony w
-\textbf{rodzinie stron} o numerze \textbf{0}. Jest to specjalne rodzina stron,
+\textbf{rodzinie stron} o numerze \textbf{0}. Jest to specjalna rodzina stron,
 nie powi±zana z ¿adn± rodzin± atrybutów.
 
 \subsection{Warstwa fizyczna}
@@ -1034,16 +1034,16 @@ rozmiaru zapisanych danych - po przekroczeniu zadanego z góry limitu magazyn
 zostaje zamkniêty i otwierany jest nowy. Utworzone pliki s± pe³nowarto¶ciowymi,
 niezale¿nymi od siebie sk³adami danych. \\
 
-Grupê plików w trakcie procesu zapisu i odczytu reprezentuje interfejs
+Grupê plików, w trakcie procesu zapisu i odczytu, reprezentuje interfejs
 \texttt{FileSeries}. Definiuje on iterator po nazwach ci±gu plików. Ci±g taki
 nie musi byæ nieskoñczony (co jest przydatne w trakcie zapisu). Jako przyk³ad
-zaimplementowano klasê \texttt{EnumeratedFileSeries}, generuj±ca nazwy na
+zaimplementowano klasê \texttt{EnumeratedFileSeries}, generuj±c± nazwy na
 podstawie zadanego ci±gu znaków z numerycznym sufiksem, np. \texttt{\{data.0,
 data.2, data.3, ... \}}. \\
 
 Wszystkie pliki serii powinny przechowywaæ ten sam zbiór atrybutów. Nie istniej±
-natomiast wiêzy dotycz±ce podzia³u schematu na rodziny - mo¿e on byæ kompletnie
-ró¿ny w ró¿nych plikach. Bywa to przydatne w przypadku przetwarzania danych
+natomiast wiêzy dotycz±ce podzia³u schematu na rodziny - mo¿e on byæ zupe³nie 
+ró¿ny w ró¿nych plikach. Bywa to przydatne w przypadku przetwarzania danych,
 pochodz±cych z ró¿nych okresów, które (z ró¿nych wzglêdów) zapisywane by³y z
 u¿yciem ró¿nych strategii.
 
@@ -1052,18 +1052,18 @@ u¿yciem ró¿nych strategii.
 Do operacji na plikach wykorzystywany jest interfejs \texttt{File},
 udostêpniaj±cy podstawowe operacje dotycz±ce odczytu, zapisu, manipulacji
 pozycj± w strumieniu oraz ¶cie¿ek. Supersonic dostarcza implementacjê dla
-systemu plików zgodnych ze standardem POSIX. \\
+systemu plikówm, zgodnych ze standardem POSIX. \\
 
 Tworz±c w³asn± implementacjê \texttt{File} mo¿na dodaæ do magazynu obs³ugê w
 zasadzie jakiegokolwiek medium. W praktyce interesuj±ce s± przede wszystkim
 ró¿nego rodzaju rozproszone systemy plików, jak np. coraz czê¶ciej stosowany
 \textit{HDFS}, u³atwiaj±ce równoleg³e przetwarzanie danych. Co istotne, nie
-jest wymagane by dostarczona implementacja w stu procentach spe³nia³a interfejs
+jest wymagane, by dostarczona implementacja w stu procentach spe³nia³a interfejs
 \texttt{File}. Dok³adniej rzecz bior±c, nie jest wymagana obs³uga zapisów w
 ¶rodku pliku - wystarczy mo¿liwo¶æ dopisywania nowych na koñcu. Brak
 efektywnego mechanizmu modyfikacji fragmentu pliku jest czêst± cech± w
 rozproszonych systemach plików. Na szczê¶cie, zarówno Supersonic jak i omawiany
-magazyn danych, nastawione s± do pracy w ¶rodowisku, w którym nie modyfikuje
+magazyn danych, przystosowane s± do pracy w ¶rodowisku, w którym nie modyfikuje
 siê jednostkowych rekordów, a raczej zapisuje du¿e ilo¶ci przetworzonych danych
 jako nowe tabele.
 
@@ -1096,7 +1096,7 @@ Cache SATA3 (bez systemu operacyjnego)}
   \item{\textbf{System operacyjny}: Ubuntu 14.04.1 LTS}
 \end{itemize}
 
-W eksperymentach wykorzystano prost± implementacjê warstwy fizycznej
+W eksperymentach wykorzystano prost± implementacjê warstwy fizycznej,
 umo¿liwiaj±c± zapis do plików zgodny ze standardem POSIX. Jest ona w pe³ni
 synchronicza i nie korzysta z bardziej zaawansowanych technik takich jak np.
 \textit{odczyt z wyprzedzeniem} (\textit{read-ahead}), które mog± znacz±co
@@ -1105,15 +1105,16 @@ poprawiæ wydajno¶æ.
 \subsubsection{Dane testowe}
 
 W eksperymentach zosta³a wykorzystana tablica \textit{LINEITEM} pochodz±ca z
-testu porównawczego \textit{TPC-H} (w wersji 2.17.0). Posiada ona 16 kolumn o
-typach liczbowych i znakowych. Ze wzglêdu na brak dok³adnych odpowiedników w
+testu porównawczego \textit{TPC-H} (w wersji 2.17.0). Sk³ada siê ona z 16 kolumn
+o typach liczbowych i znakowych. Ze wzglêdu na brak dok³adnych odpowiedników w
 Supersonicu, sta³oprzecinkowy typ \textit{DECIMAL} przedstawiony zosta³ jako typ
 \textit{FLOAT}, natomiast ci±gi znaków sta³ej d³ugo¶ci \textit{VARCHAR} jako
 normalne ci±gi znaków \textit{STRING}. \\
 
-Przy generowaniu danych za pomoc± u¿yto wspó³czynnika skalowania $s = 4$. W efekcie
-uzyskano relacjê zawieraj±c± 23'996'604 rekordów, zajmuj±cych w formie tekstowej
-2942\ MB przestrzeni dyskowej.
+Przy generowaniu danych za pomoc± narzêdzi udostêpnianych przez \textit{TPC-H}
+u¿yto wspó³czynnika skalowania $s = 4$. W efekcie uzyskano relacjê zawieraj±c±
+23'996'604 rekordów, zajmuj±cych w formie tekstowej 2942\ MB przestrzeni
+dyskowej.
 
 \section{Testy zapisu}
 
@@ -1123,7 +1124,7 @@ minimum 512\ KB. Próby przeprowadzone zosta³y z ró¿nymi ustawieniami:
 \begin{itemize}
   \item{maksymalnego rozmiaru pojedynczej rodziny: $1$, $2$, $4$, $8$, $16$
 atrybutów;}
-  \item{liczba wierszy przekazywanej do pojedynczego wywo³ania
+  \item{liczby wierszy przekazywanej do pojedynczego wywo³ania
 \texttt{StorageSink::Write}: $500$, $1000$, $2000$, $3000$, $4000$, $5000$,
 $6000$, $7000$, $8000$, $9000$, $10000$}
 \end{itemize}
@@ -1150,14 +1151,14 @@ wielko¶ci kroku zapisu.}
 \end{figure}
 
 Rysunek \ref{figure:write_throughput_hdd} przedstawia przepustowo¶æ operacji
-zapisu, dla dysku talerzowego, w zale¿no¶ci od ustawieñ testu.  O¶ $Z$ zosta³a
+zapisu dla dysku talerzowego, w zale¿no¶ci od ustawieñ testu.  O¶ $Z$ zosta³a
 przesuniêta w celu zwiêkszenia czytelno¶ci. Wydaje siê istnieæ niewielka
 korelacja miêdzy przepustowo¶ci± a obiema ze zmiennych. Mo¿na podejrzewaæ,
 ¿e jest to zwi±zane z liczb± stron w magazynie jednak na podstawie rysunku
 \ref{figure:data_pages} trudno jednoznacznie potwierdziæ tak± zale¿no¶æ. Faktem
 natomiast jest, ¿e w zale¿no¶ci od ustawieñ, wydajno¶æ zapisu waha siê o 15-20\%.\\
 
-Sam kszta³t wykresu liczby stron danych nie powinien dziwiæ je¶li pamiêta siê o
+Sam kszta³t wykresu liczby stron danych nie powinien dziwiæ je¶li, pamiêta siê o
 niepodzielno¶ci grup rekordów przekazywanych do zapisu. Im wiêkszy krok oraz
 maksymalny rozmiar rodziny atrybutów, tym wiêkszy potencjalny rozmiar stron. Im
 za¶ wiêksze strony tym mniej ich potrzeba do zapisu tej samej ilo¶ci danych. \\
@@ -1170,9 +1171,9 @@ wielko¶ci kroku zapisu.}
   \label{figure:write_throughput_ssd}
 \end{figure}
 
-W przypadku SSD w zasadzie brak jakiejkolwiek regularno¶ci w wynikach, za
-wyj±tkiem faktu, ¿e wszystkie osculuj± w okolicach 180 MB/s. Wyniki
-pojedynczych testów cechowa³a spora warinacja (20-30 MB/s). Byæ mo¿e da³oby siê
+W przypadku SSD w zasadzie brak jakiejkolwiek regularno¶ci w wynikach, z
+wyj±tkiem faktu, ¿e wszystkie oscyluj± w okolicach 180 MB/s. Wyniki
+pojedynczych testów cechowa³a spora wariancja (20-30 MB/s). Byæ mo¿e da³oby siê
 je bardziej ustabilizowaæ, przez u¿ycie wiêkszego zbioru danych. \\
 
 W obu przypadkach wahania przepustowo¶ci operacji zapisu wynosz± 15-20\%. Bior±c
@@ -1193,7 +1194,7 @@ u¿yciu nastêpuj±cych ustawieñ:
   \item{4000 rekordów zapisywanych w jednym kroku.}
 \end{itemize}
 
-Podobnie jak w przypadku zapisu, ka¿d± próbê przeprowadzono trzykrotnie a wyniki
+Podobnie jak w przypadku zapisu, ka¿d± próbê przeprowadzono trzykrotnie, a wyniki
 u¶redniono. Pomiêdzy testami opró¿niano pamiêæ podrêczn± systemu plików.
 
 \subsection{Przepustowo¶æ}
@@ -1234,22 +1235,22 @@ wielko¶ci kroku odczytu.}
   \label{figure:read_seeks}
 \end{figure}
 
-Zachowanie to mo¿na wynika najprawdpodobniej z uk³adu stron danych w obrêbie
+Zachowanie to wynika najprawdpodobniej z uk³adu stron danych w obrêbie
 odczytywanych plików. Rysunek \ref{figure:read_seeks} ilustruje liczbê operacji
-\texttt{seek} niezbêdnych do przeczytania testowanych magazynów. W przypadku 
+\texttt{seek} niezbêdnych do przeczytania testowanych magazynów. W przypadku
 magazynu z jedn± tylko rodzin± obserwujemy odczyt bardzo bliski sekwencyjnemu,
-co znacznie poprawia efektywno¶æ. Z reszt± nie jest ju¿ tak ³atwo - co
-prawda magazyn z pe³nym podzia³em wymaga mniejszej ilo¶ci przesuniêæ ni¿ 3
-pozosta³e, jednak przypadek podzia³u na rodziny rozmiaru 8 wymaga ich najwiêcej
-wcale nie bêd±c najwolniejszym! \\
+co znacznie poprawia efektywno¶æ. Z reszt± nie jest ju¿ tak ³atwo - co prawda
+magazyn z pe³nym podzia³em wymaga mniejszej ilo¶ci przesuniêæ ni¿ 3 pozosta³e,
+jednak przypadek podzia³u na rodziny rozmiaru 8 wymaga ich najwiêcej wcale nie
+bêd±c najwolniejszym! \\
 
 Jednak¿e, zale¿no¶æ nr 1 sugeruje, ¿e mamy do czynienia z problemami zwi±zanymi
 z losowym odczytem. Wynika to z faktu, ¿e obserwacja jest znacznie bardziej
 wyra¼na w przypadku dysku talerzowego, który posiada mechaniczn± g³owicê. W
-zwi±zku z tym, mo¿na s±dziæ, ¿e poza sam± liczb± przesuniêæ istotne jest w
+zwi±zku z tym, mo¿na s±dziæ, ¿e poza sam± liczb± przesuniêæ istotne jest, w
 jakie dok³adnie miejsce je przesuwamy (czyli dystans pokonywany przez g³owicê).
 Byæ mo¿e w przypadku magazynu z podzia³em na rodziny rozmiaru 8 mieli¶my do
-czynienia z wiêksz± liczb± operacji \textit{seek} lecz na mniejszy dystans.
+czynienia z wiêksz± liczb± operacji \textit{seek}, lecz na mniejszy dystans.
 Jest to jednak wy³±cznie hipoteza i powinna zostaæ sprawdzona dok³adniejszymi
 testami. \\
 
@@ -1292,15 +1293,15 @@ podobnie jak sposób podzia³u na rodziny. \\
 Warto zauwa¿yæ, ¿e zachowanie takie jest mo¿liwe dziêki niewielkiemu stosunkowi
 rozmiaru stron danych wzglêdem rozmiaru ca³ego magazynu. Gdyby zwiêkszyæ
 rozdzielczo¶æ przedstawionych wykresów, okaza³oby siê, ¿e w istocie s± one
-schodkowe. Rozmiar stopnia zale¿y za¶ w³a¶nie od wzglêdnego rozmiaru strony, co
-w tym konkretnym przypadku testowym oznacza dok³adno¶æ pominiêcia rekordów na
-poziomie kilku promili.
+schodkowe. Rozmiar stopnia zale¿y za¶ od wzglêdnego rozmiaru strony, co w tym
+konkretnym przypadku testowym oznacza dok³adno¶æ pominiêcia rekordów na poziomie
+kilku promili.
 
 
 \subsection{Odczytu podzbioru atrybutów}
 \label{sec:read_subset}
 
-W celu zbadania jak magazyn reaguje na ¿±dania dostarczenia podzbioru atrybutów
+W celu zbadania, jak magazyn reaguje na ¿±dania dostarczenia podzbioru atrybutów
 relacji wykorzystane zosta³y zapytania pochodz±ce z \textit{TPC-H}. Dla ka¿dego
 z zapytañ wybrane zosta³y kolumny tabeli \texttt{LINEITEM} bior±ce w nim czynny
 udzia³, a nastêpnie zlecone do odczytania z magazynu. Zapytania nie maj±ce do
@@ -1322,7 +1323,7 @@ czynienia z tablic± \texttt{LINEITEM} zosta³y pominiête.
 
 Rysunki \ref{figure:read_queries_hdd} oraz \ref{figure:read_queries_ssd}
 przedstawiaj± otrzymane wyniki. Widaæ na nich wyra¼nie, ¿e dane odczytywane s±
-ca³ymi rodzinami. Oszczêdno¶æ czasu jest proporcjonalna do liczby rodzin jakie
+ca³ymi rodzinami. Oszczêdno¶æ czasu jest proporcjonalna do liczby rodzin, które
 mo¿na pomin±æ.
 
 \section{Testy porównawcze}
@@ -1339,12 +1340,8 @@ odwo³ywania siê bezpo¶rednio do warstwy magazynowania danych, natomiast podczas
 wykonywania zapytañ wykorzystywa³y one ró¿nego rodzaju techniki optymalizacyjne
 (mapowanie danych w pamiêæ RAM, posi³kowanie siê szerok± gam± metadanych,
 wstêpne ³adowanie danych do pamiêci podrêcznej itd.) zaciemniaj±ce obraz
-sytuacjisiê uzyskaæ ¿adnych miarodajnych wyników. Nie istnia³ prosty
-sposób odwo³ywania siê bezpo¶rednio do warstwy magazynowania danych, natomiast
-podczas wykonywania zapytañ wykorzystywa³y one ró¿nego rodzaju techniki
-optymalizacyjne (mapowanie danych w pamiêæ RAM, posi³kowanie siê szerok± gam±
-metadanych,.
-
+sytuacji, przez co nie uda³o siê uzyskaæ ¿adnych miarodajnych wyników.
+ 
 \subsection{Odczyt podzbioru atrybutów}
 Niestety, wspomniane systemy nie udostêpniaj± prostej metody bezpo¶redniego
 dostêpu do magazynu danych. Z tego powodu, w trakcie testu wykonywane by³y
@@ -1356,7 +1353,7 @@ gdzie $A_1, ..., A_n$ to zbiór wymaganych atrybutów. Zapytania takie wymuszaj±
 wczytanie zawarto¶ci podanych kolumn, generuj±c przy tym mo¿liwie minimalny narzut
 czasowy zwi±zany z samym obliczeniem. Dziêki temu czas ich wykonania powinien
 byæ bardzo bliski faktycznemu czasowi samego odczytu, a przez to mo¿liwy do
-porównanie z wynikami testu opisywanego magazynu. \\
+porównania z wynikami testu opisywanego magazynu. \\
 
 \begin{figure}[!htbp]
   \centering
@@ -1369,9 +1366,9 @@ Rysunek \ref{figure:compare_queries} przedstawia zestawienie czasu wykonania
 testów polegaj±cych na pobraniu wymaganego podzbioru, tak jak zosta³o to
 opisane w sekcji \ref{sec:read_subset}. Widaæ na nim wyra¼nie, ¿e zarówno
 \textit{MySQL} jak i \textit{PostgreSQL} pobieraj± z dysku komplet danych. Czas
-wykonania jest co prawda zkorelowany z ilo¶ci± atrybutów, lecz ró¿nice s±
+wykonania jest co prawda skorelowany z ilo¶ci± atrybutów, lecz ró¿nice s±
 bardzo ma³e. Sugeruje to, ¿e istniej± one na poziomie przetwarzania danych
-przez procesor, nie komunikacji ze sk³adem danych. Omawiany w pracy magazyn w
+przez procesor, a nie komunikacji ze sk³adem danych. Omawiany w pracy magazyn w
 ka¿dym przypadku jest szybszy, czasami nawet o rz±d wielko¶ci.
 
 
@@ -1379,14 +1376,14 @@ ka¿dym przypadku jest szybszy, czasami nawet o rz±d wielko¶ci.
 
 W celu przetestowania odczytu danych od wybranego wiersza na tabeli za³o¿ony
 zosta³ klucz g³ówny (z³o¿ony z kolumn \texttt{L\_ORDERKEY} oraz
-\texttt{L\_LINENUMBER}), po którym fizycznie posortowano rekordy (w bazie
+\texttt{L\_LINENUMBER}), w którym fizycznie posortowano rekordy (w bazie
 \texttt{PostgreSQL} klucz g³ówny nie implikuje porz±dku danych na dysku). Na
 tak spreparowanej relacji wykonywano zapytania nastêpuj±cej postaci: \\
 
   \texttt{SELECT COUNT(A1), ... , COUNT(An) FROM LINEITEM WHERE L\_ORDERKEY >= X} \\
 
-Gdzie \texttt{X} by³ uprzednio wyliczonym numerem gwarantuj±cy odpowiedni±
-selektywno¶æ zapytania. W za³o¿eniu - dostêpno¶æ indeksu na kluczu którego
+Gdzie \texttt{X} by³ uprzednio wyliczonym numerem gwarantuj±cym odpowiedni±
+selektywno¶æ zapytania. W za³o¿eniu - dostêpno¶æ indeksu na kluczu, którego
 wykonujemy zapytanie o przedzia³ oraz odpowiadaj±cy mu porz±dek na dysku,
 powinny wystarczyæ systemowi bazodanowemu do efektywnej obs³ugi takie ¿±dania.
 Jednak¿e, korzystanie z indeksu samo w sobie nie jest operacj± darmow± i baza
@@ -1429,15 +1426,15 @@ przez narzêdzia do³±czone do \textit{TPC-H} i zawiera kolumny rozdzielane
 znakiem \texttt{|}. W przypadku MySQL oraz PostgreSQL rozmiar zosta³ pozyskany
 poprez u¿ycie odpowiednich komend (odpowiednio \texttt{SHOW TABLE STATUS} oraz
 \texttt{SELECT pg\_table\_size(lineitem)}). Tablice zapisane zosta³y bez
-redundancji. \\
+redundancji danych. \\
 
 Ró¿nice s± tu bardzo wyra¼ne i dochodz± do 50\% na korzy¶æ omawianego sk³adu. W
-stosunku do formatu tekstowego uzyskuje przewagê dziêki kolumnom liczbowym i
+stosunku do formatu tekstowego uzyskuje on przewagê dziêki kolumnom liczbowym i
 datom, które mie¶ci zawsze w czterech bajtach (plus jeden bit w wektorze
-\texttt{IS\_NULL}). W przypadku MySQL oraz PostgreSQL ró¿nica wynika w du¿ej
+\texttt{IS\_NULL}). W przypadku MySQL oraz PostgreSQL, ró¿nica wynika w du¿ej
 mierze z obs³ugi operacji modyfikacji wierszy. W przypadku typów tekstowych
-wymaga to rezerwacji dostatecznej ilo¶ci miejsca (¿eby unikn±æ ewentualnej
-relokacji rekordu). W definicjach wygenerowanych przez \texttt{TPC-H}
+wymaga to rezerwacji dostatecznej ilo¶ci miejsca, aby ewentualna zmiana nie
+wymaga³a relokacji rekordu. W definicjach wygenerowanych przez \texttt{TPC-H}
 wykorzystywany jest typ \texttt{VARCHAR} o pojemno¶ci równej najwiêkszej
 warto¶ci w wybranej kolumnie. Wiêkszo¶æ danych jest jednak mniejsza (np. dla
 kolumny \texttt{L\_COMMMENT} maksimum wynosi 44, natomiast ¶rednia 26.5) i w
@@ -1448,18 +1445,18 @@ efekcie znaczna czê¶æ przestrzeni nie jest wykorzystywana.
 %
 \chapter{Podsumowanie}
 
-W dzisiajszych czasach problem efektywnego przetwarzania ogromnych zbiorów
+W dzisiejszych czasach problem efektywnego przetwarzania ogromnych zbiorów
 danych, np. na potrzeby systemów wspomagania decyzji, nabiera coraz wiêkszego
 znaczenia. Popularne, wierszowe bazy danych, przystosowane do pracy w
 ¶rodowiskach typu OLTP, nie s± w stanie zaspokoiæ tych potrzeb. W takich
-warunkach du¿o lepiej sprawdzaj± siê systemy kolumnowego, które mimo istnienia
-od przesz³o trzydziestu lat, nigdy nie szerokiego audytorium. \\
+warunkach du¿o lepiej sprawdzaj± siê systemy kolumnowe, które mimo istnienia
+od przesz³o trzydziestu lat, nigdy nie uzyska³y szerokiego audytorium. \\
 
 Supersonic jest przyk³adem nowoczesnego, kolumnowego wykonawcy zapytañ,
 udostêpnionego na zasadach wolnego oprogramowania przez firmê \textit{Google}.
 Dziêki ¶wiadomemu wykorzystaniu funkcji nowoczesnych procesorów jest on w stanie
 uzyskaæ bardzo wysok± wydajno¶æ w ¶rodowiskach typowych dla hurtownii danych.
-Niestety, trudno go w chwili obecnej nazwaæ pe³noprawnym systemem bazodanowych -
+Niestety, trudno go w chwili obecnej nazwaæ pe³noprawnym systemem bazodanowym -
 nie posiada on wielu oczekiwanych przez u¿ytkowników funkcjonalno¶ci, w tym
 warstwy umo¿liwiaj±cej trwa³e magazynowanie przetwarzanych danych. \\
 
